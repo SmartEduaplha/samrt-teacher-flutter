@@ -109,6 +109,27 @@ class LocalDbService<T> {
     await _saveCollection(records);
   }
 
+  /// أضف سجل يدوي مع تحديد الـ ID (للمزامنة)
+  Future<T> createWithId(String id, Map<String, dynamic> data) async {
+    final records = await _getCollection();
+    final newRecord = {
+      ...data,
+      'id': id,
+      'created_date': data['created_date'] ?? _now(),
+      'updated_date': data['updated_date'] ?? _now(),
+    };
+    // استبدال إذا كان موجوداً بالفعل أو إضافة
+    records.removeWhere((r) => r['id'] == id);
+    records.add(newRecord);
+    await _saveCollection(records);
+    return fromMap(newRecord);
+  }
+
+  /// حفظ قائمة كاملة من السجلات الخام (للمزامنة مع Firebase)
+  Future<void> saveRawRecords(List<Map<String, dynamic>> rawRecords) async {
+    await _saveCollection(rawRecords);
+  }
+
   /// احذف كل السجلات (للإعادة / الاختبار)
   Future<void> deleteAll() async {
     await _saveCollection([]);

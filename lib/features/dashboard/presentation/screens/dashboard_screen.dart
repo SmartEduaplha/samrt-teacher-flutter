@@ -19,6 +19,7 @@ import '../../../students/presentation/screens/student_profile_screen.dart';
 import '../../../tasks/data/models/task_model.dart';
 import '../../../tasks/presentation/screens/tasks_screen.dart';
 import '../../../announcements/presentation/screens/announcements_screen.dart';
+import '../../../auth/data/models/user_model.dart';
 // Removed unused import
 
 const List<Color> sessionColors = [
@@ -107,6 +108,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final asyncData = ref.watch(dashboardDataProvider);
+    final userAsync = ref.watch(currentUserProvider);
 
     final todayStr = DateFormat('yyyy-MM-dd').format(DateTime.now());
     final thisMonthStr = DateFormat('yyyy-MM').format(DateTime.now());
@@ -185,7 +187,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                return Column(
                  crossAxisAlignment: CrossAxisAlignment.stretch,
                  children: [
-                    _buildHeader(colorScheme),
+                     _buildHeader(colorScheme, userAsync.value),
                    const SizedBox(height: 16),
                    _buildSmartSuggestions(context, data, dayName),
                    const SizedBox(height: 20),
@@ -209,7 +211,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     );
   }
 
-  Widget _buildHeader(ColorScheme colorScheme) {
+  Widget _buildHeader(ColorScheme colorScheme, UserModel? user) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -227,9 +229,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const Text(
-                  'أ. علاء الألفي',
-                  style: TextStyle(
+                Text(
+                  user?.fullName ?? '...',
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w900,
                     letterSpacing: -0.5,
@@ -240,7 +242,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             CircleAvatar(
               radius: 24,
               backgroundColor: colorScheme.primaryContainer,
-              child: Icon(Icons.person_rounded, color: colorScheme.primary),
+              backgroundImage: user?.profilePicture != null 
+                  ? NetworkImage(user!.profilePicture!) 
+                  : null,
+              child: user?.profilePicture == null
+                  ? Icon(Icons.person_rounded, color: colorScheme.primary)
+                  : null,
             ),
           ],
         ),

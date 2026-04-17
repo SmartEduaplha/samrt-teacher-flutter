@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../services/firebase_db_service.dart';
+import '../services/sync_db_service.dart';
+import '../services/local_db_service.dart';
 import '../services/auth_service.dart';
 import '../../features/groups/data/models/group_model.dart';
 import '../../features/students/data/models/student_model.dart';
@@ -19,7 +20,18 @@ import '../../features/announcements/data/models/announcement_model.dart';
 // ─── Auth Provider ────────────────────────────────────────────────────────────
 
 final authServiceProvider = Provider<AuthService>((ref) {
-  return AuthService();
+  return AuthService(
+    localDb: ref.read(localUserDbProvider),
+  );
+});
+
+/// قاعدة بيانات المستخدمين محلياً
+final localUserDbProvider = Provider<LocalDbService<UserModel>>((ref) {
+  return LocalDbService<UserModel>(
+    entityName: 'users',
+    fromMap: UserModel.fromMap,
+    toMap: (u) => u.toMap(),
+  );
 });
 
 /// حالة المستخدم الحالي (تحديث مباشر مع Firebase)
@@ -48,8 +60,8 @@ final isTeacherAuthenticatedProvider = Provider<bool>((ref) {
 // ─── Entity Providers ─────────────────────────────────────────────────────────
 
 /// قاعدة بيانات المجموعات
-final groupDbProvider = Provider<FirebaseDbService<GroupModel>>((ref) {
-  return FirebaseDbService<GroupModel>(
+final groupDbProvider = Provider<SyncDbService<GroupModel>>((ref) {
+  return SyncDbService<GroupModel>(
     collectionName: 'groups',
     fromMap: GroupModel.fromMap,
     toMap: (g) => g.toMap(),
@@ -71,8 +83,8 @@ final activeGroupsProvider = Provider<AsyncValue<List<GroupModel>>>((ref) {
 // ─── Students ─────────────────────────────────────────────────────────────────
 
 /// قاعدة بيانات الطلاب
-final studentDbProvider = Provider<FirebaseDbService<StudentModel>>((ref) {
-  return FirebaseDbService<StudentModel>(
+final studentDbProvider = Provider<SyncDbService<StudentModel>>((ref) {
+  return SyncDbService<StudentModel>(
     collectionName: 'students',
     fromMap: StudentModel.fromMap,
     toMap: (s) => s.toMap(),
@@ -104,8 +116,8 @@ final studentsByGroupProvider =
 // ─── Payments ─────────────────────────────────────────────────────────────────
 
 /// قاعدة بيانات الدفعات
-final paymentDbProvider = Provider<FirebaseDbService<PaymentModel>>((ref) {
-  return FirebaseDbService<PaymentModel>(
+final paymentDbProvider = Provider<SyncDbService<PaymentModel>>((ref) {
+  return SyncDbService<PaymentModel>(
     collectionName: 'payments',
     fromMap: PaymentModel.fromMap,
     toMap: (p) => p.toMap(),
@@ -126,8 +138,8 @@ final paymentsByStudentProvider =
 // ─── Attendance ───────────────────────────────────────────────────────────────
 
 /// قاعدة بيانات الحضور
-final attendanceDbProvider = Provider<FirebaseDbService<AttendanceRecord>>((ref) {
-  return FirebaseDbService<AttendanceRecord>(
+final attendanceDbProvider = Provider<SyncDbService<AttendanceRecord>>((ref) {
+  return SyncDbService<AttendanceRecord>(
     collectionName: 'attendance',
     fromMap: AttendanceRecord.fromMap,
     toMap: (a) => a.toMap(),
@@ -158,8 +170,8 @@ final attendanceByGroupDateProvider =
 // ─── Expenses ─────────────────────────────────────────────────────────────────
 
 /// قاعدة بيانات المصروفات
-final expenseDbProvider = Provider<FirebaseDbService<ExpenseModel>>((ref) {
-  return FirebaseDbService<ExpenseModel>(
+final expenseDbProvider = Provider<SyncDbService<ExpenseModel>>((ref) {
+  return SyncDbService<ExpenseModel>(
     collectionName: 'expenses',
     fromMap: ExpenseModel.fromMap,
     toMap: (e) => e.toMap(),
@@ -180,8 +192,8 @@ final expensesByMonthProvider =
 // ─── Grades ───────────────────────────────────────────────────────────────────
 
 /// قاعدة بيانات الدرجات
-final gradeDbProvider = Provider<FirebaseDbService<GradeModel>>((ref) {
-  return FirebaseDbService<GradeModel>(
+final gradeDbProvider = Provider<SyncDbService<GradeModel>>((ref) {
+  return SyncDbService<GradeModel>(
     collectionName: 'grades',
     fromMap: GradeModel.fromMap,
     toMap: (g) => g.toMap(),
@@ -201,8 +213,8 @@ final gradesByGroupProvider =
 // ─── Quizzes ──────────────────────────────────────────────────────────────────
 
 /// قاعدة بيانات الاختبارات
-final quizDbProvider = Provider<FirebaseDbService<QuizModel>>((ref) {
-  return FirebaseDbService<QuizModel>(
+final quizDbProvider = Provider<SyncDbService<QuizModel>>((ref) {
+  return SyncDbService<QuizModel>(
     collectionName: 'quizzes',
     fromMap: QuizModel.fromMap,
     toMap: (q) => q.toMap(),
@@ -210,8 +222,8 @@ final quizDbProvider = Provider<FirebaseDbService<QuizModel>>((ref) {
 });
 
 /// قاعدة بيانات نتائج الاختبارات
-final quizResultDbProvider = Provider<FirebaseDbService<QuizResultModel>>((ref) {
-  return FirebaseDbService<QuizResultModel>(
+final quizResultDbProvider = Provider<SyncDbService<QuizResultModel>>((ref) {
+  return SyncDbService<QuizResultModel>(
     collectionName: 'quiz_results',
     fromMap: QuizResultModel.fromMap,
     toMap: (r) => r.toMap(),
@@ -243,8 +255,8 @@ final quizResultsByQuizProvider =
 // ─── Tasks ────────────────────────────────────────────────────────────────────
 
 /// قاعدة بيانات المهام
-final taskDbProvider = Provider<FirebaseDbService<TaskModel>>((ref) {
-  return FirebaseDbService<TaskModel>(
+final taskDbProvider = Provider<SyncDbService<TaskModel>>((ref) {
+  return SyncDbService<TaskModel>(
     collectionName: 'tasks',
     fromMap: TaskModel.fromMap,
     toMap: (t) => t.toMap(),
@@ -259,8 +271,8 @@ final tasksProvider = FutureProvider<List<TaskModel>>((ref) async {
 // ─── Store ────────────────────────────────────────────────────────────────────
 
 /// قاعدة بيانات المتجر
-final storeDbProvider = Provider<FirebaseDbService<StoreItemModel>>((ref) {
-  return FirebaseDbService<StoreItemModel>(
+final storeDbProvider = Provider<SyncDbService<StoreItemModel>>((ref) {
+  return SyncDbService<StoreItemModel>(
     collectionName: 'store',
     fromMap: StoreItemModel.fromMap,
     toMap: (s) => s.toMap(),
@@ -289,8 +301,8 @@ final teacherProfileProvider = StreamProvider<UserModel?>((ref) {
 // ─── Announcements ────────────────────────────────────────────────────────────
 
 /// قاعدة بيانات التنبيهات
-final announcementDbProvider = Provider<FirebaseDbService<AnnouncementModel>>((ref) {
-  return FirebaseDbService<AnnouncementModel>(
+final announcementDbProvider = Provider<SyncDbService<AnnouncementModel>>((ref) {
+  return SyncDbService<AnnouncementModel>(
     collectionName: 'announcements',
     fromMap: AnnouncementModel.fromMap,
     toMap: (a) => a.toMap(),

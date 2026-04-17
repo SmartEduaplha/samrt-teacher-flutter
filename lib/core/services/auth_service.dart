@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
+import '../services/local_db_service.dart';
 import '../../features/auth/data/models/user_model.dart';
 import '../../features/students/data/models/student_model.dart';
 
@@ -11,6 +12,9 @@ class AuthService {
   final _firebaseAuth = fb_auth.FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
   final _storage = FirebaseStorage.instance;
+  final LocalDbService<UserModel>? _localDb;
+
+  AuthService({LocalDbService<UserModel>? localDb}) : _localDb = localDb;
 
   // ─── Session ──────────────────────────────────────────────────────────────────
 
@@ -30,7 +34,11 @@ class AuthService {
     try {
       final doc = await _firestore.collection('users').doc(user.uid).get();
       if (!doc.exists || doc.data() == null) {
-        // Fallback if document doesn't exist in Firestore but exists in Auth
+        // Try local cache first if firestore doc is missing or offline
+        final localUser = await _localDb?.get(user.uid);
+        if (localUser != null) return localUser;
+
+        // Fallback to basic info from Auth if both missing
         return UserModel(
           id: user.uid,
           email: user.email ?? '',
@@ -40,9 +48,13 @@ class AuthService {
           updatedDate: DateTime.now().toIso8601String(),
         );
       }
-      return UserModel.fromMap(doc.data()!);
+      final userModel = UserModel.fromMap(doc.data()!);
+      // Update local cache
+      _localDb?.createWithId(user.uid, userModel.toMap());
+      return userModel;
     } catch (_) {
-      return null;
+      // Return local cache on error (e.g. offline)
+      return await _localDb?.get(user.uid);
     }
   }
 
@@ -97,6 +109,8 @@ class AuthService {
 
       // حفظ بيانات المستخدم الإضافية في Firestore
       await _firestore.collection('users').doc(user.uid).set(userModel.toMap());
+      // حفظ محلياً أيضاً
+      await _localDb?.createWithId(user.uid, userModel.toMap());
 
       return userModel;
     } on fb_auth.FirebaseAuthException catch (e) {
@@ -122,7 +136,11 @@ class AuthService {
 
     data['updated_date'] = DateTime.now().toIso8601String();
     
-    await _firestore.collection('users').doc(user.uid).update(data);
+    await _firestore.collection('users').doc(user.uid).set(data, SetOptions(merge: true));
+    
+    // التحديث محلياً لضمان "Stored locally and sync immediately"
+    await _localDb?.update(user.uid, data);
+    
     return (await me())!;
   }
 
@@ -185,6 +203,8 @@ class AuthService {
       );
 
       await _firestore.collection('users').doc(user.uid).set(newUser.toMap());
+      // حفظ محلياً
+      await _localDb?.createWithId(user.uid, newUser.toMap());
       return newUser;
     } catch (e) {
       if (e is fb_auth.FirebaseAuthException) {

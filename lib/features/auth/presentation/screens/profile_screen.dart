@@ -62,12 +62,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         imageUrl = await authService.uploadProfileImage(_imageFile!);
       }
       
-      await authService.updateProfile({
+      final updateData = {
         'full_name': _nameController.text.trim(),
         'phone': _phoneController.text.trim(),
         'subject': _subjectController.text.trim(),
-        'profile_picture': ?imageUrl,
-      });
+      };
+      
+      if (imageUrl != null) {
+        updateData['profile_picture'] = imageUrl;
+      }
+      
+      await authService.updateProfile(updateData);
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
