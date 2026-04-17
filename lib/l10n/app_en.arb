@@ -1,0 +1,987 @@
+{
+  "@@locale": "en",
+  "appName": "Teacher Assistant",
+  
+  "navHome": "Home",
+  "navGroups": "Groups",
+  "navStudents": "Students",
+  "navMore": "More",
+
+  "settings": "Settings",
+  "themeAppearance": "Appearance",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System Default",
+  "newGroup": "New Group",
+  "searchHint": "Search...",
+  "noGroupsFound": "No groups found",
+  "addGroup": "Add Group",
+  "all": "All",
+  "center": "Center",
+  "privateGroup": "Private Group",
+  "privateLesson": "Private Lesson",
+  "online": "Online",
+  "groupsCount": "{count} groups",
+  "@groupsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "errorOccurred": "An error occurred: {error}",
+  "@errorOccurred": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "language": "Language",
+  "arabic": "العربية",
+  "english": "English",
+  "security": "Security",
+  "appLock": "App Lock (PIN)",
+  "appLockSubtitle": "Require code when opening the app",
+  "backupData": "Backup Data",
+  "backupSubtitle": "Manage manual backups",
+  "exportImport": "Export/Import Data",
+  "comingSoon": "This feature will be available soon",
+
+  "setPin": "Setup PIN",
+  "enterFourDigits": "Enter 4 digit code",
+  "cancel": "Cancel",
+  "save": "Save",
+  "confirm": "Confirm",
+  "saving": "Saving...",
+  "notes": "Notes",
+  "viewTasks": "View Tasks",
+
+  "moreMenu": "More Menu",
+  "profile": "Profile",
+  "profileSubtitle": "Manage your data and profile picture",
+  "notifications": "Notifications",
+  "notificationsSubtitle": "Notification and download settings",
+  "groupsAndLevel": "Levels & Groups",
+  "groupsAndLevelSubtitle": "Manage educational categories",
+  "appSettings": "App Settings",
+  "appSettingsSubtitle": "Language, Theme, and Security",
+  "helpSupport": "Help & Support",
+  "helpSupportSubtitle": "FAQ and Contact Us",
+  "logout": "Logout",
+  "logoutConfirm": "Are you sure you want to logout?",
+
+  "loginTitle": "Login",
+  "teacherPortal": "Teacher Portal",
+  "studentPortal": "Student Portal",
+  "email": "Email",
+  "password": "Password",
+  "studentCode": "Student Code",
+  "loginButton": "Login",
+  "teacherLogin": "Teacher Login",
+  "studentLogin": "Student Login",
+  "noAccount": "Don't have an account? Register now",
+  "orViaGoogle": "Or via Google",
+  "googleLogin": "Login with Google",
+  "studentWelcome": "Welcome Hero! Enter your portal code to continue",
+  "studentCodeHint": "You can get the code from your teacher",
+  "errorEmptyFields": "Please fill in all fields",
+  "errorEmptyStudentCode": "Please enter student code",
+  "errorOccurred": "An error occurred: {error}",
+  "@errorOccurred": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "dashboard": "Dashboard",
+  "statsGroups": "Groups",
+  "groupsTitle": "Groups",
+  "statsStudents": "Students",
+  "studentsTitle": "Students",
+  "statsTodayCollection": "Today's Collection",
+  "todayRevenue": "Today's Revenue",
+  "statsOutstanding": "Outstanding",
+  "debtsTitle": "Debts",
+  "currentlyActive": "Currently Active",
+  "activeNow": "Active Now",
+  "total": "Total",
+  "operations": "Operations",
+  "studentsCount": "Students",
+  "totalCount": "Total {count} Students",
+  "@totalCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "operationsCount": "{count} Operations",
+  "@operationsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "studentsCount": "{count} Students",
+  "@studentsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "currency": "EGP",
+  
+  "welcomeBack": "Welcome Back 👋",
+  "teacher": "Teacher",
+  "todayAttendance": "Today's Attendance",
+  "present": "Present",
+  "absent": "Absent",
+  "todaySessions": "Today's Sessions",
+  "noSessionsToday": "No sessions today",
+  "studentsPresent": "Students Present",
+  
+  "outstandingAlerts": "Outstanding Alerts",
+  "noOutstandingPayments": "Great! No outstanding payments",
+  "totalOutstandingThisMonth": "Total Outstanding This Month",
+  "recentFinancialActivity": "Recent Financial Activity",
+  "noRecentActivity": "No recent activity",
+  
+  "communicationManagement": "Communication Management",
+  "generalAnnouncements": "General Announcements",
+  "generalAnnouncementsSubtitle": "Send messages that appear instantly to students",
+  
+  "smartSuggestions": "Smart Suggestions 💡",
+  "takeAction": "Take Action",
+  "convertToTask": "Convert to Task",
+  "suggestionConvertedToTask": "Converted suggestion \"{title}\" to task",
+  "@suggestionConvertedToTask": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "schedule": "Schedule",
+  "recordAttendance": "Record Attendance",
+  "addPayment": "Add Payment",
+  "viewAll": "View All",
+  "showMore": "Show More ({count})",
+  "@showMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "showLess": "Show Less",
+  
+  "saturday": "Saturday",
+  "sunday": "Sunday",
+  "monday": "Monday",
+  "tuesday": "Tuesday",
+  "wednesday": "Wednesday",
+  "thursday": "Thursday",
+  "friday": "Friday",
+  
+  "am_suffix": "AM",
+  "pm_suffix": "PM",
+  "sessions_count_label": "{count} Sessions",
+  "no_sessions_on_this_day": "No sessions on this day",
+  "student_label_count": "{count} Student",
+  "@student_label_count": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  
+  "attendance_title": "Take Attendance",
+  "attendance_edit_registered": "Edit Registered",
+  "attendance_select_group_hint": "Select group...",
+  "attendance_session_date_label": "Session Date",
+  "attendance_stat_present": "Present",
+  "attendance_stat_absent": "Absent",
+  "attendance_stat_total": "Total",
+  "attendance_quick_all_present": "✅ All Present",
+  "attendance_quick_all_absent": "❌ All Absent",
+  "attendance_no_students_in_group": "No students in this group",
+  "attendance_free_badge": "Free",
+  "attendance_saving_state": "Saving...",
+  "attendance_save_success_state": "Saved ✓",
+  "attendance_save_button_label": "Save Attendance",
+  "attendance_whatsapp_bulk_toggle": "Bulk WhatsApp Alerts",
+  "whatsappBulkConfirmTitle": "Attendance Confirmation: {groupName}",
+  "@whatsappBulkConfirmTitle": {
+    "placeholders": {
+      "groupName": { "type": "String" }
+    }
+  },
+  "whatsappBulkDesc": "Alerts will be sent to selected students only.",
+  "whatsappBetaNote": "Beta: Please review messages before sending.",
+  "teacherNameLabel": "Teacher Name (Optional)",
+  "teacherNameHint": "Teacher Name...",
+  "messageTypeLabel": "Message Type",
+  "absentNotification": "❌ Absence Notification",
+  "presentConfirmation": "✅ Presence Confirmation",
+  "lateNotification": "⏰ Lateness Notification",
+  "sessionReminder": "📢 Session Reminder",
+  "sendToLabel": "Send To",
+  "absentCountLabel": "Absentees ({count})",
+  "@absentCountLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "presentCountLabel": "Attendees ({count})",
+  "@presentCountLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "allStudentsLabel": "All ({count})",
+  "@allStudentsLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "messagePreviewTitle": "Message Preview:",
+  "cancel": "Cancel",
+  "sendViaWhatsapp": "Send via WhatsApp",
+  "noStudentsOfType": "No {type} students in this group.",
+  "@noStudentsOfType": {
+    "placeholders": {
+      "type": { "type": "String" }
+    }
+  },
+  
+  "suggestionAttendanceTitle": "Attendance Alert",
+  "suggestionAttendanceMissed": "Group {name} has not been recorded yet, 1 hour after the session started.",
+  "@suggestionAttendanceMissed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentOf": "Payment of",
+  "@paymentOf": {},
+  "suggestionAttendanceTaskTitle": "Record group {name}",
+  "suggestionAttendanceTaskDesc": "Please record today's attendance for group {name}",
+  
+  "suggestionPerformanceTitle": "Performance Drop",
+  "suggestionPerformanceMessage": "Student {name}'s score in the last test ({score}%) is significantly below their average.",
+  "@suggestionPerformanceMessage": {
+    "placeholders": {
+      "name": { "type": "String" },
+      "score": { "type": "String" }
+    }
+  },
+  "suggestionPerformanceTaskTitle": "Monitor {name}'s level",
+  "suggestionPerformanceTaskDesc": "Review student {name}'s performance after their score dropped in the last test",
+  
+  "suggestionAbsenceTitle": "Frequent Absence",
+  "suggestionAbsenceMessage": "Student {name} missed {count} sessions out of the last 5. Follow-up is recommended.",
+  "@suggestionAbsenceMessage": {
+    "placeholders": {
+      "name": { "type": "String" },
+      "count": { "type": "int" }
+    }
+  },
+  "suggestionAbsenceWhatsApp": "Regarding student {name}'s frequent absence...",
+  "suggestionAbsenceTaskTitle": "Contact {name}'s parent",
+  "suggestionAbsenceTaskDesc": "Talk to student {name}'s parent regarding frequent absence ({count}/5)",
+  
+  "suggestionDebtorTitle": "Payment Follow-up",
+  "suggestionDebtorMessage": "Student {name} attends regularly but hasn't paid this month's fees.",
+  "suggestionDebtorTaskTitle": "Collect fees from {name}",
+  "suggestionDebtorTaskDesc": "Ask student {name} for {month} fees",
+  
+  "suggestionInactiveTitle": "Inactive Group",
+  "suggestionInactiveMessage": "Group {name} has no attendance recorded for a week. Has it stopped?",
+  "suggestionInactiveTaskTitle": "Review group {name} status",
+  "suggestionInactiveTaskDesc": "Check if group {name} is still active or needs to be closed",
+  
+  "suggestionHonorTitle": "Honor Board Nomination",
+  "suggestionHonorMessage": "Student {name} has excellent grades recently. They deserve a spot on the honor board.",
+  "suggestionHonorTaskTitle": "Honor student {name}",
+  "suggestionHonorTaskDesc": "Add student {name} to the honor board and prepare a certificate",
+  
+  "suggestionPortalTitle": "Student Portal",
+  "suggestionPortalMessage": "New student {name} doesn't have a portal code yet.",
+  "suggestionPortalTaskTitle": "Create portal code for {name}",
+  "suggestionPortalTaskDesc": "Generate and send student {name}'s portal code",
+  
+  "suggestionGradingTitle": "Grading Pending",
+  "suggestionGradingMessage": "Quiz \"{title}\" is not yet graded for {count} students.",
+  "suggestionGradingTaskTitle": "Grade Quiz {title}",
+  "suggestionGradingTaskDesc": "Complete grading for {count} students in {title}",
+  
+  "suggestionWelcomeTitle": "Welcome!",
+  "suggestionWelcomeMessage": "You have {count} active students now. Have a great day!",
+  "@suggestionWelcomeMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  
+  "suggestion_action_take": "Take Action",
+  "suggestion_action_dismiss": "Dismiss",
+  "suggestion_action_whatsapp": "WhatsApp",
+  "suggestion_action_tasks": "Tasks",
+
+  "attendance_wa_teacher_name_label": "Teacher Name (Optional)",
+  "attendance_wa_teacher_name_hint": "Teacher name...",
+  "attendance_wa_msg_type_label": "Message Type",
+  "attendance_wa_type_absent": "❌ Absence Notice",
+  "attendance_wa_type_present": "✅ Attendance Confirmation",
+  "attendance_wa_type_late": "⏰ Lateness Notice",
+  "attendance_wa_type_reminder": "📢 Session Reminder",
+  "attendance_wa_send_to_label": "Send to",
+  "attendance_wa_target_absent": "Absent ({count})",
+  "@attendance_wa_target_absent": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "attendance_wa_target_present": "Present ({count})",
+  "@attendance_wa_target_present": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "attendance_wa_target_all": "All ({count})",
+  "@attendance_wa_target_all": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "attendance_wa_preview_label": "Message Preview:",
+  "attendance_wa_preview_name_placeholder": "Student Name",
+  "attendance_wa_no_phone_warning": "{count} students without phone numbers — messages won't be sent",
+  "@attendance_wa_no_phone_warning": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "attendance_wa_send_button_label": "Send to {count} Students",
+  "@attendance_wa_send_button_label": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "attendance_wa_msg_present_template": "Peace be upon you 🌟\nWe would like to inform you that the student *{name}* attended today's session.\n📚 Group: {group}\n📅 Date: {date}\n\nThank you for following up 🙏\n{teacher}",
+  "attendance_wa_msg_absent_template": "Peace be upon you ⚠️\nWe would like to inform you that the student *{name}* was absent from today's session.\n📚 Group: {group}\n📅 Date: {date}\n\nPlease follow up 🤍\n{teacher}",
+  "attendance_wa_msg_late_template": "Peace be upon you ⏰\nWe would like to inform you that the student *{name}* was late for today's session.\n📚 Group: {group}\n📅 Date: {date}\n\nPlease ensure punctuality 🙏\n{teacher}",
+  "attendance_wa_msg_reminder_template": "Peace be upon you 📢\nReminder for the student *{name}* about the session time.\n📚 Group: {group}\n📅 Date: {date}\n\nWaiting for you 💪\n{teacher}",
+  "activeNow": "Active Now",
+  "revenue": "Revenue",
+  "operationsCount": "{count} Operations",
+  "studentsCountLabel": "{count} Students",
+  "suggestionConvertedToTask": "Suggestion converted to task: {title}",
+  "takeAttendanceFor": "Convert attendance for {name} to task",
+  "followUpPerformance": "Follow up performance of {name}",
+  "callParent": "Call parent of {name}",
+  "collectFees": "Collect fees from {name}",
+  "reviewGroup": "Review group {name}",
+  "honorStudent": "Honor student {name}",
+  "generatePortalCode": "Portal code for {name}",
+  "gradeQuiz": "Grade quiz {title}",
+  "activityAdded": "Added",
+  "activityUpdated": "Updated",
+  "activityDeleted": "Deleted",
+  "activityAttendance": "Attendance",
+  "activityPayment": "Payment",
+  "weeklyScheduleTitle": "Weekly Schedule",
+  "noRevenueToday": "No revenue today",
+  "recentActivity": "Recent Activity",
+  "viewAll": "View All",
+
+  "totalStudents": "Total Students",
+  "paidThisMonth": "Paid this month",
+  "notPaidThisMonth": "Not paid",
+  "groupData": "Group Information",
+  "academicYear": "Academic Year",
+  "location": "Location",
+  "sessionLink": "Session Link",
+  "notes": "Notes",
+  "weeklySchedule": "Weekly Schedule",
+  "noScheduleSet": "No schedule set",
+  "deleteGroup": "Delete Group",
+  "deleteGroupConfirm": "Are you sure you want to delete this group? All student data, attendance, and payments will be permanently deleted.",
+  "editGroup": "Edit Group",
+  "newGroupTitle": "New Group",
+  "saveChanges": "Save Changes",
+  "createGroup": "Create Group",
+  "basicInfo": "Basic Information",
+  "groupName": "Group Name",
+  "groupNameHint": "e.g., Physics Center",
+  "groupType": "Group Type",
+  "subject": "Subject",
+  "subjectHint": "e.g., Physics",
+  "defaultPrice": "Default Monthly Price (EGP)",
+  "groupDiscount": "Group Monthly Discount (EGP)",
+  "actualPrice": "Actual Price: {price} EGP",
+  "@actualPrice": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "locationHint": "Center address or location",
+  "notesHint": "Additional notes...",
+  "addTime": "Add Slot",
+  "to": "to",
+  "saving": "Saving...",
+  "groupCreated": "Group created successfully",
+  "changesSaved": "Changes saved successfully",
+  "errorPrefix": "Error: {error}",
+  "@errorPrefix": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+
+  "students": "Students",
+  "searchStudentHint": "Search for a student...",
+  "noStudentsFound": "No students found in this group",
+  "addStudent": "Add Student",
+  "editStudent": "Edit Student",
+  "newStudentTitle": "New Student",
+  "studentName": "Student Name",
+  "studentNameHint": "Full Name",
+  "gender": "Gender",
+  "male": "Male",
+  "female": "Female",
+  "phoneNumber": "Phone Number",
+  "parentPhone": "Parent Phone",
+  "isFreeStudent": "Free Student (Scholarship)",
+  "barcode": "Barcode",
+  "barcodeHint": "Leave empty to auto-generate",
+  "studentCreated": "Student added successfully",
+  "studentUpdated": "Student updated successfully",
+
+  "studentProfile": "Student Profile",
+  "attendance": "Attendance",
+  "payments": "Financials",
+  "results": "Results",
+  "personalInfo": "Personal Information",
+  "financialStatus": "Financial Status",
+  "attendanceRate": "Attendance Rate",
+  "averageScore": "Average Score",
+  "lastQuiz": "Last Quiz",
+  "free": "Free",
+  "active": "Active",
+  "inactive": "Inactive",
+  "whatsappGenericGreeting": "Hello, regarding the student {name}...",
+  "@whatsappGenericGreeting": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+
+  "year_1_sec": "1st Secondary",
+  "year_2_sec": "2nd Secondary",
+  "year_3_sec": "3rd Secondary",
+  "year_6_primary": "6th Primary",
+  "year_5_primary": "5th Primary",
+  "year_4_primary": "4th Primary",
+  "year_3_primary": "3rd Primary",
+  "year_2_primary": "2nd Primary",
+  "year_1_primary": "1st Primary",
+  "year_3_prep": "3rd Preparatory",
+  "year_2_prep": "2nd Preparatory",
+  "year_1_prep": "1st Preparatory",
+  "year_university": "University Student",
+  "year_other": "Other",
+
+  "exportStudentListSoon": "Exporting student list will be active soon",
+  "searchByNameOrPhone": "Search by name or phone...",
+  "allGroupsFilter": "All Groups",
+  "addFirstStudent": "Add first student",
+  "addStudent": "Add Student",
+  "noStudentsFound": "No students found",
+  "studentProfile": "Profile",
+  "studentsRegisteredCount": "{count} registered students",
+  "@studentsRegisteredCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "deleteStudentTitle": "Delete Student",
+  "deleteStudentConfirm": "The student and all their data and results will be permanently deleted.",
+  "deletePermanently": "Delete permanently",
+  "personalData": "Personal Data",
+  "studentFullName": "Student Full Name *",
+  "studentNameHintExample": "Example: John Doe",
+  "studentNameRequired": "Name is required",
+  "studentPhone": "Student Phone",
+  "parentPhone1": "Parent Phone 1 *",
+  "parentPhoneRequired": "Required for contact",
+  "parentPhone2": "Parent Phone 2",
+  "emergencyPhoneHint": "Additional emergency number",
+  "landline": "Landline",
+  "optional": "Optional",
+  "address": "Address",
+  "addressHint": "Address / Street",
+  "academicData": "Academic Data",
+  "targetGroup": "Target Group *",
+  "selectGroupHint": "Select a group...",
+  "groupRequired": "Group selection is required",
+  "errorLoadingGroups": "Error loading groups",
+  "discountsAndExemptions": "Discounts & Exemptions",
+  "freeStudentToggle": "Free Student / Special Case",
+  "fullExemption": "Full exemption from fees",
+  "hasIndividualDiscount": "Does the student have an individual discount?",
+  "plusGroupDiscount": "In addition to the group discount if any",
+  "discountValue": "Discount value (EGP). Example: 50",
+  "studentNotes": "Notes about student",
+  "studentNotesHint": "Notes for administration or teacher only...",
+  "studentNotFound": "Student not found",
+  "noPhoneFound": "No phone number found",
+  "portalCodeGenerated": "Portal code generated successfully",
+  "groupNotSet": "No group",
+  "outstanding": "Outstanding",
+  "creditBalance": "Credit Balance",
+  "totalPaid": "Total Paid",
+  "thisMonth": "This Month",
+  "requiredAmount": "Required",
+  "paidAmount": "Paid",
+  "remainingAmount": "Remaining",
+  "portalCode": "Student Portal Code",
+  "inactivePortalCode": "Inactive",
+  "activateCode": "Activate Code",
+  "codeCopied": "Code copied to clipboard",
+  "performance": "Performance",
+  "attendanceTab": "Attendance",
+  "paymentsTab": "Payments",
+  "gradesTab": "Grades",
+  "quizzesTab": "Quizzes",
+  "reportsTab": "Reports",
+  "overallPerformanceSummary": "Overall Performance Summary",
+  "attendanceRateLabel": "Attendance Rate",
+  "excellent": "Excellent",
+  "needsImprovement": "Needs improvement",
+  "low": "Low",
+  "acceptable": "Acceptable",
+  "needsFollowUp": "Needs follow-up",
+  "higherThanGroup": "Higher than group by",
+  "lowerThanGroup": "Lower than group by",
+  "overallComparison": "Comprehensive comparison with group",
+  "noAttendanceRecords": "No attendance records",
+  "noPaymentRecords": "No payment records",
+  "noGradesFound": "No grades found",
+  "noQuizzesFound": "No quizzes found",
+  "notEnoughQuizzesForChart": "Not enough quizzes to draw charts",
+  "studentProgressChart": "Student Development (Quizzes)",
+  "deleteFromGroupConfirm": "Student will be deleted from this group. Are you sure?",
+  "editStudent": "Edit Student Data",
+  "newStudentLabel": "New Student",
+  "saving": "Saving...",
+  "registerStudent": "Register Student",
+  "selectGroup": "Please select a group",
+  "studentRegisteredSuccess": "Student registered successfully",
+  "changesSaved": "Changes saved",
+  "male": "Male",
+  "female": "Female",
+  "academicYearLabel": "Academic Year",
+  "extra": "Extra",
+  "genderLabel": "Gender",
+  "required": "Required",
+  "errorOccurred": "Error occurred: {error}",
+  "@errorOccurred": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "whatsapp": "WhatsApp",
+  "edit": "Edit",
+  "payment": "Payment",
+  "complete": "Complete",
+  "averageGrade": "Avg Grade",
+  "monthlyPrice": "Monthly Price",
+  "present": "Present",
+  "absent": "Absent",
+  "higherThanGroupWithVal": "{value}% higher than group",
+  "@higherThanGroupWithVal": {
+    "placeholders": {
+      "value": { "type": "String" }
+    }
+  },
+  "lowerThanGroupWithVal": "{value}% lower than group",
+  "@lowerThanGroupWithVal": {
+    "placeholders": {
+      "value": { "type": "String" }
+    }
+  },
+  "incomplete": "Incomplete",
+  "comparisonToGroup": "Comparison to Group",
+  "student": "Student",
+  "group": "Group",
+  "groupDetailsTitle": "Group Details",
+  "editGroupTooltip": "Edit Group",
+  "statMonthlyRequired": "Monthly Required",
+  "statOutstandingAmt": "Outstanding",
+  "studentsWithCount": "Students ({count})",
+  "@studentsWithCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "searchStudentsHint": "Search for a student...",
+  "noStudentsInGroup": "No students in this group",
+  "noResultsFound": "No results found",
+  "discountAmount": "Discount {amount}",
+  "@discountAmount": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
+  "pricePerMonthLabel": "{price} EGP/month",
+  "@pricePerMonthLabel": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "overdueAmtWithLabel": "{amount} EGP overdue",
+  "@overdueAmtWithLabel": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
+  "creditAmtWithLabel": "Credit {amount} EGP",
+  "@creditAmtWithLabel": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
+  "completeLabel": "Complete",
+  "studentFile": "Profile",
+  "deleteFromGroupConfirm": "Student will be deleted from this group. Are you sure?",
+  "deleteAction": "Delete",
+  "teacherFullName": "Full Name",
+  "teacherSubject": "Subject/Specialty",
+  "profileUpdateSuccess": "Profile updated successfully",
+  "invalidName": "Please enter a valid name",
+  "invalidPhone": "Please enter a valid phone number",
+  "invalidSubject": "Please enter a subject",
+  "selectImageSource": "Select Image Source",
+  "camera": "Camera",
+  "gallery": "Gallery",
+  "quizzes": "Quizzes",
+  "honorBoard": "Honor Board",
+  "expenses": "Expenses",
+  "financials": "Financials",
+  "aboutApp": "About App",
+  "privacyPolicy": "Privacy Policy",
+  "profile": "Profile",
+  "saveChanges": "Save Changes",
+  "email": "Email",
+  "phone": "Phone Number",
+  "userNotConnected": "User Not Connected",
+  "updateError": "Update Error: {error}",
+  "@updateError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "attendance": "Attendance",
+  "attendanceSubtitle": "Track student attendance and sessions",
+  "financialsSubtitle": "Manage payments, income and statistics",
+  "expensesSubtitle": "Track daily expenses and outgoing costs",
+  "quizzesSubtitle": "Manage exams, results and statistics",
+  "honorBoardSubtitle": "View and manage outstanding students",
+  "academicManagement": "Academic Management",
+  "financialManagement": "Financial Management",
+  "studentExcellence": "Student Excellence",
+  "freeStudent": "Free Student",
+  "addStudentLabel": "Add Student",
+  "fullNameLabel": "Full Name *",
+  "fullNameHint": "e.g., Ahmed Mohamed Mahmoud",
+  "nameRequired": "Name is required",
+  "phoneFormatHint": "01xxxxxxxxxx",
+  "invalidPrice": "Invalid Price",
+  "discountGreaterPrice": "Discount cannot be greater than price",
+  "paymentsTitle": "Payments",
+  "recordNewPayment": "Record New Payment",
+  "recordPayment": "Record Payment",
+  "pleaseSelectStudent": "Please select a student",
+  "amountGreaterThanZero": "Amount must be greater than zero",
+  "pleaseSelectMonth": "Please select month",
+  "freeStudentTitle": "Free Student",
+  "freeStudentConfirmMessage": "This student is free, do you want to record an exceptional payment?",
+  "paymentRecordedSuccessfully": "Payment recorded successfully ✓",
+  "groupOptionalFilter": "Group (Optional for filtering)",
+  "selectGroupFilter": "Select group to filter...",
+  "allStudents": "All Students",
+  "studentRequired": "Student *",
+  "selectStudent": "Select student...",
+  "freeLabelSuffix": " (Free)",
+  "freeStudentSuffix": "Free Student",
+  "requiredAmountSuffix": "Required: {amount} {currency}/month",
+  "amountCurrencyRequired": "Amount ({currency}) *",
+  "partialPaymentLabel": "⚠️ Partial payment (Remaining {amount} {currency})",
+  "excessPaymentLabel": "✅ Credit balance {amount} {currency}",
+  "paymentCompletedLabel": "✅ Completed",
+  "monthRequired": "Month *",
+  "paymentMethod": "Payment Method",
+  "paymentDate": "Payment Date",
+  "notesHint": "Notes...",
+  "autoReceiptNumber": "Auto Receipt Number: #{number}",
+  "deletePaymentTitle": "Delete Payment",
+  "deletePaymentConfirmMessage": "Do you want to delete this payment permanently?",
+  "paymentDeletedMessage": "Payment deleted",
+  "outstandingPaymentsTitle": "Outstanding Payments",
+  "searchPaymentHint": "Search by student name or receipt number...",
+  "allGroups": "All Groups",
+  "noPaymentsFound": "No payments found",
+  "totalPaymentsSummary": "Total: {amount} {currency} ({count} records)",
+  "receiptNumberLabel": "Receipt No: #{number}",
+  "addPaymentTooltip": "Add Payment",
+  "noPhoneNumberRegistered": "No phone number registered",
+  "outstandingStudentsCount": "Outstanding Students",
+  "totalOutstandingAmount": "Total Outstanding",
+  "filterByGroup": "Filter by Group",
+  "noOutstandingPaymentsSuccess": "No outstanding payments for this month!",
+  "allStudentsPaidMessage": "All students have paid their dues in full",
+  "paidAmountSuffix": "Paid: {amount}",
+  "remind": "Remind",
+  "receive": "Receive",
+  "manageExpensesTitle": "Manage Expenses",
+  "expenseRecordedSuccessfully": "Expense recorded successfully ✓",
+  "deleteExpenseTitle": "Delete Expense",
+  "deleteExpenseConfirmMessage": "Do you want to delete this expense?",
+  "totalExpensesAmount": "Total Expenses",
+  "transactionsCount": "Transactions Count",
+  "allCategories": "All Categories",
+  "noExpensesRecorded": "No expenses recorded",
+  "addExpense": "Add Expense",
+  "recordNewExpense": "Record New Expense",
+  "titleRequired": "Title *",
+  "forMonth": "For Month",
+  "recurringMonthlyExpense": "Recurring monthly expense",
+  "saveExpenseButton": "Save Expense",
+  "method_cash": "Cash",
+  "method_bankTransfer": "Bank Transfer",
+  "method_vodafoneCash": "Vodafone Cash",
+  "category_rent": "Rent",
+  "category_salaries": "Salaries",
+  "category_supplies": "Supplies",
+  "category_utilities": "Utilities",
+  "category_maintenance": "Maintenance",
+  "category_marketing": "Marketing",
+  "currency_egp": "EGP",
+  "monthLabel": "Month",
+  "outstandingPaymentWhatsappTemplate": "Dear parent of {name},\nPlease pay the outstanding balance of {balance} {currency} for the month of {month}.\nThank you for your cooperation.",
+  "outstandingEntrySubtitle": "{group} · Required: {required} · Paid: {paid}",
+  "recordNewExpense": "Record New Expense",
+  "saveExpense": "Save Expense",
+  "questionsCount": "{count, plural, =1{1 Question} other{{count} Questions}}",
+  "resultsCount": "{count, plural, =1{1 Result} other{{count} Results}}",
+  "publish": "Publish",
+  "close": "Close",
+  "results": "Results",
+  "quizzesTitle": "Quizzes",
+  "newQuiz": "New Quiz",
+  "averageResults": "Average Results",
+  "totalQuizzes": "Total Quizzes",
+  "noQuizzesFound": "No quizzes found",
+  "createFirstQuizMessage": "Create your first quiz to start tracking students progress.",
+  "activeStatus": "Active",
+  "draftStatus": "Draft",
+  "closedStatus": "Closed",
+  "deleteQuizTitle": "Delete Quiz",
+  "deleteQuizConfirm": "Are you sure you want to delete this quiz? All related results will be lost.",
+  "honorBoardTitle": "Honor Board",
+  "createQuiz": "Create Quiz",
+  "quizTitle": "Quiz Title *",
+  "targetGroupLabel": "Target Group *",
+  "examDateLabel": "Exam Date",
+  "durationLabel": "Duration (minutes)",
+  "questionsCountHeader": "Questions ({count})",
+  "@questionsCountHeader": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mcqQuestion": "Multiple Choice Question",
+  "trueFalseQuestion": "True/False Question",
+  "marksLabel": "Marks",
+  "questionHint": "Write question text here...",
+  "optionsLabel": "Options (Mark correct answer ✓)",
+  "optionHint": "Option {number}",
+  "@optionHint": {
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+  "tooltipMcq": "MCQ Question",
+  "tooltipTrueFalse": "True/False",
+  "completeBasicInfo": "Please complete basic information",
+  "completeAllQuestions": "Please complete all questions and correct answers",
+  "quizSavedSuccess": "Quiz saved successfully ✓",
+  "saveError": "Error while saving: {error}",
+  "@saveError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "quizResults": "Quiz Results",
+  "noResultsYet": "No results for this test yet",
+  "resultsWillShowHere": "Results will be displayed here as students submit their solutions",
+  "searchByStudent": "Search by student name...",
+  "submittedInfo": "Submitted",
+  "avgScore": "Average Score",
+  "highestScore": "Highest Score",
+  "submissionDate": "Submission Date: {date}",
+  "@submissionDate": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+  "shareWithParent": "Send to Parent",
+  "noPhoneRegistered": "No phone number registered",
+  "whatsappQuizResultMessage": "We inform you of the result of student {studentName} in the quiz \"{quizTitle}\":\nScore: {score} out of {totalMarks}\nPercentage: {percentage}%\nThank you for your follow-up.",
+  "@whatsappQuizResultMessage": {
+    "placeholders": {
+      "studentName": { "type": "String" },
+      "quizTitle": { "type": "String" },
+      "score": { "type": "String" },
+      "totalMarks": { "type": "int" },
+      "percentage": { "type": "String" }
+    }
+  },
+  "groupLabel": "Group",
+  "allGroups": "All Groups",
+  "noSufficientData": "No sufficient data",
+  "pointsLabel": "Points",
+  "loadingData": "Loading...",
+  "errorLoadingData": "Error loading data: {error}",
+  "@errorLoadingData": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "home": "Home",
+  "myAttendance": "My Attendance",
+  "attendanceHistory": "Attendance History",
+  "present": "Present",
+  "absent": "Absent",
+  "noAttendanceFound": "No attendance records found yet",
+  "attendanceWillShowHere": "Your attendance history will appear here once recorded.",
+  "attendanceRate": "Attendance Rate",
+  "myGrades": "My Grades",
+  "myGradesAndResults": "My Grades & Results",
+  "scoreOutOf": "Score: {score} out of {max}",
+  "@scoreOutOf": {
+    "placeholders": {
+      "score": { "type": "String" },
+      "max": { "type": "int" }
+    }
+  },
+  "noGradesFound": "No grades recorded yet",
+  "gradesWillShowHere": "Your quiz results will appear here once recorded.",
+  "lastScore": "Last Score",
+  "overallPerformance": "Overall Performance",
+  "exceptionalPerformance": "Exceptional performance! You are among the top. 🌟",
+  "veryGoodPerformance": "Very good performance, keep it up. 👍",
+  "goodPerformance": "Acceptable performance, needs more effort. 📚",
+  "needsImprovement": "Your level needs more care and attention. Don't give up! 💪",
+  "notebooksStore": "Notebooks Store",
+  "store": "Store",
+  "whatsappOpenError": "Failed to open WhatsApp. Please ensure it is installed.",
+  "storeIsEmpty": "Store is currently empty",
+  "noItemsAvailable": "No notebooks or books are available for order right now.",
+  "teacherPhoneUnavailable": "Sorry, teacher's phone number is not available right now.",
+  "whatsappStoreOrderMessage": "Hello, I would like to order: {itemTitle}\nCategory: {itemCategory}\nPrice: {itemPrice}\nName: {studentName}",
+  "@whatsappStoreOrderMessage": {
+    "placeholders": {
+      "itemTitle": { "type": "String" },
+      "itemCategory": { "type": "String" },
+      "itemPrice": { "type": "double" },
+      "studentName": { "type": "String" }
+    }
+  },
+  "currencyEgp": "EGP",
+  "orderNow": "Order Now",
+  "welcomeBack": "Welcome,",
+  "currentGroup": "Current Group",
+  "academicYear": "Academic Year",
+  "keepGoing": "Keep going, {name}! 🚀",
+  "@keepGoing": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "announcementsAndAlerts": "Announcements & Alerts",
+  "privateMessage": "Private Message",
+  "noNewNotifications": "No new notifications for now. Have a nice day!",
+  "errorLoadingAnnouncements": "Error loading announcements: {error}",
+  "@errorLoadingAnnouncements": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "dayLabel": "Day",
+  "latestAnnouncements": "Latest Announcements",
+  "noAnnouncements": "No announcements for now.",
+  "errorOccurred": "An error occurred",
+  "performanceFeedback": "{status}",
+  "@performanceFeedback": {
+    "placeholders": {
+      "status": { "type": "String" }
+    }
+  },
+  "performanceExceptional": "Exceptional performance! You are among the top. 🌟",
+  "performanceDoingGreat": "Very good performance, keep it up. 👍",
+  "performanceAcceptable": "Acceptable performance, needs more effort. 📚",
+  "performanceNeedsAttention": "Your level needs more care and attention. Don't give up! 💪",
+  "method_cash": "Cash",
+  "method_bankTransfer": "Bank Transfer",
+  "method_vodafoneCash": "Vodafone Cash",
+  "method_other": "Other",
+  "deleteExpenseConfirm": "Are you sure you want to delete this expense?",
+  "totalExpenses": "Total Expenses",
+  "titleLabel": "Title",
+  "amountLabel": "Amount",
+  "categoryLabel": "Category",
+  "notesLabel": "Notes",
+  "recurringExpenseLabel": "Recurring Expense",
+  "freeBadge": "Free",
+  "paymentStatusCompleted": "Payment Completed",
+  "delete": "Delete",
+  "confirmLogout": "Confirm Logout",
+  "logoutConfirmationMessage": "Are you sure you want to logout from the student portal?",
+  "cancel": "Cancel",
+  "logout": "Logout",
+  "expenseRecordedSuccess": "Expense recorded successfully",
+  "category_rent": "Rent",
+  "category_salaries": "Salaries",
+  "category_supplies": "Supplies",
+  "category_utilities": "Utilities",
+  "category_maintenance": "Maintenance",
+  "category_marketing": "Marketing",
+  "category_other": "Other",
+  "suggestionAttendanceTitle": "Attendance Alert",
+  "suggestionAttendanceMessage": "There are {count} absences today. Do you want to send WhatsApp alerts?",
+  "@suggestionAttendanceMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "welcome": "Welcome!",
+  "welcomeMessage": "You have {count} active students in your groups now.",
+  "@welcomeMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "suggestionGradingTitle": "Grading Quizzes",
+  "suggestionGradingMessage": "Quiz {title} needs grading for {count} students.",
+  "@suggestionGradingMessage": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "count": { "type": "int" }
+    }
+  },
+  "suggestionGradingTaskTitle": "Grade {title}",
+  "sendInstantMessages": "Send Instant Messages"
+}
+

@@ -1,0 +1,985 @@
+{
+  "@@locale": "ar",
+  "appName": "مساعد المعلم",
+  
+  "navHome": "الرئيسية",
+  "navGroups": "المجموعات",
+  "navStudents": "الطلاب",
+  "navMore": "المزيد",
+
+  "settings": "الإعدادات",
+  "themeAppearance": "المظهر والشكل",
+  "themeLight": "فاتح",
+  "themeDark": "داكن",
+  "themeSystem": "تلقائي (حسب النظام)",
+  "newGroup": "مجموعة جديدة",
+  "searchHint": "بحث...",
+  "noGroupsFound": "لا توجد مجموعات",
+  "addGroup": "إضافة مجموعة",
+  "all": "الكل",
+  "center": "سنتر",
+  "privateGroup": "مجموعة خاصة",
+  "privateLesson": "درس خاص",
+  "online": "أونلاين",
+  "groupsCount": "{count} مجموعة",
+  "@groupsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "errorOccurred": "حدث خطأ: {error}",
+  "@errorOccurred": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "language": "اللغة",
+  "arabic": "العربية",
+  "english": "English",
+  "security": "الأمان",
+  "appLock": "قفل التطبيق (PIN)",
+  "appLockSubtitle": "طلب رمز الدخول عند فتح التطبيق",
+  "backupData": "البيانات والنسخ الاحتياطي",
+  "backupSubtitle": "إدارة النسخ الاحتياطي اليدوي",
+  "exportImport": "تصدير/استيراد البيانات",
+  "comingSoon": "سيتم تفعيل هذه الميزة قريباً",
+
+  "setPin": "إعداد رمز PIN",
+  "enterFourDigits": "أدخل رمز مكون من 4 أرقام",
+  "cancel": "إلغاء",
+  "save": "حفظ",
+  "confirm": "تأكيد",
+  "saving": "جاري الحفظ...",
+  "notes": "ملاحظات",
+  "viewTasks": "عرض المهام",
+  
+  "moreMenu": "القائمة الإضافية",
+  "profile": "الملف الشخصي",
+  "profileSubtitle": "إدارة بياناتك وصورتك الشخصية",
+  "notifications": "التنبيهات",
+  "notificationsSubtitle": "إعدادات الإشعارات والتحميل",
+  "groupsAndLevel": "المراحل والمجموعات",
+  "groupsAndLevelSubtitle": "إدارة التصنيفات الدراسية",
+  "appSettings": "إعدادات التطبيق",
+  "appSettingsSubtitle": "اللغة، الثيم، والأمان",
+  "helpSupport": "المساعدة والدعم",
+  "helpSupportSubtitle": "الأسئلة الشائعة وتواصل معنا",
+  "logout": "تسجيل الخروج",
+  "logoutConfirm": "هل أنت متأكد من تسجيل الخروج؟",
+
+  "loginTitle": "تسجيل الدخول",
+  "teacherPortal": "بوابة المعلم",
+  "studentPortal": "بوابة الطالب",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "loginButton": "دخول",
+  "noAccount": "ليس لديك حساب؟ سجل الآن",
+  "orViaGoogle": "أو عبر جوجل",
+  "googleLogin": "الدخول بواسطة جوجل",
+  "teacherLogin": "دخول المعلم",
+  "studentLogin": "دخول الطالب",
+  "studentWelcome": "أهلاً بك يا بطل! ادخل كود البوابة الخاص بك للمتابعة",
+  "studentCode": "كود الطالب",
+  "studentCodeHint": "يمكنك الحصول على الكود من المعلم الخاص بك",
+  "errorEmptyFields": "يرجى ملء جميع الحقول",
+  "errorEmptyStudentCode": "يرجى إدخال كود الطالب",
+  "errorOccurred": "حدث خطأ: {error}",
+  "@errorOccurred": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "dashboard": "لوحة التحكم",
+  "statsGroups": "المجموعات",
+  "groupsTitle": "المجموعات",
+  "statsStudents": "الطلاب",
+  "studentsTitle": "الطلاب",
+  "statsTodayCollection": "حصيلة اليوم",
+  "todayRevenue": "حصيلة اليوم",
+  "statsOutstanding": "المتأخرات",
+  "debtsTitle": "المديونيات",
+  "currentlyActive": "نشطة حالياً",
+  "activeNow": "نشطة الآن",
+  "total": "إجمالي",
+  "operations": "عمليات",
+  "studentsCount": "طلاب",
+  "totalCount": "إجمالي {count} طالب",
+  "@totalCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "operationsCount": "{count} عملية",
+  "@operationsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "studentsCount": "{count} طالب",
+  "@studentsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "currency": "ج.م",
+  
+  "welcomeBack": "مرحباً بك 👋",
+  "teacher": "المعلم",
+  "todayAttendance": "حضور اليوم",
+  "present": "حاضر",
+  "absent": "غائب",
+  "todaySessions": "حصص اليوم",
+  "noSessionsToday": "لا توجد حصص اليوم",
+  "studentsPresent": "طلاب حاضرون",
+  
+  "outstandingAlerts": "تنبيهات المتأخرات",
+  "noOutstandingPayments": "ممتاز! لا توجد متأخرات",
+  "totalOutstandingThisMonth": "إجمالي المتأخرات هذا الشهر",
+  "recentFinancialActivity": "آخر النشاطات المادية",
+  "noRecentActivity": "لا توجد عمليات مؤخراً",
+  
+  "communicationManagement": "إدارة التواصل",
+  "generalAnnouncements": "التنبيهات العامة",
+  "generalAnnouncementsSubtitle": "إرسال رسائل تظهر فورياً للطلاب",
+  
+  "smartSuggestions": "مقترحات ذكية 💡",
+  "takeAction": "اتخاذ إجراء",
+  "convertToTask": "تحويل لمهمة",
+  "suggestionConvertedToTask": "تم تحويل المقترح \"{title}\" إلى مهمة",
+  "@suggestionConvertedToTask": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "schedule": "جدول الحصص",
+  "recordAttendance": "تسجيل حضور",
+  "addPayment": "تسجيل دفعة",
+  "viewAll": "عرض الكل",
+  "showMore": "عرض المزيد ({count})",
+  "@showMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "showLess": "عرض أقل",
+  
+  "saturday": "السبت",
+  "sunday": "الأحد",
+  "monday": "الإثنين",
+  "tuesday": "الثلاثاء",
+  "wednesday": "الأربعاء",
+  "thursday": "الخميس",
+  "friday": "الجمعة",
+  
+  "am_suffix": "ص",
+  "pm_suffix": "م",
+  "sessions_count_label": "{count} حصة",
+  "no_sessions_on_this_day": "لا توجد حصص في هذا اليوم",
+  "student_label_count": "{count} طالب",
+  "@student_label_count": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  
+  "attendance_title": "تسجيل الحضور",
+  "attendance_edit_registered": "تعديل مسجّل",
+  "attendance_select_group_hint": "اختر مجموعة...",
+  "attendance_session_date_label": "تاريخ الحصة",
+  "attendance_stat_present": "حاضر",
+  "attendance_stat_absent": "غائب",
+  "attendance_stat_total": "إجمالي",
+  "attendance_quick_all_present": "✅ الكل حاضر",
+  "attendance_quick_all_absent": "❌ الكل غائب",
+  "attendance_no_students_in_group": "لا يوجد طلاب في هذه المجموعة",
+  "attendance_free_badge": "مجاني",
+  "attendance_saving_state": "جاري الحفظ...",
+  "attendance_save_success_state": "تم الحفظ ✓",
+  "attendance_save_button_label": "حفظ الحضور",
+  "attendance_whatsapp_bulk_toggle": "تنبيهات جماعية عبر واتساب",
+  "whatsappBulkConfirmTitle": "تأكيد حضور المجموعة: {groupName}",
+  "@whatsappBulkConfirmTitle": {
+    "placeholders": {
+      "groupName": { "type": "String" }
+    }
+  },
+  "whatsappBulkDesc": "التنبيه سيتم إرساله للطلاب المحددين فقط.",
+  "whatsappBetaNote": "إصدار تجريبي: تأكد من مراجعة الرسائل قبل الإرسال.",
+  "teacherNameLabel": "اسم المعلم (اختياري)",
+  "teacherNameHint": "اسم المعلم...",
+  "messageTypeLabel": "نوع الرسالة",
+  "absentNotification": "❌ إشعار غياب",
+  "presentConfirmation": "✅ تأكيد حضور",
+  "lateNotification": "⏰ إشعار تأخير",
+  "sessionReminder": "📢 تذكير بالحصة",
+  "sendToLabel": "إرسال إلى",
+  "absentCountLabel": "الغائبين ({count})",
+  "@absentCountLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "presentCountLabel": "الحاضرين ({count})",
+  "@presentCountLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "allStudentsLabel": "الكل ({count})",
+  "@allStudentsLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "messagePreviewTitle": "معاينة الرسالة:",
+  "cancel": "إلغاء",
+  "sendViaWhatsapp": "إرسال عبر واتساب",
+  "noStudentsOfType": "لا توجد {type} في هذه المجموعة.",
+  "@noStudentsOfType": {
+    "placeholders": {
+      "type": { "type": "String" }
+    }
+  },
+  "suggestionAttendanceMissed": "لم يتم تسجيل حضور مجموعة {name} حتى الآن، مرور ساعة على بدء الحصة.",
+  "@suggestionAttendanceMissed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentOf": "دفعة بقيمة",
+  "@paymentOf": {},
+  "suggestionAttendanceTaskTitle": "تحضير مجموعة {name}",
+  "suggestionAttendanceTaskDesc": "يرجى تسجيل حضور اليوم لمجموعة {name}",
+  
+  "suggestionPerformanceTitle": "تراجع مستوى",
+  "suggestionPerformanceMessage": "درجة الطالب {name} في آخر اختبار ({score}%) أقل بكثير من متوسطه.",
+  "@suggestionPerformanceMessage": {
+    "placeholders": {
+      "name": { "type": "String" },
+      "score": { "type": "String" }
+    }
+  },
+  "suggestionPerformanceTaskTitle": "متابعة مستوى {name}",
+  "suggestionPerformanceTaskDesc": "مراجعة أداء الطالب {name} بعد تراجع درجاته في الاختبار الأخير",
+  
+  "suggestionAbsenceTitle": "غياب متكرر",
+  "suggestionAbsenceMessage": "الطالب {name} غاب {count} حصص من آخر 5. يفضل متابعته.",
+  "@suggestionAbsenceMessage": {
+    "placeholders": {
+      "name": { "type": "String" },
+      "count": { "type": "int" }
+    }
+  },
+  "suggestionAbsenceWhatsApp": "بخصوص غياب الطالب {name} المتكرر...",
+  "suggestionAbsenceTaskTitle": "اتصال بولي أمر {name}",
+  "suggestionAbsenceTaskDesc": "التحدث مع ولي أمر الطالب {name} بخصوص تكرار الغياب ({count}/5)",
+  
+  "suggestionDebtorTitle": "متابعة تحصيل",
+  "suggestionDebtorMessage": "الطالب {name} منتظم في الحضور لكن لم يسدد مصروفات هذا الشهر.",
+  "suggestionDebtorTaskTitle": "تحصيل مصروفات {name}",
+  "suggestionDebtorTaskDesc": "مطالبة الطالب {name} بمصروفات شهر {month}",
+  
+  "suggestionInactiveTitle": "مجموعة غير نشطة",
+  "suggestionInactiveMessage": "مجموعة {name} لم يسجل لها حضور منذ أسبوع. هل توقفت؟",
+  "suggestionInactiveTaskTitle": "مراجعة حالة مجموعة {name}",
+  "suggestionInactiveTaskDesc": "التحقق مما إذا كانت مجموعة {name} لا تزال قائمة أو تحتاج للإغلاق",
+  
+  "suggestionHonorTitle": "ترشيح تكريم",
+  "suggestionHonorMessage": "الطالب {name} حصل على درجات ممتازة مؤخراً. يستحق التواجد في لوحة الشرف.",
+  "suggestionHonorTaskTitle": "تكريم الطالب {name}",
+  "suggestionHonorTaskDesc": "إضافة الطالب {name} للوحة الشرف وتجهيز شهادة تقدير",
+  
+  "suggestionPortalTitle": "بوابة الطلاب",
+  "suggestionPortalMessage": "الطالب الجديد {name} ليس لديه كود بوابة بعد.",
+  "suggestionPortalTaskTitle": "إنشاء كود بوابة لـ {name}",
+  "suggestionPortalTaskDesc": "توليد وإرسال كود بوابة الطالب {name}",
+  
+  "suggestionGradingTitle": "رصد درجات",
+  "suggestionGradingMessage": "اختبار \"{title}\" لم يكتمل رصده بعد لـ {count} طلاب.",
+  "suggestionGradingTaskTitle": "رصيد درجات {title}",
+  "suggestionGradingTaskDesc": "إكمال رصد درجات {count} طلاب لـ {title}",
+  
+  "suggestionWelcomeTitle": "مرحباً بك!",
+  "suggestionWelcomeMessage": "لديك {count} طالب نشط الآن. تمنياتنا بيوم دراسي موفق!",
+  "@suggestionWelcomeMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  
+  "suggestion_action_take": "اتخاذ إجراء",
+  "suggestion_action_dismiss": "تجاهل",
+  "suggestion_action_whatsapp": "واتساب",
+  "suggestion_action_tasks": "المهام",
+
+  "attendance_wa_teacher_name_label": "اسم المعلم (اختياري)",
+  "attendance_wa_teacher_name_hint": "اسم المعلم...",
+  "attendance_wa_msg_type_label": "نوع الرسالة",
+  "attendance_wa_type_absent": "❌ إشعار غياب",
+  "attendance_wa_type_present": "✅ تأكيد حضور",
+  "attendance_wa_type_late": "⏰ إشعار تأخير",
+  "attendance_wa_type_reminder": "📢 تذكير بالحصة",
+  "attendance_wa_send_to_label": "إرسال إلى",
+  "attendance_wa_target_absent": "الغائبين ({count})",
+  "@attendance_wa_target_absent": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "attendance_wa_target_present": "الحاضرين ({count})",
+  "@attendance_wa_target_present": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "attendance_wa_target_all": "الكل ({count})",
+  "@attendance_wa_target_all": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "attendance_wa_preview_label": "معاينة الرسالة:",
+  "attendance_wa_preview_name_placeholder": "اسم الطالب",
+  "attendance_wa_no_phone_warning": "{count} طالب بدون رقم هاتف — لن يتم إرسال رسائلهم",
+  "@attendance_wa_no_phone_warning": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "attendance_wa_send_button_label": "إرسال لـ {count} طالب",
+  "@attendance_wa_send_button_label": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "attendance_wa_msg_present_template": "السلام عليكم ورحمة الله 🌟\nنود إعلامكم بأن الطالب/ة *{name}* قد حضر/ت حصة اليوم.\n📚 المجموعة: {group}\n📅 التاريخ: {date}\n\nشكراً على المتابعة 🙏\n{teacher}",
+  "attendance_wa_msg_absent_template": "السلام عليكم ورحمة الله ⚠️\nنود إعلامكم بأن الطالب/ة *{name}* تغيب/ت عن حصة اليوم.\n📚 المجموعة: {group}\n📅 التاريخ: {date}\n\nنرجو المتابعة والاهتمام 🤍\n{teacher}",
+  "attendance_wa_msg_late_template": "السلام عليكم ورحمة الله ⏰\nنود إعلامكم بأن الطالب/ة *{name}* تأخر/ت عن موعد حصة اليوم.\n📚 المجموعة: {group}\n📅 التاريخ: {date}\n\nنرجو الالتزام بالمواعيد 🙏\n{teacher}",
+  "attendance_wa_msg_reminder_template": "السلام عليكم ورحمة الله 📢\nتذكير للطالب/ة *{name}* بموعد الحصة.\n📚 المجموعة: {group}\n📅 التاريخ: {date}\n\nفي انتظاركم 💪\n{teacher}",
+  "activeNow": "نشطة حالياً",
+  "revenue": "حصيلة",
+  "operationsCount": "{count} عمليات",
+  "studentsCountLabel": "{count} طلاب",
+  "suggestionConvertedToTask": "تم تحويل المقترح إلى مهمة: {title}",
+  "takeAttendanceFor": "تحويل تحضير {name} لمهمة",
+  "followUpPerformance": "متابعة مستوى {name}",
+  "callParent": "اتصال بولي أمر {name}",
+  "collectFees": "تحصيل من {name}",
+  "reviewGroup": "مراجعة مجموعة {name}",
+  "honorStudent": "تكريم الطالب {name}",
+  "generatePortalCode": "كود بوابة لـ {name}",
+  "gradeQuiz": "رصد درجات {title}",
+  "activityAdded": "إضافة",
+  "activityUpdated": "تعديل",
+  "activityDeleted": "حذف",
+  "activityAttendance": "تحضير",
+  "activityPayment": "دفعة",
+  "weeklyScheduleTitle": "الجدول الأسبوعي",
+  "noRevenueToday": "لا يوجد تحصيل اليوم",
+  "recentActivity": "آخر التحركات",
+  "viewAll": "عرض الكل",
+
+  "totalStudents": "إجمالي الطلاب",
+  "paidThisMonth": "دفعوا هذا الشهر",
+  "notPaidThisMonth": "لم يدفعوا",
+  "groupData": "بيانات المجموعة",
+  "academicYear": "السنة الدراسية",
+  "location": "المكان",
+  "sessionLink": "رابط الحصة",
+  "notes": "الملاحظات",
+  "weeklySchedule": "الجدول الأسبوعي",
+  "noScheduleSet": "لا يوجد جدول محدد",
+  "deleteGroup": "حذف المجموعة",
+  "deleteGroupConfirm": "هل أنت متأكد من حذف هذه المجموعة؟ جميع بيانات الطلاب والغياب والمدفوعات سيتم حذفها نهائياً.",
+  "editGroup": "تعديل المجموعة",
+  "newGroupTitle": "مجموعة جديدة",
+  "saveChanges": "حفظ التعديلات",
+  "createGroup": "إنشاء المجموعة",
+  "basicInfo": "المعلومات الأساسية",
+  "groupName": "اسم المجموعة",
+  "groupNameHint": "مثال: سنتر الفيزياء",
+  "groupType": "نوع المجموعة",
+  "subject": "المادة",
+  "subjectHint": "مثال: الفيزياء",
+  "defaultPrice": "السعر الشهري الافتراضي (ج)",
+  "groupDiscount": "خصم المجموعة الشهري (ج)",
+  "actualPrice": "السعر الفعلي: {price} ج",
+  "@actualPrice": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "locationHint": "عنوان السنتر أو المكان",
+  "notesHint": "ملاحظات إضافية...",
+  "addTime": "إضافة موعد",
+  "to": "إلى",
+  "saving": "جاري الحفظ...",
+  "groupCreated": "تم إنشاء المجموعة",
+  "changesSaved": "تم حفظ التعديلات",
+  "errorPrefix": "حدث خطأ: {error}",
+  "@errorPrefix": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+
+  "students": "الطلاب",
+  "searchStudentHint": "بحث عن طالب...",
+  "noStudentsFound": "لا يوجد طلاب في هذه المجموعة",
+  "addStudent": "إضافة طالب",
+  "editStudent": "تعديل طالب",
+  "newStudentTitle": "طالب جديد",
+  "studentName": "اسم الطالب",
+  "studentNameHint": "الاسم الثلاثي أو الرباعي",
+  "gender": "النوع",
+  "male": "ذكر",
+  "female": "أنثى",
+  "phoneNumber": "رقم الهاتف",
+  "parentPhone": "رقم ولي الأمر",
+  "isFreeStudent": "طالب مجاني (بدون مصاريف)",
+  "barcode": "الباركود",
+  "barcodeHint": "اتركه فارغاً للتوليد التلقائي",
+  "studentCreated": "تمت إضافة الطالب بنجاح",
+  "studentUpdated": "تم تحديث بيانات الطالب",
+
+  "studentProfile": "بروفايل الطالب",
+  "attendance": "الغياب",
+  "payments": "المالية",
+  "results": "النتائج",
+  "personalInfo": "المعلومات الشخصية",
+  "financialStatus": "الموقف المالي",
+  "attendanceRate": "نسبة الحضور",
+  "averageScore": "متوسط الدرجات",
+  "lastQuiz": "آخر امتحان",
+  "free": "مجاني",
+  "active": "نشط",
+  "inactive": "غير نشط",
+  "whatsappGenericGreeting": "مرحباً، بخصوص الطالب {name}...",
+  "@whatsappGenericGreeting": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+
+  "year_1_sec": "الأول الثانوي",
+  "year_2_sec": "الثاني الثانوي",
+  "year_3_sec": "الثالث الثانوي",
+  "year_6_primary": "الصف السادس الابتدائي",
+  "year_5_primary": "الصف الخامس الابتدائي",
+  "year_4_primary": "الصف الرابع الابتدائي",
+  "year_3_primary": "الصف الثالث الابتدائي",
+  "year_2_primary": "الصف الثاني الابتدائي",
+  "year_1_primary": "الصف الأول الابتدائي",
+  "year_3_prep": "الثالث الإعدادي",
+  "year_2_prep": "الثاني الإعدادي",
+  "year_1_prep": "الأول الإعدادي",
+  "year_university": "طالب جامعي",
+  "year_other": "أخرى",
+
+  "exportStudentListSoon": "سيتم تفعيل استخراج كشف الطلاب قريباً",
+  "searchByNameOrPhone": "بحث بالاسم أو الرقم...",
+  "allGroupsFilter": "كل المجموعات",
+  "addFirstStudent": "أضف أول طالب",
+  "addStudent": "إضافة طالب",
+  "noStudentsFound": "لا يوجد طلاب",
+  "studentProfile": "ملف",
+  "studentsRegisteredCount": "{count} طالب مسجل",
+  "@studentsRegisteredCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "deleteStudentTitle": "حذف الطالب",
+  "deleteStudentConfirm": "سيتم حذف الطالب وجميع بياناته ونتائجه نهائياً.",
+  "deletePermanently": "حذف نهائياً",
+  "personalData": "البيانات الشخصية",
+  "studentFullName": "الاسم الثلاثي *",
+  "studentNameHintExample": "مثال: أحمد محمد محمود",
+  "studentNameRequired": "مطلوب إدخال الاسم",
+  "studentPhone": "رقم هاتف الطالب",
+  "parentPhone1": "رقم ولي الأمر 1 *",
+  "parentPhoneRequired": "مطلوب للتواصل",
+  "parentPhone2": "رقم ولي الأمر 2",
+  "emergencyPhoneHint": "رقم إضافي للطوارئ",
+  "landline": "تليفون أرضي",
+  "optional": "اختياري",
+  "address": "العنوان",
+  "addressHint": "منطقة السكن / الشارع",
+  "academicData": "البيانات الدراسية",
+  "targetGroup": "المجموعة المستهدفة *",
+  "selectGroupHint": "اختر مجموعة...",
+  "groupRequired": "مطلوب اختيار مجموعة",
+  "errorLoadingGroups": "خطأ في تحميل المجموعات",
+  "discountsAndExemptions": "الخصومات والإعفاءات",
+  "freeStudentToggle": "طالب مجاني / حالة خاصة",
+  "fullExemption": "إعفاء كامل من المصروفات",
+  "hasIndividualDiscount": "هل لدى الطالب خصم فردي؟",
+  "plusGroupDiscount": "بالإضافة لخصم المجموعة إن وجد",
+  "discountValue": "قيمة الخصم بالجنيه. مثال: 50",
+  "studentNotes": "ملاحظات عن الطالب",
+  "studentNotesHint": "ملاحظات للمنصة السكرتارية أو المدرس فقط...",
+  "studentNotFound": "الطالب غير موجود",
+  "noPhoneFound": "لا يوجد رقم هاتف",
+  "portalCodeGenerated": "تم توليد كود البوابة بنجاح",
+  "groupNotSet": "بدون مجموعة",
+  "outstanding": "متأخرات",
+  "creditBalance": "رصيد دائن",
+  "totalPaid": "إجمالي المدفوع",
+  "thisMonth": "هذا الشهر",
+  "requiredAmount": "المطلوب",
+  "paidAmount": "المدفوع",
+  "remainingAmount": "المتبقي",
+  "portalCode": "كود بوابة الطالب",
+  "inactivePortalCode": "غير مفعل",
+  "activateCode": "تفعيل الكود",
+  "codeCopied": "تم نسخ الكود إلى الحافظة",
+  "performance": "الأداء",
+  "attendanceTab": "الحضور",
+  "paymentsTab": "المدفوعات",
+  "gradesTab": "الدرجات",
+  "quizzesTab": "الاختبارات",
+  "reportsTab": "التقارير",
+  "overallPerformanceSummary": "ملخص الأداء العام",
+  "attendanceRateLabel": "نسبة الحضور",
+  "excellent": "ممتاز",
+  "needsImprovement": "يحتاج تحسين",
+  "low": "منخفض",
+  "acceptable": "مقبول",
+  "needsFollowUp": "يحتاج متابعة",
+  "higherThanGroup": "أعلى من المجموعة بـ",
+  "lowerThanGroup": "أقل من المجموعة بـ",
+  "overallComparison": "مقارنة شاملة بالمجموعة",
+  "noAttendanceRecords": "لا يوجد سجلات حضور",
+  "noPaymentRecords": "لا يوجد سجلات دفع",
+  "noGradesFound": "لا توجد درجات",
+  "noQuizzesFound": "لا توجد اختبارات",
+  "notEnoughQuizzesForChart": "لا توجد اختبارات كافية لرسم المنحنى",
+  "studentProgressChart": "تطور مستوى الطالب (الاختبارات)",
+  "deleteFromGroupConfirm": "سيتم حذف الطالب من هذه المجموعة. هل أنت متأكد؟",
+  "editStudent": "تعديل بيانات الطالب",
+  "newStudentLabel": "طالب جديد",
+  "saving": "جاري الحفظ...",
+  "registerStudent": "تسجيل الطالب",
+  "selectGroup": "يرجى اختيار المجموعة",
+  "studentRegisteredSuccess": "تم تسجيل الطالب بنجاح",
+  "changesSaved": "تم حفظ التعديلات",
+  "male": "ذكر",
+  "female": "أنثى",
+  "academicYearLabel": "السنة الدراسية",
+  "extra": "إضافي",
+  "genderLabel": "نوع الطالب",
+  "required": "مطلوب",
+  "errorOccurred": "حدث خطأ: {error}",
+  "@errorOccurred": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "whatsapp": "واتساب",
+  "edit": "تعديل",
+  "payment": "دفعة",
+  "complete": "مكتمل",
+  "averageGrade": "متوسط الدرجات",
+  "monthlyPrice": "السعر الشهري",
+  "present": "حاضر",
+  "absent": "غائب",
+  "higherThanGroupWithVal": "أعلى من المجموعة بـ {value}%",
+  "@higherThanGroupWithVal": {
+    "placeholders": {
+      "value": { "type": "String" }
+    }
+  },
+  "lowerThanGroupWithVal": "أقل من المجموعة بـ {value}%",
+  "@lowerThanGroupWithVal": {
+    "placeholders": {
+      "value": { "type": "String" }
+    }
+  },
+  "incomplete": "غير مكتمل",
+  "comparisonToGroup": "مقارنة بالمجموعة",
+  "student": "الطالب",
+  "group": "المجموعة",
+  "groupDetailsTitle": "تفاصيل المجموعة",
+  "editGroupTooltip": "تعديل المجموعة",
+  "statMonthlyRequired": "المطلوب الشهري",
+  "statOutstandingAmt": "المتأخرات",
+  "studentsWithCount": "الطلاب ({count})",
+  "@studentsWithCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "searchStudentsHint": "بحث عن طالب...",
+  "noStudentsInGroup": "لا يوجد طلاب في هذه المجموعة",
+  "noResultsFound": "لا توجد نتائج",
+  "discountAmount": "خصم {amount}",
+  "@discountAmount": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
+  "pricePerMonthLabel": "{price} ج/شهر",
+  "@pricePerMonthLabel": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "overdueAmtWithLabel": "{amount} ج متأخر",
+  "@overdueAmtWithLabel": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
+  "creditAmtWithLabel": "رصيد {amount} ج",
+  "@creditAmtWithLabel": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
+  "completeLabel": "مكتمل",
+  "studentFile": "ملف",
+  "deleteFromGroupConfirm": "سيتم حذف الطالب من هذه المجموعة. هل أنت متأكد؟",
+  "deleteAction": "حذف",
+  "teacherFullName": "الاسم الكامل",
+  "teacherSubject": "المادة / التخصص",
+  "profileUpdateSuccess": "تم تحديث الملف الشخصي بنجاح",
+  "invalidName": "يرجى إدخال اسم صحيح",
+  "invalidPhone": "يرجى إدخال رقم هاتف صحيح",
+  "invalidSubject": "يرجى إدخال المادة الدراسية",
+  "selectImageSource": "اختر مصدر الصورة",
+  "camera": "الكاميرا",
+  "gallery": "المعرض",
+  "quizzes": "الاختبارات",
+  "honorBoard": "لوحة الشرف",
+  "expenses": "المصاريف",
+  "financials": "الشؤون المالية",
+  "aboutApp": "عن التطبيق",
+  "privacyPolicy": "سياسة الخصوصية",
+  "profile": "الملف الشخصي",
+  "saveChanges": "حفظ التعديلات",
+  "email": "البريد الإلكتروني",
+  "phone": "رقم الهاتف",
+  "userNotConnected": "المستخدم غير متصل",
+  "updateError": "خطأ في التحديث: {error}",
+  "@updateError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "attendance": "التحضير",
+  "attendanceSubtitle": "متابعة حضور الطلاب والحصص",
+  "financialsSubtitle": "إدارة المدفوعات والتحصيل والإحصائيات",
+  "expensesSubtitle": "متابعة المصروفات اليومية والتكاليف",
+  "quizzesSubtitle": "إدارة الامتحانات والنتائج والإحصائيات",
+  "honorBoardSubtitle": "عرض وإدارة حصالة الطلاب المتفوقين",
+  "academicManagement": "الإدارة الأكاديمية",
+  "financialManagement": "الإدارة المالية",
+  "studentExcellence": "تميز الطلاب",
+  "freeStudent": "مجاني",
+  "addStudentLabel": "إضافة طالب",
+  "fullNameLabel": "الاسم الثلاثي *",
+  "fullNameHint": "مثال: أحمد محمد محمود",
+  "nameRequired": "مطلوب إدخال الاسم",
+  "phoneFormatHint": "01xxxxxxxxxx",
+  "invalidPrice": "سعر غير صالح",
+  "discountGreaterPrice": "الخصم لا يمكن أن يكون أكبر من السعر",
+  "paymentsTitle": "المدفوعات",
+  "recordNewPayment": "تسجيل دفعة جديدة",
+  "recordPayment": "تسجيل الدفعة",
+  "pleaseSelectStudent": "يرجى اختيار الطالب",
+  "amountGreaterThanZero": "المبلغ يجب أن يكون أكبر من صفر",
+  "pleaseSelectMonth": "يرجى تحديد الشهر",
+  "freeStudentTitle": "طالب مجاني",
+  "freeStudentConfirmMessage": "هذا الطالب مجاني، هل تريد تسجيل دفعة استثنائية؟",
+  "paymentRecordedSuccessfully": "تم تسجيل الدفعة بنجاح ✓",
+  "groupOptionalFilter": "المجموعة (اختياري للفلترة)",
+  "selectGroupFilter": "اختر مجموعة للفلترة...",
+  "allStudents": "كل الطلاب",
+  "studentRequired": "الطالب *",
+  "selectStudent": "اختر طالب...",
+  "freeLabelSuffix": " (مجاني)",
+  "freeStudentSuffix": "طالب مجاني",
+  "requiredAmountSuffix": "المطلوب: {amount} {currency}/شهر",
+  "amountCurrencyRequired": "المبلغ ({currency}) *",
+  "partialPaymentLabel": "⚠️ دفع جزئي (متبقي {amount} {currency})",
+  "excessPaymentLabel": "✅ رصيد دائن {amount} {currency}",
+  "paymentCompletedLabel": "✅ مكتمل",
+  "monthRequired": "الشهر *",
+  "paymentMethod": "طريقة الدفع",
+  "paymentDate": "تاريخ الدفع",
+  "notesHint": "ملاحظات...",
+  "autoReceiptNumber": "رقم الإيصال التلقائي: #{number}",
+  "deletePaymentTitle": "حذف الدفعة",
+  "deletePaymentConfirmMessage": "هل تريد حذف هذه الدفعة نهائياً؟",
+  "paymentDeletedMessage": "تم حذف الدفعة",
+  "outstandingPaymentsTitle": "المتأخرات",
+  "searchPaymentHint": "بحث باسم الطالب أو رقم الإيصال...",
+  "allGroups": "كل المجموعات",
+  "noPaymentsFound": "لا توجد مدفوعات",
+  "totalPaymentsSummary": "الإجمالي: {amount} {currency} ({count} سجل)",
+  "receiptNumberLabel": "رقم الإيصال: #{number}",
+  "addPaymentTooltip": "إضافة دفعة",
+  "noPhoneNumberRegistered": "لا يوجد رقم هاتف مسجل",
+  "outstandingStudentsCount": "طلاب متأخرين",
+  "totalOutstandingAmount": "إجمالي المتأخرات",
+  "filterByGroup": "فلترة حسب المجموعة",
+  "noOutstandingPaymentsSuccess": "لا توجد متأخرات لهذا الشهر!",
+  "allStudentsPaidMessage": "جميع الطلاب سددوا مستحقاتهم بالكامل",
+  "paidAmountSuffix": "مدفوع: {amount}",
+  "remind": "تذكير",
+  "receive": "استلام",
+  "manageExpensesTitle": "إدارة المصروفات",
+  "expenseRecordedSuccessfully": "تم تسجيل المصروف بنجاح ✓",
+  "deleteExpenseTitle": "حذف المصروف",
+  "deleteExpenseConfirmMessage": "هل تريد حذف هذا المصروف؟",
+  "totalExpensesAmount": "إجمالي المصروفات",
+  "transactionsCount": "عدد الحركات",
+  "allCategories": "كل التصنيفات",
+  "noExpensesRecorded": "لا توجد مصروفات مسجلة",
+  "addExpense": "إضافة مصروف",
+  "recordNewExpense": "سجل مصروف جديد",
+  "titleRequired": "العنوان *",
+  "forMonth": "عن شهر",
+  "recurringMonthlyExpense": "مصروف متكرر شهرياً",
+  "saveExpenseButton": "حفظ المصروف",
+  "method_cash": "نقدي",
+  "method_bankTransfer": "تحويل بنكي",
+  "method_vodafoneCash": "فودافون كاش",
+  "category_rent": "إيجار",
+  "category_salaries": "رواتب",
+  "category_supplies": "مستلزمات",
+  "category_utilities": "مرافق",
+  "category_maintenance": "صيانة",
+  "category_marketing": "تسويق",
+  "currency_egp": "ج",
+  "monthLabel": "الشهر",
+  "outstandingPaymentWhatsappTemplate": "عزيزي ولي أمر {name}،\nيرجى سداد المتأخرات بمبلغ {balance} {currency} عن شهر {month}.\nشكراً لتعاونكم.",
+  "outstandingEntrySubtitle": "{group} · المطلوب: {required} · مدفوع: {paid}",
+  "recordNewExpense": "سجل مصروف جديد",
+  "saveExpense": "حفظ المصروف",
+  "questionsCount": "{count} سؤال",
+  "resultsCount": "{count} نتيجة",
+  "publish": "نشر",
+  "close": "إغلاق",
+  "results": "النتائج",
+  "quizzesTitle": "الاختبارات",
+  "newQuiz": "اختبار جديد",
+  "averageResults": "متوسط النتائج",
+  "totalQuizzes": "إجمالي الاختبارات",
+  "noQuizzesFound": "لم يتم العثور على اختبارات",
+  "createFirstQuizMessage": "قم بإنشاء أول اختبار لك لبدء تتبع تقدم الطلاب.",
+  "activeStatus": "نشط",
+  "draftStatus": "مسودة",
+  "closedStatus": "مغلق",
+  "deleteQuizTitle": "حذف الاختبار",
+  "deleteQuizConfirm": "هل أنت متأكد من حذف هذا الاختبار؟ سيتم فقدان جميع النتائج المتعلقة به.",
+  "honorBoardTitle": "لوحة الشرف",
+  "createQuiz": "إنشاء اختبار",
+  "quizTitle": "عنوان الاختبار *",
+  "targetGroupLabel": "المجموعة المستهدفة *",
+  "examDateLabel": "تاريخ الاختبار",
+  "durationLabel": "المدة (دقيقة)",
+  "questionsCountHeader": "الأسئلة ({count})",
+  "@questionsCountHeader": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mcqQuestion": "سؤال اختيار متعدد",
+  "trueFalseQuestion": "سؤال صح/خطأ",
+  "marksLabel": "درجة",
+  "questionHint": "اكتب نص السؤال هنا...",
+  "optionsLabel": "الخيارات (حدد الإجابة الصحيحة ✓)",
+  "optionHint": "الخيار {number}",
+  "@optionHint": {
+    "placeholders": {
+      "number": { "type": "int" }
+    }
+  },
+  "tooltipMcq": "سؤال اختياري",
+  "tooltipTrueFalse": "صح أو خطأ",
+  "completeBasicInfo": "يرجى إكمال البيانات الأساسية",
+  "completeAllQuestions": "يرجى إكمال جميع الأسئلة والإجابات الصحيحة",
+  "quizSavedSuccess": "تم حفظ الاختبار بنجاح ✓",
+  "saveError": "خطأ أثناء الحفظ: {error}",
+  "@saveError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "quizResults": "نتائج الاختبار",
+  "noResultsYet": "لا يوجد نتائج لهذا الاختبار بعد",
+  "resultsWillShowHere": "سيتم عرض النتائج هنا فور تسليم الطلاب للحلول",
+  "searchByStudent": "بحث باسم الطالب...",
+  "submittedInfo": "تم التسليم",
+  "avgScore": "متوسط الدرجات",
+  "highestScore": "أعلى درجة",
+  "submissionDate": "تاريخ التسليم: {date}",
+  "@submissionDate": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+  "shareWithParent": "إرسال لولي الأمر",
+  "noPhoneRegistered": "لا يوجد رقم هاتف مسجل",
+  "whatsappQuizResultMessage": "نشيد بعلمكم بنتيجة الطالب {studentName} في اختبار \"{quizTitle}\":\nالدرجة: {score} من {totalMarks}\nالنسبة: {percentage}%\nشكراً لمتابعتكم.",
+  "@whatsappQuizResultMessage": {
+    "placeholders": {
+      "studentName": { "type": "String" },
+      "quizTitle": { "type": "String" },
+      "score": { "type": "String" },
+      "totalMarks": { "type": "int" },
+      "percentage": { "type": "String" }
+    }
+  },
+  "groupLabel": "المجموعة",
+  "allGroups": "جميع المجموعات",
+  "noSufficientData": "لا توجد بيانات كافية",
+  "pointsLabel": "نقطة",
+  "loadingData": "جاري التحميل...",
+  "errorLoadingData": "خطأ في تحميل البيانات: {error}",
+  "@errorLoadingData": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "home": "الرئيسية",
+  "myAttendance": "حضوري",
+  "attendanceHistory": "سجل حضوري",
+  "present": "حضور",
+  "absent": "غياب",
+  "noAttendanceFound": "لا يوجد سجل حضور حتى الآن",
+  "attendanceWillShowHere": "سيظهر سجل حضورك هنا بمجرد تسجيل المعلم له.",
+  "attendanceRate": "نسبة الحضور",
+  "myGrades": "درجاتي",
+  "myGradesAndResults": "درجاتي ونتائجي",
+  "scoreOutOf": "الدرجة: {score} من {max}",
+  "@scoreOutOf": {
+    "placeholders": {
+      "score": { "type": "String" },
+      "max": { "type": "int" }
+    }
+  },
+  "noGradesFound": "لا توجد درجات مسجلة بعد",
+  "gradesWillShowHere": "ستظهر نتائج اختباراتك هنا فور رصدها.",
+  "lastScore": "آخر درجة",
+  "overallPerformance": "الأداء الأكاديمي العام",
+  "exceptionalPerformance": "أداء استثنائي! أنت من المتفوقين. 🌟",
+  "veryGoodPerformance": "أداء جيد جداً، استمر في التقدم. 👍",
+  "goodPerformance": "أداء مقبول، تحتاج لمزيد من الجهد. 📚",
+  "needsImprovement": "مستواك يحتاج لعناية واهتمام أكبر. لا تستسلم! 💪",
+  "notebooksStore": "متجر المذكرات",
+  "store": "المتجر",
+  "whatsappOpenError": "فشل فتح الواتساب. يرجى التأكد من تثبيت التطبيق.",
+  "storeIsEmpty": "المتجر فارغ حالياً",
+  "noItemsAvailable": "لا توجد مذكرات أو كتب متاحة للطلب في الوقت الحالي. يرجى مراجعة المعلم.",
+  "teacherPhoneUnavailable": "عذراً، رقم هاتف المعلم غير متوفر حالياً لإتمام الطلب.",
+  "whatsappStoreOrderMessage": "مرحباً، أود طلب: {itemTitle}\nالتصنيف: {itemCategory}\nالسعر: {itemPrice} ج.م\nالاسم: {studentName}",
+  "@whatsappStoreOrderMessage": {
+    "placeholders": {
+      "itemTitle": { "type": "String" },
+      "itemCategory": { "type": "String" },
+      "itemPrice": { "type": "double" },
+      "studentName": { "type": "String" }
+    }
+  },
+  "currencyEgp": "ج.م",
+  "orderNow": "اطلب الآن",
+  "welcomeBack": "أهلاً بك،",
+  "currentGroup": "المجموعة الحالية",
+  "academicYear": "السنة الدراسية",
+  "keepGoing": "استمر في الاجتهاد يا {name}! 🚀",
+  "@keepGoing": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "announcementsAndAlerts": "الإعلانات والتنبيهات",
+  "privateMessage": "رسالة خاصة",
+  "noNewNotifications": "لا توجد تنبيهات جديدة حالياً. يومك سعيد!",
+  "errorLoadingAnnouncements": "خطأ في تحميل التنبيهات: {error}",
+  "@errorLoadingAnnouncements": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "dayLabel": "يوم",
+  "latestAnnouncements": "أحدث الإعلانات",
+  "noAnnouncements": "لا توجد إعلانات حالياً.",
+  "errorOccurred": "حدث خطأ ما",
+  "performanceFeedback": "{status}",
+  "@performanceFeedback": {
+    "placeholders": {
+      "status": { "type": "String" }
+    }
+  },
+  "performanceExceptional": "أداء استثنائي! أنت من المتفوقين. 🌟",
+  "performanceDoingGreat": "أداء جيد جداً، استمر في التقدم. 👍",
+  "performanceAcceptable": "أداء مقبول، تحتاج لمزيد من الجهد. 📚",
+  "performanceNeedsAttention": "مستواك يحتاج لعناية واهتمام أكبر. لا تستسلم! 💪",
+  "method_cash": "نقدي",
+  "method_bankTransfer": "تحويل بنكي",
+  "method_vodafoneCash": "فودافون كاش",
+  "method_other": "أخرى",
+  "deleteExpenseConfirm": "هل أنت متأكد من حذف هذا المصروف؟",
+  "totalExpenses": "إجمالي المصاريف",
+  "titleLabel": "العنوان",
+  "amountLabel": "المبلغ",
+  "categoryLabel": "الفئة",
+  "notesLabel": "ملاحظات",
+  "recurringExpenseLabel": "مصروف متكرر",
+  "freeBadge": "مجاني",
+  "paymentStatusCompleted": "تم دفع المبلغ بالكامل",
+  "delete": "حذف",
+  "confirmLogout": "تأكيد تسجيل الخروج",
+  "logoutConfirmationMessage": "هل أنت متأكد من رغبتك في تسجيل الخروج من بوابة الطالب؟",
+  "cancel": "إلغاء",
+  "logout": "تسجيل الخروج",
+  "expenseRecordedSuccess": "تم تسجيل المصروف بنجاح",
+  "category_rent": "إيجار",
+  "category_salaries": "رواتب",
+  "category_supplies": "مستلزمات",
+  "category_utilities": "مرافق",
+  "category_maintenance": "صيانة",
+  "category_marketing": "تسويق",
+  "category_other": "أخرى",
+  "suggestionAttendanceTitle": "تنبيه غياب",
+  "suggestionAttendanceMessage": "هناك {count} غيابات اليوم. هل تريد إرسال تنبيهات واتساب؟",
+  "@suggestionAttendanceMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "welcome": "مرحباً بك!",
+  "welcomeMessage": "لديك {count} طالب نشط في مجموعاتك حالياً.",
+  "@welcomeMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "suggestionGradingTitle": "تصحيح الاختبارات",
+  "suggestionGradingMessage": "اختبار {title} يحتاج لتصحيح {count} طلاب.",
+  "@suggestionGradingMessage": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "count": { "type": "int" }
+    }
+  },
+  "suggestionGradingTaskTitle": "تصحيح {title}",
+  "sendInstantMessages": "إرسال رسائل فورية"
+}
+

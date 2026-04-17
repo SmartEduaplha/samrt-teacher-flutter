@@ -1,0 +1,30 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "smart-teacher-assistant-25",
+          "appId": "1:718868725787:android:43a84fa0577dd42a5db8be",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "smart-teacher-assistant-25",
+          "configurations": {
+            "android": "1:718868725787:android:43a84fa0577dd42a5db8be",
+            "ios": "1:718868725787:ios:d5f86e434555f7825db8be",
+            "macos": "1:718868725787:ios:d5f86e434555f7825db8be",
+            "web": "1:718868725787:web:38c93d9184ad2c795db8be",
+            "windows": "1:718868725787:web:3be44e49d351966f5db8be"
+          }
+        }
+      }
+    }
+  },
+  "auth": {
+    "providers": {
+      "emailPassword": true
+    }
+  }
+}
