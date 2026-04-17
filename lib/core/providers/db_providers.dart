@@ -62,12 +62,9 @@ final groupsProvider = StreamProvider<List<GroupModel>>((ref) {
 });
 
 /// المجموعات النشطة فقط
-final activeGroupsProvider = StreamProvider<List<GroupModel>>((ref) {
-  final groupsAsync = ref.watch(groupsProvider);
-  return groupsAsync.when(
-    data: (groups) => Stream.value(groups.where((g) => g.isActive).toList()),
-    loading: () => const Stream.empty(),
-    error: (e, st) => Stream.error(e, st),
+final activeGroupsProvider = Provider<AsyncValue<List<GroupModel>>>((ref) {
+  return ref.watch(groupsProvider).whenData(
+    (groups) => groups.where((g) => g.isActive).toList(),
   );
 });
 

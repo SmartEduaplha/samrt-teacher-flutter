@@ -1156,6 +1156,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get errorLoadingGroups => 'خطأ في تحميل المجموعات';
 
   @override
+  String get noGroupsForYear => 'لا توجد مجموعات نشطة لهذه السنة الدراسية';
+
+  @override
   String get discountsAndExemptions => 'الخصومات والإعفاءات';
 
   @override

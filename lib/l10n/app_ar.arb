@@ -524,6 +524,7 @@
   "selectGroupHint": "اختر مجموعة...",
   "groupRequired": "مطلوب اختيار مجموعة",
   "errorLoadingGroups": "خطأ في تحميل المجموعات",
+  "noGroupsForYear": "لا توجد مجموعات نشطة لهذه السنة الدراسية",
   "discountsAndExemptions": "الخصومات والإعفاءات",
   "freeStudentToggle": "طالب مجاني / حالة خاصة",
   "fullExemption": "إعفاء كامل من المصروفات",

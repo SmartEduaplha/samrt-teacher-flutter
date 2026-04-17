@@ -303,8 +303,24 @@ class _StudentFormScreenState extends ConsumerState<StudentFormScreen> {
                                 child: _buildFieldWrapper(context.l10n.targetGroup, groupsAsync.when(
                                   data: (groups) {
                                     final filtered = groups.where((g) => g.academicYear == _selectedYear).toList();
+                                    
+                                    // Ensure _selectedGroup is valid for the current filtered list
+                                    // if not, reset it to null (unless it's null already)
+                                    final bool isValid = filtered.any((g) => g.id == _selectedGroup);
+                                    final String? safeValue = isValid ? _selectedGroup : null;
+                                    
+                                    if (filtered.isEmpty) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(top: 8),
+                                        child: Text(
+                                          context.l10n.noGroupsForYear,
+                                          style: TextStyle(color: colorScheme.error, fontSize: 12),
+                                        ),
+                                      );
+                                    }
+
                                     return DropdownButtonFormField<String>(
-                                      initialValue: _selectedGroup,
+                                      initialValue: safeValue,
                                       decoration: _inputDec(context.l10n.selectGroupHint),
                                       items: filtered.map((g) => DropdownMenuItem(value: g.id, child: Text(g.name))).toList(),
                                       onChanged: (v) => setState(() => _selectedGroup = v),
@@ -312,8 +328,14 @@ class _StudentFormScreenState extends ConsumerState<StudentFormScreen> {
                                       isExpanded: true,
                                     );
                                   },
-                                  loading: () => const Center(child: CircularProgressIndicator()),
-                                  error: (_, _) => Text(context.l10n.errorLoadingGroups),
+                                  loading: () => const SizedBox(
+                                    height: 48,
+                                    child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                                  ),
+                                  error: (_, _) => Text(
+                                    context.l10n.errorLoadingGroups,
+                                    style: TextStyle(color: colorScheme.error, fontSize: 12),
+                                  ),
                                 )),
                               ),
                             ],

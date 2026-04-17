@@ -2116,6 +2116,12 @@ abstract class AppLocalizations {
   /// **'خطأ في تحميل المجموعات'**
   String get errorLoadingGroups;
 
+  /// No description provided for @noGroupsForYear.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد مجموعات نشطة لهذه السنة الدراسية'**
+  String get noGroupsForYear;
+
   /// No description provided for @discountsAndExemptions.
   ///
   /// In ar, this message translates to:

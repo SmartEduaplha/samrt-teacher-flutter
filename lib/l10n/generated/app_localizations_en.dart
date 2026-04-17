@@ -1158,6 +1158,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorLoadingGroups => 'Error loading groups';
 
   @override
+  String get noGroupsForYear => 'No active groups for this academic year';
+
+  @override
   String get discountsAndExemptions => 'Discounts & Exemptions';
 
   @override

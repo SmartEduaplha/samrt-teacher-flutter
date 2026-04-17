@@ -526,6 +526,7 @@
   "selectGroupHint": "Select a group...",
   "groupRequired": "Group selection is required",
   "errorLoadingGroups": "Error loading groups",
+  "noGroupsForYear": "No active groups for this academic year",
   "discountsAndExemptions": "Discounts & Exemptions",
   "freeStudentToggle": "Free Student / Special Case",
   "fullExemption": "Full exemption from fees",
