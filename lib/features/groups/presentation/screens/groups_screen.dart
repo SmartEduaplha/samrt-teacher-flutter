@@ -43,33 +43,38 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.menu_book_rounded,
-                              size: 26, color: Theme.of(context).colorScheme.primary),
-                          const SizedBox(width: 8),
-                          Text(
-                            context.l10n.groupsTitle,
-                            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      groupsAsync.when(
-                        data: (groups) => Text(
-                          context.l10n.groupsCount(groups.length),
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.menu_book_rounded,
+                                size: 26, color: Theme.of(context).colorScheme.primary),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                context.l10n.groupsTitle,
+                                style: Theme.of(context).textTheme.headlineSmall,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
                         ),
-                        loading: () => const Text('...', style: TextStyle(fontSize: 12)),
-                        error: (_, _) => const Text('', style: TextStyle(fontSize: 12)),
-                      ),
-                    ],
+                        const SizedBox(height: 4),
+                        groupsAsync.when(
+                          data: (groups) => Text(
+                            context.l10n.groupsCount(groups.length),
+                            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                          loading: () => Text('...', style: Theme.of(context).textTheme.labelMedium),
+                          error: (_, _) => Text('', style: Theme.of(context).textTheme.labelMedium),
+                        ),
+                      ],
+                    ),
                   ),
                   Container(
                     decoration: BoxDecoration(
@@ -209,8 +214,9 @@ class _GroupsScreenState extends ConsumerState<GroupsScreen> {
                             const SizedBox(height: 16),
                             Text(
                               context.l10n.noGroupsFound,
-                              style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600, color: Colors.grey),
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                color: Colors.grey,
+                              ),
                             ),
                             const SizedBox(height: 16),
                             if (allGroups.isEmpty)

@@ -122,6 +122,12 @@ abstract class AppLocalizations {
   /// **'الطلاب'**
   String get navStudents;
 
+  /// No description provided for @navAttendance.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحضور'**
+  String get navAttendance;
+
   /// No description provided for @navMore.
   ///
   /// In ar, this message translates to:
@@ -1807,7 +1813,7 @@ abstract class AppLocalizations {
   /// No description provided for @attendance.
   ///
   /// In ar, this message translates to:
-  /// **'التحضير'**
+  /// **'حضور'**
   String get attendance;
 
   /// No description provided for @payments.
@@ -3895,6 +3901,162 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'إرسال رسائل فورية'**
   String get sendInstantMessages;
+
+  /// No description provided for @qrScanner.
+  ///
+  /// In ar, this message translates to:
+  /// **'ماسح QR'**
+  String get qrScanner;
+
+  /// No description provided for @attendanceMode.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل حضور'**
+  String get attendanceMode;
+
+  /// No description provided for @paymentMode.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل دفعة'**
+  String get paymentMode;
+
+  /// No description provided for @scanStudentQrHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'قم بمسح كود الطالب لتسجيل حضوره أو دفعته'**
+  String get scanStudentQrHint;
+
+  /// No description provided for @scanHistory.
+  ///
+  /// In ar, this message translates to:
+  /// **'سجل المسح'**
+  String get scanHistory;
+
+  /// No description provided for @exams.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاختبارات'**
+  String get exams;
+
+  /// No description provided for @pendingExams.
+  ///
+  /// In ar, this message translates to:
+  /// **'قيد الانتظار'**
+  String get pendingExams;
+
+  /// No description provided for @completedExams.
+  ///
+  /// In ar, this message translates to:
+  /// **'المكتملة'**
+  String get completedExams;
+
+  /// No description provided for @smartTools.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدوات ذكية'**
+  String get smartTools;
+
+  /// No description provided for @studentQrCode.
+  ///
+  /// In ar, this message translates to:
+  /// **'كود QR'**
+  String get studentQrCode;
+
+  /// No description provided for @submitExam.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسليم الاختبار'**
+  String get submitExam;
+
+  /// No description provided for @examResult.
+  ///
+  /// In ar, this message translates to:
+  /// **'نتيجة الاختبار'**
+  String get examResult;
+
+  /// No description provided for @timeLeft.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوقت المتبقي'**
+  String get timeLeft;
+
+  /// No description provided for @manualGradingNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count} سؤال يحتاج تصحيح يدوي من المعلم'**
+  String manualGradingNote(int count);
+
+  /// No description provided for @previous.
+  ///
+  /// In ar, this message translates to:
+  /// **'السابق'**
+  String get previous;
+
+  /// No description provided for @next.
+  ///
+  /// In ar, this message translates to:
+  /// **'التالي'**
+  String get next;
+
+  /// No description provided for @submitting.
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري التسليم...'**
+  String get submitting;
+
+  /// No description provided for @exitExam.
+  ///
+  /// In ar, this message translates to:
+  /// **'مغادرة الاختبار؟'**
+  String get exitExam;
+
+  /// No description provided for @exitExamWarning.
+  ///
+  /// In ar, this message translates to:
+  /// **'سيتم فقدان جميع إجاباتك إذا غادرت الآن. هل أنت متأكد؟'**
+  String get exitExamWarning;
+
+  /// No description provided for @backToExams.
+  ///
+  /// In ar, this message translates to:
+  /// **'العودة للاختبارات'**
+  String get backToExams;
+
+  /// No description provided for @startQuiz.
+  ///
+  /// In ar, this message translates to:
+  /// **'بدء الاختبار'**
+  String get startQuiz;
+
+  /// No description provided for @notLoggedIn.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يتم تسجيل الدخول'**
+  String get notLoggedIn;
+
+  /// No description provided for @showQrHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'أظهر هذا الكود للمعلم لتسجيل الحضور أو الدفع'**
+  String get showQrHint;
+
+  /// No description provided for @screenshotHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'يمكنك أخذ لقطة شاشة للاحتفاظ بالكود'**
+  String get screenshotHint;
+
+  /// No description provided for @noScansYet.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يوجد سجلات مسح بعد'**
+  String get noScansYet;
+
+  /// No description provided for @noScansYetHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'ستظهر سجلات المسح هنا بعد استخدام ماسح QR.'**
+  String get noScansYetHint;
 }
 
 class _AppLocalizationsDelegate

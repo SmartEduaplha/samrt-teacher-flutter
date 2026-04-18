@@ -33,7 +33,9 @@ class StudentDashboardScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: RefreshIndicator(
+      body: SafeArea(
+        bottom: true,
+        child: RefreshIndicator(
         onRefresh: () async {
           ref.invalidate(attendanceByStudentProvider(student.id));
           ref.invalidate(quizResultsByStudentProvider(student.id));
@@ -113,6 +115,7 @@ class StudentDashboardScreen extends ConsumerWidget {
 
             // ── Group Info ────────────────────────────────────────────────
             _buildInfoTile(
+              context,
               context.l10n.currentGroup,
               student.groupName,
               Icons.groups_rounded,
@@ -120,6 +123,7 @@ class StudentDashboardScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 12),
             _buildInfoTile(
+              context,
               context.l10n.academicYear,
               student.academicYear,
               Icons.school_rounded,
@@ -140,6 +144,7 @@ class StudentDashboardScreen extends ConsumerWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }
@@ -460,14 +465,14 @@ class StudentDashboardScreen extends ConsumerWidget {
             child: Icon(icon, color: color, size: 20),
           ),
           const SizedBox(height: 12),
-          Text(value, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          Text(title, style: TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant)),
+          Text(value, style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
+          Text(title, style: Theme.of(context).textTheme.labelSmall?.copyWith(color: colorScheme.onSurfaceVariant)),
         ],
       ),
     );
   }
 
-  Widget _buildInfoTile(String title, String value, IconData icon, ColorScheme colorScheme) {
+  Widget _buildInfoTile(BuildContext context, String title, String value, IconData icon, ColorScheme colorScheme) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -477,13 +482,14 @@ class StudentDashboardScreen extends ConsumerWidget {
       child: Row(
         children: [
           Icon(icon, color: colorScheme.primary, size: 24),
-          const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant)),
-              Text(value, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: Theme.of(context).textTheme.labelSmall?.copyWith(color: colorScheme.onSurfaceVariant)),
+                Text(value, style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600), maxLines: 1, overflow: TextOverflow.ellipsis),
+              ],
+            ),
           ),
         ],
       ),

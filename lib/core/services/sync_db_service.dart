@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'firebase_db_service.dart';
 import 'local_db_service.dart';
 
@@ -68,7 +69,7 @@ class SyncDbService<T> {
       await _remote.update(id, data);
     } catch (e) {
       // يمكن إضافة لوج هنا في حالة فشل التحديث السحابي (سيتم المزامنة لاحقاً عبر snapshots)
-      print('Firebase update failed for $id, will sync later: $e');
+      debugPrint('Firebase update failed for $id, will sync later: $e');
     }
     
     return localUpdate;

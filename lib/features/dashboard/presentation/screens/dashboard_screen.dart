@@ -223,19 +223,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               children: [
                 Text(
                   context.l10n.welcome,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
                 ),
                 Text(
                   user?.fullName ?? '...',
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: -0.5,
-                  ),
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w900, letterSpacing: -0.5),
                 ),
               ],
             ),
@@ -373,8 +365,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(g.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                              Text('${session.startTime} - ${session.endTime}', style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                              Text(g.name, style: Theme.of(context).textTheme.titleSmall, maxLines: 1, overflow: TextOverflow.ellipsis),
+                              Text('${session.startTime} - ${session.endTime}', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey)),
                             ],
                           ),
                         ),
@@ -382,8 +374,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text('$attendedCount / $groupStudentCount', 
-                              style: TextStyle(fontWeight: FontWeight.bold, color: isRecorded ? Colors.green : Colors.blue)),
-                            Text(context.l10n.studentsPresent, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+                              style: Theme.of(context).textTheme.titleSmall?.copyWith(color: isRecorded ? Colors.green : Colors.blue)),
+                            Text(context.l10n.studentsPresent, style: Theme.of(context).textTheme.labelSmall?.copyWith(color: Colors.grey)),
                           ],
                         ),
                       ],
@@ -430,8 +422,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(student.fullName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                                Text(student.groupName, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                                Text(student.fullName, style: Theme.of(context).textTheme.titleSmall, maxLines: 1, overflow: TextOverflow.ellipsis),
+                                Text(student.groupName, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey), maxLines: 1, overflow: TextOverflow.ellipsis),
                               ],
                             ),
                             Container(
@@ -441,7 +433,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text('${outstandingAmt.toStringAsFixed(0)} ${context.l10n.currency}', 
-                                style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.red, fontSize: 13)),
+                                style: Theme.of(context).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.bold, color: Colors.red)),
                             ),
                           ],
                         ),
@@ -468,9 +460,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(context.l10n.totalOutstandingThisMonth, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    Text(context.l10n.totalOutstandingThisMonth, style: Theme.of(context).textTheme.titleMedium),
                     Text('${totalOutstanding.toStringAsFixed(0)} ${context.l10n.currency}', 
-                      style: const TextStyle(fontWeight: FontWeight.w900, color: Colors.red, fontSize: 20)),
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w900, color: Colors.red)),
                   ],
                 ),
               ],
@@ -637,7 +629,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 Expanded(
                   child: Row(
                     children: [
-                      Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87)),
+                      Text(title, style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.black87), maxLines: 1, overflow: TextOverflow.ellipsis),
                       if (badge != null) ...[
                         const SizedBox(width: 10),
                         Container(

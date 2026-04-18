@@ -5,7 +5,6 @@ import '../../../../core/providers/student_auth_provider.dart';
 
 import '../../../../core/extensions/l10n_extensions.dart';
 import '../../../auth/presentation/screens/profile_screen.dart';
-import '../../../attendance/presentation/screens/attendance_screen.dart';
 
 import '../../../payments/presentation/screens/payments_list_screen.dart';
 import '../../../expenses/presentation/screens/expenses_screen.dart';
@@ -13,6 +12,7 @@ import '../../../groups/presentation/screens/groups_screen.dart';
 import '../../../honor_board/presentation/screens/honor_board_screen.dart';
 import '../../../quizzes/presentation/screens/quizzes_screen.dart';
 import '../../../tasks/presentation/screens/tasks_screen.dart';
+import '../../../qr_scanner/presentation/screens/qr_scanner_screen.dart';
 import 'settings_screen.dart';
 
 // Note: Ensure other feature screens are imported as needed. 
@@ -78,16 +78,6 @@ class MoreScreen extends ConsumerWidget {
                 ),
               ),
               _MenuItem(
-                icon: Icons.fact_check_rounded,
-                iconColor: Colors.teal,
-                title: context.l10n.attendance,
-                subtitle: context.l10n.attendanceSubtitle,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const AttendanceScreen()),
-                ),
-              ),
-              _MenuItem(
                 icon: Icons.task_rounded,
                 iconColor: Colors.amber[800]!,
                 title: context.l10n.viewTasks,
@@ -112,7 +102,28 @@ class MoreScreen extends ConsumerWidget {
 
           const SizedBox(height: 24),
 
+          // ── Smart Tools Section ────────────────────────────────────────
+          _SectionHeader(title: context.l10n.smartTools, icon: Icons.auto_awesome_rounded),
+          const SizedBox(height: 8),
+          _MenuCard(
+            items: [
+              _MenuItem(
+                icon: Icons.qr_code_scanner_rounded,
+                iconColor: Colors.teal,
+                title: context.l10n.qrScanner,
+                subtitle: context.l10n.scanStudentQrHint,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const QrScannerScreen()),
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 24),
+
           // ── Financial Management Section ─────────────────────────────
+
           _SectionHeader(title: context.l10n.financialManagement, icon: Icons.account_balance_wallet_rounded),
           const SizedBox(height: 8),
           _MenuCard(

@@ -14,6 +14,7 @@ import '../../features/grades/data/models/grade_model.dart';
 import '../../features/tasks/data/models/task_model.dart';
 import '../../features/store/data/models/store_item_model.dart';
 import '../../features/announcements/data/models/announcement_model.dart';
+import '../../features/qr_scanner/data/models/qr_scan_model.dart';
 
 
 
@@ -324,3 +325,18 @@ final studentAnnouncementsProvider = StreamProvider.family<List<AnnouncementMode
   }).toList());
 });
 
+// ─── QR Scans ─────────────────────────────────────────────────────────────────
+
+/// قاعدة بيانات مسح QR
+final qrScanDbProvider = Provider<SyncDbService<QrScanModel>>((ref) {
+  return SyncDbService<QrScanModel>(
+    collectionName: 'qr_scans',
+    fromMap: QrScanModel.fromMap,
+    toMap: (s) => s.toMap(),
+  );
+});
+
+/// قائمة كل سجلات مسح QR
+final qrScansProvider = StreamProvider<List<QrScanModel>>((ref) {
+  return ref.read(qrScanDbProvider).snapshots();
+});

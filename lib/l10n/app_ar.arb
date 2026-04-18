@@ -5,6 +5,7 @@
   "navHome": "الرئيسية",
   "navGroups": "المجموعات",
   "navStudents": "الطلاب",
+  "navAttendance": "الحضور",
   "navMore": "المزيد",
 
   "settings": "الإعدادات",
@@ -981,6 +982,38 @@
     }
   },
   "suggestionGradingTaskTitle": "تصحيح {title}",
-  "sendInstantMessages": "إرسال رسائل فورية"
+  "sendInstantMessages": "إرسال رسائل فورية",
+  "qrScanner": "ماسح QR",
+  "attendanceMode": "تسجيل حضور",
+  "paymentMode": "تسجيل دفعة",
+  "scanStudentQrHint": "قم بمسح كود الطالب لتسجيل حضوره أو دفعته",
+  "scanHistory": "سجل المسح",
+  "exams": "الاختبارات",
+  "pendingExams": "قيد الانتظار",
+  "completedExams": "المكتملة",
+  "smartTools": "أدوات ذكية",
+  "studentQrCode": "كود QR",
+  "submitExam": "تسليم الاختبار",
+  "examResult": "نتيجة الاختبار",
+  "timeLeft": "الوقت المتبقي",
+  "manualGradingNote": "{count} سؤال يحتاج تصحيح يدوي من المعلم",
+  "@manualGradingNote": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "previous": "السابق",
+  "next": "التالي",
+  "submitting": "جاري التسليم...",
+  "exitExam": "مغادرة الاختبار؟",
+  "exitExamWarning": "سيتم فقدان جميع إجاباتك إذا غادرت الآن. هل أنت متأكد؟",
+  "backToExams": "العودة للاختبارات",
+  "startQuiz": "بدء الاختبار",
+  "notLoggedIn": "لم يتم تسجيل الدخول",
+  "showQrHint": "أظهر هذا الكود للمعلم لتسجيل الحضور أو الدفع",
+  "screenshotHint": "يمكنك أخذ لقطة شاشة للاحتفاظ بالكود",
+  "noScansYet": "لا يوجد سجلات مسح بعد",
+  "noScansYetHint": "ستظهر سجلات المسح هنا بعد استخدام ماسح QR.",
+  "attendance": "حضور"
 }
 

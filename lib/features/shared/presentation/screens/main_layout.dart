@@ -3,6 +3,7 @@ import '../../../../core/extensions/l10n_extensions.dart';
 import '../../../dashboard/presentation/screens/dashboard_screen.dart';
 import '../../../groups/presentation/screens/groups_screen.dart';
 import '../../../students/presentation/screens/students_screen.dart';
+import '../../../attendance/presentation/screens/attendance_screen.dart';
 import 'more_screen.dart';
 
 class MainLayout extends StatefulWidget {
@@ -19,6 +20,7 @@ class _MainLayoutState extends State<MainLayout> {
     const DashboardScreen(),
     const GroupsScreen(),
     const StudentsScreen(),
+    const AttendanceScreen(),
     const MoreScreen(),
   ];
 
@@ -48,6 +50,11 @@ class _MainLayoutState extends State<MainLayout> {
             icon: const Icon(Icons.people_outline_rounded),
             selectedIcon: const Icon(Icons.people_rounded),
             label: context.l10n.navStudents,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.fact_check_outlined),
+            selectedIcon: const Icon(Icons.fact_check_rounded),
+            label: context.l10n.navAttendance,
           ),
           NavigationDestination(
             icon: const Icon(Icons.menu_rounded),

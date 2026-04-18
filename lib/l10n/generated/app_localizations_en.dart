@@ -21,6 +21,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navStudents => 'Students';
 
   @override
+  String get navAttendance => 'Attendance';
+
+  @override
   String get navMore => 'More';
 
   @override
@@ -2156,4 +2159,88 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sendInstantMessages => 'Send Instant Messages';
+
+  @override
+  String get qrScanner => 'QR Scanner';
+
+  @override
+  String get attendanceMode => 'Record Attendance';
+
+  @override
+  String get paymentMode => 'Record Payment';
+
+  @override
+  String get scanStudentQrHint =>
+      'Scan student QR code to record attendance or payment';
+
+  @override
+  String get scanHistory => 'Scan History';
+
+  @override
+  String get exams => 'Exams';
+
+  @override
+  String get pendingExams => 'Pending';
+
+  @override
+  String get completedExams => 'Completed';
+
+  @override
+  String get smartTools => 'Smart Tools';
+
+  @override
+  String get studentQrCode => 'QR Code';
+
+  @override
+  String get submitExam => 'Submit Exam';
+
+  @override
+  String get examResult => 'Exam Result';
+
+  @override
+  String get timeLeft => 'Time Left';
+
+  @override
+  String manualGradingNote(int count) {
+    return '$count question(s) need manual grading by teacher';
+  }
+
+  @override
+  String get previous => 'Previous';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get submitting => 'Submitting...';
+
+  @override
+  String get exitExam => 'Exit Exam?';
+
+  @override
+  String get exitExamWarning =>
+      'All your answers will be lost if you leave now. Are you sure?';
+
+  @override
+  String get backToExams => 'Back to Exams';
+
+  @override
+  String get startQuiz => 'Start Exam';
+
+  @override
+  String get notLoggedIn => 'Not logged in';
+
+  @override
+  String get showQrHint =>
+      'Show this code to your teacher to record attendance or payment';
+
+  @override
+  String get screenshotHint => 'You can take a screenshot to keep the code';
+
+  @override
+  String get noScansYet => 'No scans yet';
+
+  @override
+  String get noScansYetHint =>
+      'Scan records will appear here after using the QR scanner.';
 }

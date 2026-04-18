@@ -21,6 +21,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get navStudents => 'الطلاب';
 
   @override
+  String get navAttendance => 'الحضور';
+
+  @override
   String get navMore => 'المزيد';
 
   @override
@@ -995,7 +998,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get studentProfile => 'ملف';
 
   @override
-  String get attendance => 'التحضير';
+  String get attendance => 'حضور';
 
   @override
   String get payments => 'المالية';
@@ -2131,4 +2134,85 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get sendInstantMessages => 'إرسال رسائل فورية';
+
+  @override
+  String get qrScanner => 'ماسح QR';
+
+  @override
+  String get attendanceMode => 'تسجيل حضور';
+
+  @override
+  String get paymentMode => 'تسجيل دفعة';
+
+  @override
+  String get scanStudentQrHint => 'قم بمسح كود الطالب لتسجيل حضوره أو دفعته';
+
+  @override
+  String get scanHistory => 'سجل المسح';
+
+  @override
+  String get exams => 'الاختبارات';
+
+  @override
+  String get pendingExams => 'قيد الانتظار';
+
+  @override
+  String get completedExams => 'المكتملة';
+
+  @override
+  String get smartTools => 'أدوات ذكية';
+
+  @override
+  String get studentQrCode => 'كود QR';
+
+  @override
+  String get submitExam => 'تسليم الاختبار';
+
+  @override
+  String get examResult => 'نتيجة الاختبار';
+
+  @override
+  String get timeLeft => 'الوقت المتبقي';
+
+  @override
+  String manualGradingNote(int count) {
+    return '$count سؤال يحتاج تصحيح يدوي من المعلم';
+  }
+
+  @override
+  String get previous => 'السابق';
+
+  @override
+  String get next => 'التالي';
+
+  @override
+  String get submitting => 'جاري التسليم...';
+
+  @override
+  String get exitExam => 'مغادرة الاختبار؟';
+
+  @override
+  String get exitExamWarning =>
+      'سيتم فقدان جميع إجاباتك إذا غادرت الآن. هل أنت متأكد؟';
+
+  @override
+  String get backToExams => 'العودة للاختبارات';
+
+  @override
+  String get startQuiz => 'بدء الاختبار';
+
+  @override
+  String get notLoggedIn => 'لم يتم تسجيل الدخول';
+
+  @override
+  String get showQrHint => 'أظهر هذا الكود للمعلم لتسجيل الحضور أو الدفع';
+
+  @override
+  String get screenshotHint => 'يمكنك أخذ لقطة شاشة للاحتفاظ بالكود';
+
+  @override
+  String get noScansYet => 'لا يوجد سجلات مسح بعد';
+
+  @override
+  String get noScansYetHint => 'ستظهر سجلات المسح هنا بعد استخدام ماسح QR.';
 }

@@ -5,6 +5,7 @@
   "navHome": "Home",
   "navGroups": "Groups",
   "navStudents": "Students",
+  "navAttendance": "Attendance",
   "navMore": "More",
 
   "settings": "Settings",
@@ -983,6 +984,38 @@
     }
   },
   "suggestionGradingTaskTitle": "Grade {title}",
-  "sendInstantMessages": "Send Instant Messages"
+  "sendInstantMessages": "Send Instant Messages",
+  "qrScanner": "QR Scanner",
+  "attendanceMode": "Record Attendance",
+  "paymentMode": "Record Payment",
+  "scanStudentQrHint": "Scan student QR code to record attendance or payment",
+  "scanHistory": "Scan History",
+  "exams": "Exams",
+  "pendingExams": "Pending",
+  "completedExams": "Completed",
+  "smartTools": "Smart Tools",
+  "studentQrCode": "QR Code",
+  "submitExam": "Submit Exam",
+  "examResult": "Exam Result",
+  "timeLeft": "Time Left",
+  "manualGradingNote": "{count} question(s) need manual grading by teacher",
+  "@manualGradingNote": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "previous": "Previous",
+  "next": "Next",
+  "submitting": "Submitting...",
+  "exitExam": "Exit Exam?",
+  "exitExamWarning": "All your answers will be lost if you leave now. Are you sure?",
+  "backToExams": "Back to Exams",
+  "startQuiz": "Start Exam",
+  "notLoggedIn": "Not logged in",
+  "showQrHint": "Show this code to your teacher to record attendance or payment",
+  "screenshotHint": "You can take a screenshot to keep the code",
+  "noScansYet": "No scans yet",
+  "noScansYetHint": "Scan records will appear here after using the QR scanner.",
+  "attendance": "Attendance"
 }
 

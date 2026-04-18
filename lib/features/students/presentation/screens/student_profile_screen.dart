@@ -173,7 +173,9 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
             }
           }
 
-          return NestedScrollView(
+          return SafeArea(
+            bottom: true,
+            child: NestedScrollView(
             headerSliverBuilder: (context, _) => [
               SliverToBoxAdapter(
                 child: Padding(
@@ -189,7 +191,7 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
                             radius: 28,
                             backgroundColor: Colors.blue.shade100,
                             foregroundColor: Colors.blue.shade700,
-                            child: Text(s.fullName.isNotEmpty ? s.fullName.substring(0, 1) : '?', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                            child: Text(s.fullName.isNotEmpty ? s.fullName.substring(0, 1) : '?', style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.blue.shade700)),
                           ),
                           const SizedBox(width: 12),
                           Expanded(
@@ -198,12 +200,12 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
                               children: [
                                 Row(
                                   children: [
-                                    Expanded(child: Text(s.fullName, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold), maxLines: 1)),
+                                    Expanded(child: Text(s.fullName, style: Theme.of(context).textTheme.titleLarge, maxLines: 1, overflow: TextOverflow.ellipsis)),
                                     if (s.isFreeStudent)
                                       Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: Colors.green.shade50, borderRadius: BorderRadius.circular(4)), child: Text(context.l10n.free, style: const TextStyle(color: Colors.green, fontSize: 10)))
                                   ],
                                 ),
-                                Text(g?.name ?? context.l10n.groupNotSet, style: const TextStyle(fontSize: 14, color: Colors.grey)),
+                                Text(g?.name ?? context.l10n.groupNotSet, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey)),
                               ],
                             ),
                           ),
@@ -216,7 +218,7 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
                           if (s.phoneNumber.isNotEmpty || s.parentPhoneNumber.isNotEmpty)
                             Expanded(child: OutlinedButton.icon(
                               onPressed: sendWhatsApp,
-                              icon: const Icon(Icons.mark_chat_unread_rounded, size: 16, color: Colors.green),
+                              icon: const Icon(Icons.mark_chat_unread_rounded, size: 20, color: Colors.green),
                               label: Text(context.l10n.whatsapp, style: const TextStyle(color: Colors.green)),
                               style: OutlinedButton.styleFrom(side: const BorderSide(color: Colors.green)),
                             )),
@@ -255,10 +257,10 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
                       GridView.count(
                         crossAxisCount: 2, shrinkWrap: true, physics: const NeverScrollableScrollPhysics(), mainAxisSpacing: 8, crossAxisSpacing: 8, childAspectRatio: 2.2,
                         children: [
-                          _buildMiniCard('$attRate%', '$presentCount/$totalAtt ${context.l10n.attendanceTab}', Colors.blue),
-                          _buildMiniCard('${balance.abs().toStringAsFixed(0)} ج', s.isFreeStudent ? context.l10n.free : balance > 0 ? context.l10n.outstanding : balance < 0 ? context.l10n.creditBalance : context.l10n.complete, balance > 0 ? Colors.red : (balance < 0 ? Colors.green : Colors.grey.shade800)),
-                          _buildMiniCard('${totalPaid.toStringAsFixed(0)} ج', context.l10n.totalPaid, Colors.green),
-                          _buildMiniCard(avgGrade != null ? '${avgGrade.toStringAsFixed(1)}%' : '—', context.l10n.averageGrade, Colors.purple),
+                          _buildMiniCard('$attRate%', '$presentCount/$totalAtt ${context.l10n.attendanceTab}', Colors.blue, context),
+                          _buildMiniCard('${balance.abs().toStringAsFixed(0)} ج', s.isFreeStudent ? context.l10n.free : balance > 0 ? context.l10n.outstanding : balance < 0 ? context.l10n.creditBalance : context.l10n.complete, balance > 0 ? Colors.red : (balance < 0 ? Colors.green : Colors.grey.shade800), context),
+                          _buildMiniCard('${totalPaid.toStringAsFixed(0)} ج', context.l10n.totalPaid, Colors.green, context),
+                          _buildMiniCard(avgGrade != null ? '${avgGrade.toStringAsFixed(1)}%' : '—', context.l10n.averageGrade, Colors.purple, context),
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -281,7 +283,7 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
                             child: Card(elevation: 0, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: Colors.grey.shade200)), child: Padding(padding: const EdgeInsets.all(12), child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(context.l10n.thisMonth, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                                Text(context.l10n.thisMonth, style: Theme.of(context).textTheme.bodySmall),
                                 const SizedBox(height: 4),
                                 _buildInfoRow('المطلوب', '${effectivePrice.toStringAsFixed(0)} ج'),
                                 _buildInfoRow('المدفوع', '${monthlyPaid.toStringAsFixed(0)} ج', valueColor: Colors.green),
@@ -309,23 +311,25 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                           child: Row(
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(context.l10n.portalCode, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: colorScheme.primary)),
-                                  const SizedBox(height: 2),
-                                  Text(s.portalCode ?? context.l10n.inactivePortalCode, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: s.portalCode == null ? colorScheme.outline : colorScheme.onPrimaryContainer)),
-                                ],
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(context.l10n.portalCode, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: colorScheme.primary)),
+                                    const SizedBox(height: 2),
+                                    Text(s.portalCode ?? context.l10n.inactivePortalCode, style: Theme.of(context).textTheme.titleLarge?.copyWith(color: s.portalCode == null ? colorScheme.outline : colorScheme.onPrimaryContainer)),
+                                  ],
+                                ),
                               ),
-                              const Spacer(),
                               if (s.portalCode == null)
                                 FilledButton.tonal(
                                   onPressed: generatePortalCode,
                                   style: FilledButton.styleFrom(visualDensity: VisualDensity.compact),
-                                  child: Text(context.l10n.activateCode, style: const TextStyle(fontSize: 12)),
+                                  child: Text(context.l10n.activateCode, style: Theme.of(context).textTheme.labelSmall),
                                 )
                               else
                                 Row(
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
                                     IconButton(
                                       onPressed: () {
@@ -380,14 +384,15 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
             body: TabBarView(
               controller: _tabController,
               children: [
-                _buildPerformanceTab(data, attRate, avgGrade, effectivePrice, monthlyPaid),
-                _buildAttendanceTab(data.attendance),
-                _buildPaymentsTab(data.payments),
-                _buildGradesTab(data.grades),
-                _buildQuizzesTab(data.quizResults),
-                _buildChartsTab(data.quizResults, colorScheme),
+                _buildPerformanceTab(data, attRate, avgGrade, effectivePrice, monthlyPaid, context),
+                _buildAttendanceTab(data.attendance, context),
+                _buildPaymentsTab(data.payments, context),
+                _buildGradesTab(data.grades, context),
+                _buildQuizzesTab(data.quizResults, context),
+                _buildChartsTab(data.quizResults, colorScheme, context),
               ],
             ),
+          ),
           );
         },
       ),
@@ -400,28 +405,28 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(fontSize: 11, color: Colors.grey)),
-          Text(value, style: TextStyle(fontSize: 11, color: valueColor ?? Colors.black87, fontWeight: isBold ? FontWeight.bold : FontWeight.normal)),
+          Expanded(child: Text(label, style: const TextStyle(fontSize: 11, color: Colors.grey), overflow: TextOverflow.ellipsis)),
+          Expanded(child: Text(value, style: TextStyle(fontSize: 11, color: valueColor ?? Colors.black87), textAlign: TextAlign.end, overflow: TextOverflow.ellipsis)),
         ],
       ),
     );
   }
 
-  Widget _buildMiniCard(String value, String label, Color color) {
+  Widget _buildMiniCard(String value, String label, Color color, BuildContext context) {
     return Container(
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.grey.shade200)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(value, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: color)),
+          Text(value, style: Theme.of(context).textTheme.titleLarge?.copyWith(color: color)),
           const SizedBox(height: 2),
-          Text(label, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+          Text(label, style: Theme.of(context).textTheme.labelSmall?.copyWith(color: Colors.grey)),
         ],
       ),
     );
   }
 
-  Widget _buildPerformanceTab(StudentProfileData data, int attRate, double? avgGrade, double effectivePrice, double monthlyPaid) {
+  Widget _buildPerformanceTab(StudentProfileData data, int attRate, double? avgGrade, double effectivePrice, double monthlyPaid, BuildContext context) {
     final groupAttCount = data.groupAttendance.where((a) => a.studentId != data.student.id && a.status == 'present').length;
     final groupTotalAtt = data.groupAttendance.where((a) => a.studentId != data.student.id).length;
     final groupAttRate = groupTotalAtt > 0 ? (groupAttCount / groupTotalAtt * 100).round() : 0;
@@ -442,6 +447,7 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
             studentGrade: avgGrade ?? 0.0, groupGrade: groupAvgGrade.toDouble(),
             studentPayment: paymentScore.toDouble(), groupPayment: 100,
             studentQuiz: quizAvg.toDouble(), groupQuiz: 50,
+            context: context
           ),
           const SizedBox(height: 12),
           Card(
@@ -468,7 +474,7 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
     );
   }
 
-  Widget _buildRadarChartCard({required double studentAtt, required double groupAtt, required double studentGrade, required double groupGrade, required double studentPayment, required double groupPayment, required double studentQuiz, required double groupQuiz}) {
+  Widget _buildRadarChartCard({required double studentAtt, required double groupAtt, required double studentGrade, required double groupGrade, required double studentPayment, required double groupPayment, required double studentQuiz, required double groupQuiz, required BuildContext context}) {
     return Card(
       elevation: 0, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: Colors.grey.shade200)),
       child: Padding(
@@ -476,7 +482,7 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(context.l10n.overallComparison, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+            Text(context.l10n.overallComparison, style: Theme.of(context).textTheme.labelLarge),
             const SizedBox(height: 16),
             SizedBox(
               height: 250,
@@ -524,7 +530,7 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
     );
   }
 
-  Widget _buildAttendanceTab(List<AttendanceRecord> records) {
+  Widget _buildAttendanceTab(List<AttendanceRecord> records, BuildContext context) {
     if (records.isEmpty) return Center(child: Text(context.l10n.noAttendanceRecords, style: const TextStyle(color: Colors.grey)));
     return ListView.builder(
       padding: const EdgeInsets.all(16),
@@ -535,12 +541,12 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
         return Card(
           elevation: 0, margin: const EdgeInsets.only(bottom: 8), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Colors.grey.shade200)),
           child: ListTile(
-            title: Text(a.date, style: const TextStyle(fontSize: 14)),
-            subtitle: a.notes.isNotEmpty ? Text(a.notes, style: const TextStyle(fontSize: 12)) : null,
+            title: Text(a.date, style: Theme.of(context).textTheme.bodyMedium),
+            subtitle: a.notes.isNotEmpty ? Text(a.notes, style: Theme.of(context).textTheme.bodySmall) : null,
             trailing: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(color: isPresent ? Colors.green.shade50 : Colors.red.shade50, borderRadius: BorderRadius.circular(12)),
-              child: Text(isPresent ? context.l10n.present : context.l10n.absent, style: TextStyle(color: isPresent ? Colors.green.shade700 : Colors.red.shade700, fontSize: 12)),
+              child: Text(isPresent ? context.l10n.present : context.l10n.absent, style: Theme.of(context).textTheme.labelSmall?.copyWith(color: isPresent ? Colors.green.shade700 : Colors.red.shade700)),
             )
           ),
         );
@@ -548,7 +554,7 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
     );
   }
 
-  Widget _buildPaymentsTab(List<PaymentModel> payments) {
+  Widget _buildPaymentsTab(List<PaymentModel> payments, BuildContext context) {
     if (payments.isEmpty) return Center(child: Text(context.l10n.noPaymentRecords, style: const TextStyle(color: Colors.grey)));
     return ListView.builder(
       padding: const EdgeInsets.all(16),
@@ -558,16 +564,16 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
         return Card(
           elevation: 0, margin: const EdgeInsets.only(bottom: 8), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Colors.grey.shade200)),
           child: ListTile(
-            title: Text('${p.amount.toStringAsFixed(0)} ج', style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.green)),
-            subtitle: Text('${p.forMonth} · ${p.method}', style: const TextStyle(fontSize: 12)),
-            trailing: Text(p.paymentDate, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+            title: Text('${p.amount.toStringAsFixed(0)} ج', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.green)),
+            subtitle: Text('${p.forMonth} · ${p.method}', style: Theme.of(context).textTheme.bodySmall),
+            trailing: Text(p.paymentDate, style: Theme.of(context).textTheme.labelSmall?.copyWith(color: Colors.grey)),
           ),
         );
       },
     );
   }
 
-  Widget _buildGradesTab(List<GradeModel> grades) {
+  Widget _buildGradesTab(List<GradeModel> grades, BuildContext context) {
     if (grades.isEmpty) return Center(child: Text(context.l10n.noGradesFound, style: const TextStyle(color: Colors.grey)));
     return ListView.builder(
       padding: const EdgeInsets.all(16),
@@ -578,13 +584,13 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
         return Card(
           elevation: 0, margin: const EdgeInsets.only(bottom: 8), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Colors.grey.shade200)),
           child: ListTile(
-            title: Text(g.examName, style: const TextStyle(fontSize: 14)),
-            subtitle: Text(g.examDate, style: const TextStyle(fontSize: 12)),
+            title: Text(g.examName, style: Theme.of(context).textTheme.bodyMedium),
+            subtitle: Text(g.examDate, style: Theme.of(context).textTheme.bodySmall),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('${g.score}/${g.maxScore}', style: const TextStyle(fontWeight: FontWeight.bold)),
-                Text('${pct.toStringAsFixed(1)}%', style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                Text('${g.score}/${g.maxScore}', style: Theme.of(context).textTheme.bodyMedium),
+                Text('${pct.toStringAsFixed(1)}%', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey)),
               ],
             )
           ),
@@ -593,7 +599,7 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
     );
   }
 
-  Widget _buildQuizzesTab(List<QuizResultModel> quizzes) {
+  Widget _buildQuizzesTab(List<QuizResultModel> quizzes, BuildContext context) {
     if (quizzes.isEmpty) return Center(child: Text(context.l10n.noQuizzesFound, style: const TextStyle(color: Colors.grey)));
     return ListView.builder(
       padding: const EdgeInsets.all(16),
@@ -618,7 +624,7 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
     );
   }
 
-  Widget _buildChartsTab(List<QuizResultModel> quizzes, ColorScheme colors) {
+  Widget _buildChartsTab(List<QuizResultModel> quizzes, ColorScheme colors, BuildContext context) {
     if (quizzes.isEmpty) {
       return Center(child: Text(context.l10n.notEnoughQuizzesForChart, style: const TextStyle(color: Colors.grey)));
     }
