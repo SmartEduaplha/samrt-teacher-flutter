@@ -1,6 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../core/providers/db_providers.dart';
 import '../../../../core/providers/student_auth_provider.dart';
+
+part 'login_view_model.freezed.dart';
 
 // ── Strategy interface ────────────────────────────────────────────────────────
 
@@ -54,28 +57,13 @@ abstract interface class ILoginViewModel {
 
 // ── State ─────────────────────────────────────────────────────────────────────
 
-class LoginState {
-  final bool isLoading;
-  final String? errorMessage;
-  final bool isSuccess;
-
-  const LoginState({
-    this.isLoading = false,
-    this.errorMessage,
-    this.isSuccess = false,
-  });
-
-  LoginState copyWith({
-    bool? isLoading,
+@freezed
+abstract class LoginState with _$LoginState {
+  const factory LoginState({
+    @Default(false) bool isLoading,
     String? errorMessage,
-    bool clearError = false,
-    bool? isSuccess,
-  }) =>
-      LoginState(
-        isLoading: isLoading ?? this.isLoading,
-        errorMessage: clearError ? null : errorMessage ?? this.errorMessage,
-        isSuccess: isSuccess ?? this.isSuccess,
-      );
+    @Default(false) bool isSuccess,
+  }) = _LoginState;
 }
 
 // ── ViewModel implementation ──────────────────────────────────────────────────
@@ -90,16 +78,17 @@ class LoginViewModel extends StateNotifier<LoginState> implements ILoginViewMode
 
   @override
   Future<void> login(LoginStrategy strategy) async {
-    state = state.copyWith(isLoading: true, clearError: true);
+    state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       await strategy.execute(_ref);
       if (mounted) state = state.copyWith(isLoading: false, isSuccess: true);
     } catch (e) {
-      if (mounted)
+      if (mounted) {
         state = state.copyWith(
           isLoading: false,
           errorMessage: e.toString().replaceAll('Exception: ', ''),
         );
+      }
     }
   }
 }
