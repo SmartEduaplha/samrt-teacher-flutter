@@ -255,6 +255,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
             // ── Questions List ───────────────────────────────────────
             ...List.generate(_questions.length, (idx) {
               return _QuestionEditor(
+                key: ValueKey(_questions[idx].id),
                 question: _questions[idx],
                 index: idx,
                 onUpdate: (q) => _updateQuestion(idx, q),
@@ -285,7 +286,7 @@ class _QuizBuilderScreenState extends ConsumerState<QuizBuilderScreen> {
   }
 }
 
-class _QuestionEditor extends StatelessWidget {
+class _QuestionEditor extends StatefulWidget {
   final QuizQuestion question;
   final int index;
   final Function(QuizQuestion) onUpdate;
@@ -293,6 +294,7 @@ class _QuestionEditor extends StatelessWidget {
   final ColorScheme colorScheme;
 
   const _QuestionEditor({
+    super.key,
     required this.question,
     required this.index,
     required this.onUpdate,
@@ -301,7 +303,81 @@ class _QuestionEditor extends StatelessWidget {
   });
 
   @override
+  State<_QuestionEditor> createState() => _QuestionEditorState();
+}
+
+class _QuestionEditorState extends State<_QuestionEditor> {
+  late TextEditingController _textController;
+  late TextEditingController _marksController;
+  late List<TextEditingController> _optionsControllers;
+
+  @override
+  void initState() {
+    super.initState();
+    _initControllers();
+  }
+
+  void _initControllers() {
+    _textController = TextEditingController(text: widget.question.text);
+    _marksController = TextEditingController(text: widget.question.marks.toString());
+    _optionsControllers = widget.question.options.map((opt) => TextEditingController(text: opt)).toList();
+  }
+
+  void _disposeControllers() {
+    _textController.dispose();
+    _marksController.dispose();
+    for (final c in _optionsControllers) {
+      c.dispose();
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant _QuestionEditor oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.question.id != oldWidget.question.id || widget.question.type != oldWidget.question.type) {
+      _disposeControllers();
+      _initControllers();
+    } else {
+      if (_textController.text != widget.question.text) {
+        _textController.value = _textController.value.copyWith(
+          text: widget.question.text,
+          selection: TextSelection.collapsed(offset: widget.question.text.length),
+        );
+      }
+      final newMarks = widget.question.marks.toString();
+      if (_marksController.text != newMarks) {
+        _marksController.value = _marksController.value.copyWith(
+          text: newMarks,
+          selection: TextSelection.collapsed(offset: newMarks.length),
+        );
+      }
+      if (_optionsControllers.length == widget.question.options.length) {
+        for (int i = 0; i < _optionsControllers.length; i++) {
+          if (_optionsControllers[i].text != widget.question.options[i]) {
+            _optionsControllers[i].value = _optionsControllers[i].value.copyWith(
+              text: widget.question.options[i],
+              selection: TextSelection.collapsed(offset: widget.question.options[i].length),
+            );
+          }
+        }
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _disposeControllers();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final colorScheme = widget.colorScheme;
+    final index = widget.index;
+    final question = widget.question;
+    final onUpdate = widget.onUpdate;
+    final onDelete = widget.onDelete;
+
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       shape: RoundedRectangleBorder(
@@ -333,6 +409,7 @@ class _QuestionEditor extends StatelessWidget {
                   width: 60,
                   height: 36,
                   child: TextField(
+                    controller: _marksController,
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
@@ -349,7 +426,6 @@ class _QuestionEditor extends StatelessWidget {
                           correctAnswer: question.correctAnswer,
                           marks: int.tryParse(val) ?? 1,
                         )),
-                    controller: TextEditingController(text: question.marks.toString()),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -361,6 +437,7 @@ class _QuestionEditor extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             TextField(
+              controller: _textController,
               maxLines: 2,
               decoration: InputDecoration(
                 hintText: context.l10n.questionHint,
@@ -377,7 +454,6 @@ class _QuestionEditor extends StatelessWidget {
                     correctAnswer: question.correctAnswer,
                     marks: question.marks,
                   )),
-              controller: TextEditingController(text: question.text),
             ),
             const SizedBox(height: 16),
             Align(
@@ -397,6 +473,7 @@ class _QuestionEditor extends StatelessWidget {
                     Expanded(
                       child: question.type == 'mcq'
                           ? TextField(
+                              controller: _optionsControllers[optIdx],
                               decoration: InputDecoration(
                                 hintText: context.l10n.optionHint(optIdx + 1),
                                 isDense: true,
@@ -415,7 +492,6 @@ class _QuestionEditor extends StatelessWidget {
                                   marks: question.marks,
                                 ));
                               },
-                              controller: TextEditingController(text: optValue),
                             )
                           : Container(
                               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),

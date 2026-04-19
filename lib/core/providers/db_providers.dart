@@ -232,25 +232,25 @@ final quizResultDbProvider = Provider<SyncDbService<QuizResultModel>>((ref) {
 });
 
 /// قائمة كل الاختبارات
-final quizzesProvider = FutureProvider<List<QuizModel>>((ref) async {
-  return ref.read(quizDbProvider).list();
+final quizzesProvider = StreamProvider<List<QuizModel>>((ref) {
+  return ref.read(quizDbProvider).snapshots();
 });
 
 /// قائمة كل نتائج الاختبارات
-final allQuizResultsProvider = FutureProvider<List<QuizResultModel>>((ref) async {
-  return ref.read(quizResultDbProvider).list();
+final allQuizResultsProvider = StreamProvider<List<QuizResultModel>>((ref) {
+  return ref.read(quizResultDbProvider).snapshots();
 });
 
 /// نتائج اختبارات طالب بعينه
 final quizResultsByStudentProvider =
-    FutureProvider.family<List<QuizResultModel>, String>((ref, studentId) async {
-  return ref.read(quizResultDbProvider).filter({'student_id': studentId});
+    StreamProvider.family<List<QuizResultModel>, String>((ref, studentId) {
+  return ref.read(quizResultDbProvider).snapshotsFilter({'student_id': studentId});
 });
 
 /// نتائج اختبار بعينه
 final quizResultsByQuizProvider =
-    FutureProvider.family<List<QuizResultModel>, String>((ref, quizId) async {
-  return ref.read(quizResultDbProvider).filter({'quiz_id': quizId});
+    StreamProvider.family<List<QuizResultModel>, String>((ref, quizId) {
+  return ref.read(quizResultDbProvider).snapshotsFilter({'quiz_id': quizId});
 });
 
 // ─── Tasks ────────────────────────────────────────────────────────────────────

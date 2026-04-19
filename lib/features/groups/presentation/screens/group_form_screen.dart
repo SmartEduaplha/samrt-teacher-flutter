@@ -169,7 +169,7 @@ class _GroupFormScreenState extends ConsumerState<GroupFormScreen> {
     double effectivePrice = defaultPrice - discount;
 
     return Scaffold(
-      backgroundColor: colorScheme.surfaceTint.withValues(alpha: 0.05),
+      backgroundColor: colorScheme.surface,
       body: SafeArea(
         child: Column(
           children: [
@@ -205,7 +205,7 @@ class _GroupFormScreenState extends ConsumerState<GroupFormScreen> {
                         margin: EdgeInsets.zero,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
-                          side: BorderSide(color: colorScheme.outlineVariant.withValues(alpha: 0.5)),
+                          side: BorderSide(color: colorScheme.outline.withAlpha(30)),
                         ),
                         color: colorScheme.surface,
                         child: Padding(
@@ -216,125 +216,103 @@ class _GroupFormScreenState extends ConsumerState<GroupFormScreen> {
                               Text(context.l10n.basicInfo, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                               const SizedBox(height: 16),
                               
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: _buildFieldWrapper(context.l10n.groupName, TextFormField(
-                                      controller: _nameController,
-                                      decoration: _inputDec(context.l10n.groupNameHint),
-                                      validator: (v) => v!.trim().isEmpty ? context.l10n.errorEmptyFields : null,
-                                    )),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: _buildFieldWrapper(context.l10n.groupType, DropdownButtonFormField<String>(
-                                      initialValue: _selectedType,
-                                      decoration: _inputDec(''),
-                                      items: [
-                                        DropdownMenuItem(value: 'center', child: Text(context.l10n.center)),
-                                        DropdownMenuItem(value: 'private_group', child: Text(context.l10n.privateGroup)),
-                                        DropdownMenuItem(value: 'private_lesson', child: Text(context.l10n.privateLesson)),
-                                        DropdownMenuItem(value: 'online', child: Text(context.l10n.online)),
-                                      ],
-                                      onChanged: (v) => setState(() => _selectedType = v!),
-                                    )),
-                                  ),
-                                ],
-                              ),
+                              _buildFieldWrapper(context.l10n.groupName, TextFormField(
+                                controller: _nameController,
+                                decoration: _inputDec(context.l10n.groupNameHint, colorScheme),
+                                validator: (v) => v!.trim().isEmpty ? context.l10n.errorEmptyFields : null,
+                              ), colorScheme),
                               const SizedBox(height: 16),
                               
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: _buildFieldWrapper(context.l10n.subject, TextFormField(
-                                      controller: _subjectController,
-                                      decoration: _inputDec(context.l10n.subjectHint),
-                                    )),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: _buildFieldWrapper(context.l10n.academicYear, DropdownButtonFormField<String>(
-                                      initialValue: _selectedAcademicYear,
-                                      decoration: _inputDec(''),
-                                      items: academicYears.map((y) => DropdownMenuItem(
-                                        value: y, 
-                                        child: Text(_getLocalizedYear(y, context))
-                                      )).toList(),
-                                      onChanged: (v) => setState(() => _selectedAcademicYear = v!),
-                                    )),
-                                  ),
+                              _buildFieldWrapper(context.l10n.groupType, DropdownButtonFormField<String>(
+                                initialValue: _selectedType,
+                                isExpanded: true,
+                                decoration: _inputDec('', colorScheme),
+                                items: [
+                                  DropdownMenuItem(value: 'center', child: Text(context.l10n.center)),
+                                  DropdownMenuItem(value: 'private_group', child: Text(context.l10n.privateGroup)),
+                                  DropdownMenuItem(value: 'private_lesson', child: Text(context.l10n.privateLesson)),
+                                  DropdownMenuItem(value: 'online', child: Text(context.l10n.online)),
                                 ],
-                              ),
+                                onChanged: (v) => setState(() => _selectedType = v!),
+                              ), colorScheme),
+                              const SizedBox(height: 16),
+                              
+                              _buildFieldWrapper(context.l10n.subject, TextFormField(
+                                controller: _subjectController,
+                                decoration: _inputDec(context.l10n.subjectHint, colorScheme),
+                              ), colorScheme),
+                              const SizedBox(height: 16),
+                              
+                              _buildFieldWrapper(context.l10n.academicYear, DropdownButtonFormField<String>(
+                                initialValue: _selectedAcademicYear,
+                                isExpanded: true,
+                                decoration: _inputDec('', colorScheme),
+                                items: academicYears.map((y) => DropdownMenuItem(
+                                  value: y, 
+                                  child: Text(_getLocalizedYear(y, context))
+                                )).toList(),
+                                onChanged: (v) => setState(() => _selectedAcademicYear = v!),
+                              ), colorScheme),
                               const SizedBox(height: 16),
 
-                              Row(
+                              _buildFieldWrapper(context.l10n.defaultPrice, TextFormField(
+                                controller: _priceController,
+                                keyboardType: TextInputType.number,
+                                decoration: _inputDec('300', colorScheme),
+                                onChanged: (_) => setState(() {}),
+                                validator: (v) {
+                                  final p = double.tryParse(v ?? '') ?? -1;
+                                  if (p < 0) return context.l10n.invalidPrice;
+                                  return null;
+                                },
+                              ), colorScheme),
+                              const SizedBox(height: 16),
+                              
+                              _buildFieldWrapper(context.l10n.groupDiscount, Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Expanded(
-                                    child: _buildFieldWrapper(context.l10n.defaultPrice, TextFormField(
-                                      controller: _priceController,
-                                      keyboardType: TextInputType.number,
-                                      decoration: _inputDec('300'),
-                                      onChanged: (_) => setState(() {}),
-                                      validator: (v) {
-                                        final p = double.tryParse(v ?? '') ?? -1;
-                                        if (p < 0) return context.l10n.invalidPrice;
-                                        return null;
-                                      },
-                                    )),
+                                  TextFormField(
+                                    controller: _discountController,
+                                    keyboardType: TextInputType.number,
+                                    decoration: _inputDec('0', colorScheme),
+                                    onChanged: (_) => setState(() {}),
+                                    validator: (v) {
+                                      final d = double.tryParse(v ?? '') ?? 0;
+                                      final p = double.tryParse(_priceController.text) ?? 0;
+                                      if (d > p && p > 0) return context.l10n.discountGreaterPrice;
+                                      return null;
+                                    },
                                   ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: _buildFieldWrapper(context.l10n.groupDiscount, Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        TextFormField(
-                                          controller: _discountController,
-                                          keyboardType: TextInputType.number,
-                                          decoration: _inputDec('0'),
-                                          onChanged: (_) => setState(() {}),
-                                          validator: (v) {
-                                            final d = double.tryParse(v ?? '') ?? 0;
-                                            final p = double.tryParse(_priceController.text) ?? 0;
-                                            if (d > p && p > 0) return context.l10n.discountGreaterPrice;
-                                            return null;
-                                          },
-                                        ),
-                                        if (_priceController.text.isNotEmpty)
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 4, right: 4),
-                                            child: Text(
-                                              context.l10n.actualPrice(effectivePrice.toStringAsFixed(0)),
-                                              style: TextStyle(fontSize: 11, color: colorScheme.onSurfaceVariant),
-                                            ),
-                                          ),
-                                      ],
-                                    )),
-                                  ),
+                                  if (_priceController.text.isNotEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 4, right: 4),
+                                      child: Text(
+                                        context.l10n.actualPrice(effectivePrice.toStringAsFixed(0)),
+                                        style: TextStyle(fontSize: 11, color: colorScheme.onSurfaceVariant),
+                                      ),
+                                    ),
                                 ],
-                              ),
+                              ), colorScheme),
                               const SizedBox(height: 16),
 
                               if (_selectedType != 'online')
                                 _buildFieldWrapper(context.l10n.location, TextFormField(
                                   controller: _locationController,
-                                  decoration: _inputDec(context.l10n.locationHint),
-                                ))
+                                  decoration: _inputDec(context.l10n.locationHint, colorScheme),
+                                ), colorScheme)
                               else
                                 _buildFieldWrapper(context.l10n.sessionLink, TextFormField(
                                   controller: _onlineLinkController,
-                                  decoration: _inputDec('https://...'),
+                                  decoration: _inputDec('https://...', colorScheme),
                                   textDirection: TextDirection.ltr,
-                                )),
+                                ), colorScheme),
                                 
                               const SizedBox(height: 16),
                               _buildFieldWrapper(context.l10n.notes, TextFormField(
                                 controller: _notesController,
-                                decoration: _inputDec(context.l10n.notesHint),
+                                decoration: _inputDec(context.l10n.notesHint, colorScheme),
                                 maxLines: 2,
-                              )),
+                              ), colorScheme),
                             ],
                           ),
                         ),
@@ -348,7 +326,7 @@ class _GroupFormScreenState extends ConsumerState<GroupFormScreen> {
                           margin: EdgeInsets.zero,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
-                            side: BorderSide(color: colorScheme.outlineVariant.withValues(alpha: 0.5)),
+                            side: BorderSide(color: colorScheme.outline.withAlpha(30)),
                           ),
                           color: colorScheme.surface,
                           child: Padding(
@@ -392,7 +370,8 @@ class _GroupFormScreenState extends ConsumerState<GroupFormScreen> {
                                               flex: 2,
                                               child: DropdownButtonFormField<String>(
                                                 initialValue: s.day,
-                                                decoration: _inputDec(''),
+                                                isExpanded: true,
+                                                decoration: _inputDec('', colorScheme),
                                                 items: _daysList.map((d) => DropdownMenuItem(
                                                   value: d['value']!, 
                                                   child: Text(_getLocalizedDay(d['value']!, context))
@@ -407,8 +386,8 @@ class _GroupFormScreenState extends ConsumerState<GroupFormScreen> {
                                                 child: Container(
                                                   height: 48,
                                                   alignment: Alignment.center,
-                                                  decoration: BoxDecoration(border: Border.all(color: Colors.grey.shade300), borderRadius: BorderRadius.circular(8)),
-                                                  child: Text(s.startTime, style: const TextStyle(fontSize: 14)),
+                                                  decoration: BoxDecoration(border: Border.all(color: colorScheme.outline.withAlpha(30)), borderRadius: BorderRadius.circular(8)),
+                                                  child: Text(s.startTime, style: TextStyle(fontSize: 14, color: colorScheme.onSurface)),
                                                 ),
                                               ),
                                             ),
@@ -422,8 +401,8 @@ class _GroupFormScreenState extends ConsumerState<GroupFormScreen> {
                                                 child: Container(
                                                   height: 48,
                                                   alignment: Alignment.center,
-                                                  decoration: BoxDecoration(border: Border.all(color: Colors.grey.shade300), borderRadius: BorderRadius.circular(8)),
-                                                  child: Text(s.endTime, style: const TextStyle(fontSize: 14)),
+                                                  decoration: BoxDecoration(border: Border.all(color: colorScheme.outline.withAlpha(30)), borderRadius: BorderRadius.circular(8)),
+                                                  child: Text(s.endTime, style: TextStyle(fontSize: 14, color: colorScheme.onSurface)),
                                                 ),
                                               ),
                                             ),
@@ -524,27 +503,27 @@ class _GroupFormScreenState extends ConsumerState<GroupFormScreen> {
     }
   }
 
-  Widget _buildFieldWrapper(String label, Widget child) {
+  Widget _buildFieldWrapper(String label, Widget child, ColorScheme scheme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.black87)),
+        Text(label, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: scheme.onSurface)),
         const SizedBox(height: 6),
         child,
       ],
     );
   }
 
-  InputDecoration _inputDec(String hint) {
+  InputDecoration _inputDec(String hint, ColorScheme colorScheme) {
     return InputDecoration(
       hintText: hint,
-      hintStyle: const TextStyle(fontSize: 13, color: Colors.grey),
+      hintStyle: TextStyle(fontSize: 13, color: colorScheme.onSurfaceVariant.withAlpha(150)),
       filled: true,
-      fillColor: Colors.white,
+      fillColor: colorScheme.surfaceContainerHighest.withAlpha(50),
       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.grey.shade300)),
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.grey.shade300)),
-      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Theme.of(context).colorScheme.primary)),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: colorScheme.outline.withAlpha(30))),
+      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: colorScheme.outline.withAlpha(30))),
+      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: colorScheme.primary)),
       errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.red.shade300)),
     );
   }

@@ -109,11 +109,12 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final colorScheme = Theme.of(context).colorScheme;
     final asyncData = ref.watch(studentProfileDataProvider(widget.studentId));
 
     return Scaffold(
-      backgroundColor: colorScheme.surfaceTint.withValues(alpha: 0.03),
+      backgroundColor: colorScheme.surface,
       appBar: AppBar(
         title: Text(context.l10n.studentProfile, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         centerTitle: true,
@@ -184,74 +185,109 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       // Header Profile Info
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                            radius: 28,
-                            backgroundColor: Colors.blue.shade100,
-                            foregroundColor: Colors.blue.shade700,
-                            child: Text(s.fullName.isNotEmpty ? s.fullName.substring(0, 1) : '?', style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.blue.shade700)),
+                      Container(
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [colorScheme.primary, colorScheme.primaryContainer],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(child: Text(s.fullName, style: Theme.of(context).textTheme.titleLarge, maxLines: 1, overflow: TextOverflow.ellipsis)),
-                                    if (s.isFreeStudent)
-                                      Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: Colors.green.shade50, borderRadius: BorderRadius.circular(4)), child: Text(context.l10n.free, style: const TextStyle(color: Colors.green, fontSize: 10)))
-                                  ],
-                                ),
-                                Text(g?.name ?? context.l10n.groupNotSet, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey)),
-                              ],
+                          borderRadius: BorderRadius.circular(24),
+                          boxShadow: [
+                            BoxShadow(
+                              color: colorScheme.primary.withAlpha(50),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      // Action buttons
-                      Row(
-                        children: [
-                          if (s.phoneNumber.isNotEmpty || s.parentPhoneNumber.isNotEmpty)
-                            Expanded(child: OutlinedButton.icon(
-                              onPressed: sendWhatsApp,
-                              icon: const Icon(Icons.mark_chat_unread_rounded, size: 20, color: Colors.green),
-                              label: Text(context.l10n.whatsapp, style: const TextStyle(color: Colors.green)),
-                              style: OutlinedButton.styleFrom(side: const BorderSide(color: Colors.green)),
-                            )),
-                          const SizedBox(width: 8),
-                          Expanded(child: OutlinedButton.icon(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => StudentFormScreen(studentToEdit: s),
-                                ),
-                              );
-                            },
-                            icon: const Icon(Icons.edit, size: 16),
-                            label: Text(context.l10n.edit),
-                          )),
-                          const SizedBox(width: 8),
-                          Expanded(child: ElevatedButton.icon(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => AddPaymentScreen(preStudentId: s.id),
-                                ),
-                              );
-                            },
-                            icon: const Icon(Icons.payment, size: 16),
-                            label: Text(context.l10n.payment),
-                            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue.shade700, foregroundColor: Colors.white),
-                          )),
-                        ],
+                          ],
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              radius: 32,
+                              backgroundColor: colorScheme.onPrimary.withAlpha(50),
+                              child: Text(
+                                s.fullName.isNotEmpty ? s.fullName.substring(0, 1) : '?',
+                                style: theme.textTheme.headlineMedium?.copyWith(color: colorScheme.onPrimary, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          s.fullName,
+                                          style: theme.textTheme.titleLarge?.copyWith(color: colorScheme.onPrimary, fontWeight: FontWeight.bold),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      if (s.isFreeStudent)
+                                        Container(
+                                          margin: const EdgeInsets.symmetric(horizontal: 8),
+                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                          decoration: BoxDecoration(color: Colors.white.withAlpha(50), borderRadius: BorderRadius.circular(12)),
+                                          child: Text(context.l10n.free, style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+                                        )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    g?.name ?? context.l10n.groupNotSet,
+                                    style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.onPrimary.withAlpha(200)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 20),
+                      // Action buttons
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            if (s.phoneNumber.isNotEmpty || s.parentPhoneNumber.isNotEmpty) ...[
+                              FilledButton.icon(
+                                onPressed: sendWhatsApp,
+                                icon: const Icon(Icons.mark_chat_unread_rounded, size: 18),
+                                label: Text(context.l10n.whatsapp),
+                                style: FilledButton.styleFrom(backgroundColor: Colors.green),
+                              ),
+                              const SizedBox(width: 8),
+                            ],
+                            FilledButton.tonalIcon(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (_) => StudentFormScreen(studentToEdit: s)),
+                                );
+                              },
+                              icon: const Icon(Icons.edit, size: 18),
+                              label: Text(context.l10n.edit),
+                            ),
+                            const SizedBox(width: 8),
+                            FilledButton.icon(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (_) => AddPaymentScreen(preStudentId: s.id)),
+                                );
+                              },
+                              icon: const Icon(Icons.payment, size: 18),
+                              label: Text(context.l10n.payment),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
 
                       // Stat Cards Grid
                       GridView.count(
@@ -270,26 +306,26 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
-                            child: Card(elevation: 0, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: Colors.grey.shade200)), child: Padding(padding: const EdgeInsets.all(12), child: Column(
+                            child: Card(elevation: 0, color: colorScheme.surface, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: BorderSide(color: colorScheme.outline.withAlpha(30))), child: Padding(padding: const EdgeInsets.all(16), child: Column(
                               children: [
-                                if (s.phoneNumber.isNotEmpty) _buildInfoRow(context.l10n.studentPhone, s.phoneNumber),
-                                if (s.parentPhoneNumber.isNotEmpty) _buildInfoRow(context.l10n.parentPhone1, s.parentPhoneNumber),
-                                if (!s.isFreeStudent) _buildInfoRow(context.l10n.monthlyPrice, '${effectivePrice.toStringAsFixed(0)} ج', isBold: true),
+                                if (s.phoneNumber.isNotEmpty) _buildInfoRow(context, context.l10n.studentPhone, s.phoneNumber),
+                                if (s.parentPhoneNumber.isNotEmpty) _buildInfoRow(context, context.l10n.parentPhone1, s.parentPhoneNumber),
+                                if (!s.isFreeStudent) _buildInfoRow(context, context.l10n.monthlyPrice, '${effectivePrice.toStringAsFixed(0)} ج', isBold: true),
                               ],
                             ))),
                           ),
                           const SizedBox(width: 8),
                           Expanded(
-                            child: Card(elevation: 0, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: Colors.grey.shade200)), child: Padding(padding: const EdgeInsets.all(12), child: Column(
+                            child: Card(elevation: 0, color: colorScheme.surface, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: BorderSide(color: colorScheme.outline.withAlpha(30))), child: Padding(padding: const EdgeInsets.all(16), child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(context.l10n.thisMonth, style: Theme.of(context).textTheme.bodySmall),
-                                const SizedBox(height: 4),
-                                _buildInfoRow('المطلوب', '${effectivePrice.toStringAsFixed(0)} ج'),
-                                _buildInfoRow('المدفوع', '${monthlyPaid.toStringAsFixed(0)} ج', valueColor: Colors.green),
+                                Text(context.l10n.thisMonth, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: colorScheme.primary)),
+                                const SizedBox(height: 8),
+                                _buildInfoRow(context, 'المطلوب', '${effectivePrice.toStringAsFixed(0)} ج'),
+                                _buildInfoRow(context, 'المدفوع', '${monthlyPaid.toStringAsFixed(0)} ج', valueColor: Colors.green),
                                 const Divider(),
-                                _buildInfoRow(context.l10n.remainingAmount,
-                                  balance > 0 ? '${balance.toStringAsFixed(0)} ج' : (balance < 0 ? '${context.l10n.creditBalance} ${balance.abs().toStringAsFixed(0)} ج' : '${context.l10n.complete} ✓'),
+                                _buildInfoRow(context, context.l10n.remainingAmount,
+                                  balance > 0 ? '${balance.toStringAsFixed(0)} ج' : (balance < 0 ? '${context.l10n.creditBalance}\n${balance.abs().toStringAsFixed(0)} ج' : '${context.l10n.complete} ✓'),
                                   valueColor: balance > 0 ? Colors.red : Colors.green, isBold: true
                                 )
                               ],
@@ -399,28 +435,37 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
     );
   }
 
-  Widget _buildInfoRow(String label, String value, {Color? valueColor, bool isBold = false}) {
+  Widget _buildInfoRow(BuildContext context, String label, String value, {Color? valueColor, bool isBold = false}) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(child: Text(label, style: const TextStyle(fontSize: 11, color: Colors.grey), overflow: TextOverflow.ellipsis)),
-          Expanded(child: Text(value, style: TextStyle(fontSize: 11, color: valueColor ?? Colors.black87), textAlign: TextAlign.end, overflow: TextOverflow.ellipsis)),
+          Expanded(child: Text(label, style: TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant), overflow: TextOverflow.ellipsis)),
+          Expanded(child: Text(value, style: TextStyle(fontSize: 12, color: valueColor ?? colorScheme.onSurface, fontWeight: isBold ? FontWeight.bold : FontWeight.normal), textAlign: TextAlign.end, overflow: TextOverflow.ellipsis)),
         ],
       ),
     );
   }
 
   Widget _buildMiniCard(String value, String label, Color color, BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Container(
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.grey.shade200)),
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: colorScheme.outline.withAlpha(30)),
+        boxShadow: [
+          BoxShadow(color: color.withAlpha(15), blurRadius: 10, offset: const Offset(0, 4)),
+        ],
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(value, style: Theme.of(context).textTheme.titleLarge?.copyWith(color: color)),
-          const SizedBox(height: 2),
-          Text(label, style: Theme.of(context).textTheme.labelSmall?.copyWith(color: Colors.grey)),
+          Text(value, style: Theme.of(context).textTheme.titleLarge?.copyWith(color: color, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 4),
+          Text(label, style: Theme.of(context).textTheme.labelSmall?.copyWith(color: colorScheme.onSurfaceVariant)),
         ],
       ),
     );
@@ -475,8 +520,9 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
   }
 
   Widget _buildRadarChartCard({required double studentAtt, required double groupAtt, required double studentGrade, required double groupGrade, required double studentPayment, required double groupPayment, required double studentQuiz, required double groupQuiz, required BuildContext context}) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Card(
-      elevation: 0, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: Colors.grey.shade200)),
+      elevation: 0, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: colorScheme.outline.withAlpha(30))),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -489,7 +535,7 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
               child: RadarChart(
                 RadarChartData(
                   radarBorderData: const BorderSide(color: Colors.transparent),
-                  gridBorderData: BorderSide(color: Colors.grey.shade300, width: 1),
+                  gridBorderData: BorderSide(color: colorScheme.outline.withAlpha(30), width: 1),
                   tickCount: 5,
                   ticksTextStyle: const TextStyle(color: Colors.transparent, fontSize: 10),
                   tickBorderData: const BorderSide(color: Colors.transparent),
@@ -531,6 +577,8 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
   }
 
   Widget _buildAttendanceTab(List<AttendanceRecord> records, BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
     if (records.isEmpty) return Center(child: Text(context.l10n.noAttendanceRecords, style: const TextStyle(color: Colors.grey)));
     return ListView.builder(
       padding: const EdgeInsets.all(16),
@@ -539,7 +587,7 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
         final a = records[i];
         final isPresent = a.status == 'present';
         return Card(
-          elevation: 0, margin: const EdgeInsets.only(bottom: 8), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Colors.grey.shade200)),
+          elevation: 0, margin: const EdgeInsets.only(bottom: 8), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: colorScheme.outline.withAlpha(30))),
           child: ListTile(
             title: Text(a.date, style: Theme.of(context).textTheme.bodyMedium),
             subtitle: a.notes.isNotEmpty ? Text(a.notes, style: Theme.of(context).textTheme.bodySmall) : null,
@@ -555,6 +603,8 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
   }
 
   Widget _buildPaymentsTab(List<PaymentModel> payments, BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
     if (payments.isEmpty) return Center(child: Text(context.l10n.noPaymentRecords, style: const TextStyle(color: Colors.grey)));
     return ListView.builder(
       padding: const EdgeInsets.all(16),
@@ -562,7 +612,7 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
       itemBuilder: (ctx, i) {
         final p = payments[i];
         return Card(
-          elevation: 0, margin: const EdgeInsets.only(bottom: 8), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Colors.grey.shade200)),
+          elevation: 0, margin: const EdgeInsets.only(bottom: 8), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: colorScheme.outline.withAlpha(30))),
           child: ListTile(
             title: Text('${p.amount.toStringAsFixed(0)} ج', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.green)),
             subtitle: Text('${p.forMonth} · ${p.method}', style: Theme.of(context).textTheme.bodySmall),
@@ -574,6 +624,8 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
   }
 
   Widget _buildGradesTab(List<GradeModel> grades, BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
     if (grades.isEmpty) return Center(child: Text(context.l10n.noGradesFound, style: const TextStyle(color: Colors.grey)));
     return ListView.builder(
       padding: const EdgeInsets.all(16),
@@ -582,7 +634,7 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
         final g = grades[i];
         final pct = (g.score / g.maxScore) * 100;
         return Card(
-          elevation: 0, margin: const EdgeInsets.only(bottom: 8), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Colors.grey.shade200)),
+          elevation: 0, margin: const EdgeInsets.only(bottom: 8), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: colorScheme.outline.withAlpha(30))),
           child: ListTile(
             title: Text(g.examName, style: Theme.of(context).textTheme.bodyMedium),
             subtitle: Text(g.examDate, style: Theme.of(context).textTheme.bodySmall),
@@ -609,7 +661,7 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
         final dateObj = DateTime.tryParse(q.submittedAt);
         final dateStr = dateObj != null ? DateFormat('yyyy-MM-dd').format(dateObj) : q.submittedAt;
         return Card(
-          elevation: 0, margin: const EdgeInsets.only(bottom: 8), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Colors.grey.shade200)),
+          elevation: 0, margin: const EdgeInsets.only(bottom: 8), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Theme.of(context).colorScheme.outline.withAlpha(30))),
           child: ListTile(
             title: Text(q.quizTitle, style: const TextStyle(fontSize: 14)),
             subtitle: Text(dateStr, style: const TextStyle(fontSize: 12)),
@@ -647,7 +699,7 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
           Expanded(
              child: Card(
                elevation: 0,
-               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: Colors.grey.shade200)),
+               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: colors.outline.withAlpha(30))),
                child: Padding(
                  padding: const EdgeInsets.all(16.0),
                  child: LineChart(
@@ -724,7 +776,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      color: Colors.white,
+      color: Theme.of(context).colorScheme.surface,
       child: _tabBar,
     );
   }
