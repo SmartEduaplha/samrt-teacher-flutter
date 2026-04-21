@@ -5,6 +5,10 @@ class TaskModel {
   final DateTime date;
   final bool isCompleted;
   final String? groupId; // Optional binding to a group
+  final String? type;
+  final String? time;
+  final String? repeat;
+  final String? notes;
 
   const TaskModel({
     required this.id,
@@ -13,6 +17,10 @@ class TaskModel {
     required this.date,
     this.isCompleted = false,
     this.groupId,
+    this.type,
+    this.time,
+    this.repeat,
+    this.notes,
   });
 
   factory TaskModel.fromMap(Map<String, dynamic> map) {
@@ -23,6 +31,10 @@ class TaskModel {
       date: DateTime.parse(map['date'] as String? ?? DateTime.now().toIso8601String()),
       isCompleted: map['is_completed'] as bool? ?? false,
       groupId: map['group_id'] as String?,
+      type: map['type'] as String?,
+      time: map['time'] as String?,
+      repeat: map['repeat'] as String?,
+      notes: map['notes'] as String?,
     );
   }
 
@@ -34,6 +46,10 @@ class TaskModel {
       'date': date.toIso8601String(),
       'is_completed': isCompleted,
       'group_id': groupId,
+      'type': type,
+      'time': time,
+      'repeat': repeat,
+      'notes': notes,
     };
   }
 
@@ -44,6 +60,10 @@ class TaskModel {
     DateTime? date,
     bool? isCompleted,
     String? groupId,
+    String? type,
+    String? time,
+    String? repeat,
+    String? notes,
   }) {
     return TaskModel(
       id: id ?? this.id,
@@ -52,6 +72,10 @@ class TaskModel {
       date: date ?? this.date,
       isCompleted: isCompleted ?? this.isCompleted,
       groupId: groupId ?? this.groupId,
+      type: type ?? this.type,
+      time: time ?? this.time,
+      repeat: repeat ?? this.repeat,
+      notes: notes ?? this.notes,
     );
   }
 }

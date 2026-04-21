@@ -182,6 +182,12 @@ abstract class AppLocalizations {
   /// **'لا توجد مجموعات'**
   String get noGroupsFound;
 
+  /// No description provided for @noGroupsYet.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد مجموعات حتى الآن'**
+  String get noGroupsYet;
+
   /// No description provided for @addGroup.
   ///
   /// In ar, this message translates to:
@@ -4057,6 +4063,72 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'ستظهر سجلات المسح هنا بعد استخدام ماسح QR.'**
   String get noScansYetHint;
+
+  /// No description provided for @quickActionAttendance.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل حضور'**
+  String get quickActionAttendance;
+
+  /// No description provided for @quickActionPayment.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة دفعة'**
+  String get quickActionPayment;
+
+  /// No description provided for @quickActionAddStudent.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة طالب'**
+  String get quickActionAddStudent;
+
+  /// No description provided for @quickActionPortalCode.
+  ///
+  /// In ar, this message translates to:
+  /// **'كود البوابة'**
+  String get quickActionPortalCode;
+
+  /// No description provided for @customizeQuickActions.
+  ///
+  /// In ar, this message translates to:
+  /// **'تخصيص الإجراءات السريعة'**
+  String get customizeQuickActions;
+
+  /// No description provided for @quickActionsHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'فعّل الإجراءات التي تريدها واسحب لإعادة الترتيب'**
+  String get quickActionsHint;
+
+  /// No description provided for @selectStudentForPortalCode.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر طالباً لتوليد كود البوابة'**
+  String get selectStudentForPortalCode;
+
+  /// No description provided for @searchStudents.
+  ///
+  /// In ar, this message translates to:
+  /// **'بحث عن طالب...'**
+  String get searchStudents;
+
+  /// No description provided for @copiedToClipboard.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم النسخ إلى الحافظة'**
+  String get copiedToClipboard;
+
+  /// No description provided for @copy.
+  ///
+  /// In ar, this message translates to:
+  /// **'نسخ'**
+  String get copy;
+
+  /// No description provided for @done.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم'**
+  String get done;
 }
 
 class _AppLocalizationsDelegate

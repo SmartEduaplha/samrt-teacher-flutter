@@ -51,6 +51,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noGroupsFound => 'No groups found';
 
   @override
+  String get noGroupsYet => 'No groups yet';
+
+  @override
   String get addGroup => 'Add Group';
 
   @override
@@ -2243,4 +2246,38 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get noScansYetHint =>
       'Scan records will appear here after using the QR scanner.';
+
+  @override
+  String get quickActionAttendance => 'Record Attendance';
+
+  @override
+  String get quickActionPayment => 'Add Payment';
+
+  @override
+  String get quickActionAddStudent => 'Add Student';
+
+  @override
+  String get quickActionPortalCode => 'Portal Code';
+
+  @override
+  String get customizeQuickActions => 'Customize Quick Actions';
+
+  @override
+  String get quickActionsHint => 'Enable actions and drag to reorder';
+
+  @override
+  String get selectStudentForPortalCode =>
+      'Select student to generate portal code';
+
+  @override
+  String get searchStudents => 'Search for a student...';
+
+  @override
+  String get copiedToClipboard => 'Copied to clipboard';
+
+  @override
+  String get copy => 'Copy';
+
+  @override
+  String get done => 'Done';
 }

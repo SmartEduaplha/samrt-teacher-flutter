@@ -111,6 +111,64 @@ class SettingsScreen extends ConsumerWidget {
               },
             ),
           ),
+
+          const SizedBox(height: 24),
+          
+          // --- إعدادات الدرجات الافتراضية ---
+          _buildSectionHeader('الدرجات الافتراضية', Icons.grade_outlined),
+          Card(
+            child: Column(
+              children: [
+                ListTile(
+                  title: const Text('درجة امتحان الحصة الافتراضية'),
+                  subtitle: Text(settings.defaultQuizGrade.toStringAsFixed(1)),
+                  leading: const Icon(Icons.assignment_rounded),
+                  onTap: () {
+                    _showSetGradeDialog(
+                      context, 
+                      settingsNotifier, 
+                      'درجة امتحان الحصة', 
+                      settings.defaultQuizGrade, 
+                      (val) => settingsNotifier.setDefaultGrades(quizGrade: val),
+                    );
+                  },
+                ),
+                SwitchListTile(
+                  title: const Text('تثبيت درجة امتحان الحصة'),
+                  subtitle: const Text('إذا تم تفعيله، ستكون الدرجة ثابتة لكل المجموعات'),
+                  value: settings.isQuizGradeFixed,
+                  onChanged: (val) {
+                    settingsNotifier.setDefaultGrades(quizFixed: val);
+                  },
+                  secondary: const Icon(Icons.lock_rounded),
+                ),
+                const Divider(height: 1),
+                ListTile(
+                  title: const Text('درجة امتحان الشهر الافتراضية'),
+                  subtitle: Text(settings.defaultMonthlyExamGrade.toStringAsFixed(1)),
+                  leading: const Icon(Icons.assignment_turned_in_rounded),
+                  onTap: () {
+                    _showSetGradeDialog(
+                      context, 
+                      settingsNotifier, 
+                      'درجة امتحان الشهر', 
+                      settings.defaultMonthlyExamGrade, 
+                      (val) => settingsNotifier.setDefaultGrades(monthlyGrade: val),
+                    );
+                  },
+                ),
+                SwitchListTile(
+                  title: const Text('تثبيت درجة امتحان الشهر'),
+                  subtitle: const Text('إذا تم تفعيله، ستكون الدرجة ثابتة لكل المجموعات'),
+                  value: settings.isMonthlyExamGradeFixed,
+                  onChanged: (val) {
+                    settingsNotifier.setDefaultGrades(monthlyFixed: val);
+                  },
+                  secondary: const Icon(Icons.lock_rounded),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -187,6 +245,46 @@ class SettingsScreen extends ConsumerWidget {
             onPressed: () {
               if (controller.text.length == 4) {
                 notifier.setPin(controller.text);
+                Navigator.pop(ctx);
+              }
+            },
+            child: Text(ctx.l10n.save),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showSetGradeDialog(BuildContext context, SettingsNotifier notifier, String title, double currentValue, Function(double) onSave) {
+    final controller = TextEditingController(text: currentValue.toStringAsFixed(1));
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(title),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('أدخل الدرجة الافتراضية للمجموعات الجديدة'),
+            const SizedBox(height: 16),
+            TextField(
+              controller: controller,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(ctx.l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () {
+              final val = double.tryParse(controller.text);
+              if (val != null && val > 0) {
+                onSave(val);
                 Navigator.pop(ctx);
               }
             },

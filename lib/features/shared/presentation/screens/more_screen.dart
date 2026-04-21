@@ -14,6 +14,7 @@ import '../../../quizzes/presentation/screens/quizzes_screen.dart';
 import '../../../tasks/presentation/screens/tasks_screen.dart';
 import '../../../qr_scanner/presentation/screens/qr_scanner_screen.dart';
 import 'settings_screen.dart';
+import 'quick_actions_settings_screen.dart';
 
 // Note: Ensure other feature screens are imported as needed. 
 // For now, I'll keep the ones I can see in the breadcrumbs or that are clearly defined.
@@ -78,10 +79,10 @@ class MoreScreen extends ConsumerWidget {
                 ),
               ),
               _MenuItem(
-                icon: Icons.task_rounded,
+                icon: Icons.event_note_rounded,
                 iconColor: Colors.amber[800]!,
-                title: context.l10n.viewTasks,
-                subtitle: context.l10n.comingSoon,
+                title: 'المنظم',
+                subtitle: 'نظم وقتك وحصصك ومهامك',
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const TasksScreen()),
@@ -115,6 +116,17 @@ class MoreScreen extends ConsumerWidget {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const QrScannerScreen()),
+                ),
+              ),
+              _MenuItem(
+                icon: Icons.bolt_rounded,
+                iconColor: const Color(0xFF8B5CF6),
+                title: context.l10n.customizeQuickActions,
+                subtitle: context.l10n.quickActionsHint,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => const QuickActionsSettingsScreen()),
                 ),
               ),
             ],

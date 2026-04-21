@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/providers/db_providers.dart';
+import '../../../../core/providers/settings_provider.dart';
 import '../../../../core/extensions/l10n_extensions.dart';
 import '../../data/models/group_model.dart';
 import '../../../students/data/models/student_model.dart'; // for academicYears
@@ -24,6 +25,8 @@ class _GroupFormScreenState extends ConsumerState<GroupFormScreen> {
   late TextEditingController _locationController;
   late TextEditingController _onlineLinkController;
   late TextEditingController _notesController;
+  late TextEditingController _quizGradeController;
+  late TextEditingController _monthlyExamGradeController;
   
   late String _selectedType;
   late String _selectedAcademicYear;
@@ -45,9 +48,13 @@ class _GroupFormScreenState extends ConsumerState<GroupFormScreen> {
   void initState() {
     super.initState();
     final g = widget.groupToEdit;
+    final user = ref.read(currentUserProvider).value;
+    final settings = ref.read(settingsProvider);
     
     _nameController = TextEditingController(text: g?.name ?? '');
-    _subjectController = TextEditingController(text: g?.subject ?? '');
+    _subjectController = TextEditingController(
+      text: (g?.subject.isNotEmpty == true) ? g!.subject : (user?.subject ?? '')
+    );
     _priceController = TextEditingController(
         text: (g?.defaultMonthlyPrice ?? 0) > 0 ? g!.defaultMonthlyPrice.toStringAsFixed(0) : '');
     _discountController = TextEditingController(
@@ -55,6 +62,13 @@ class _GroupFormScreenState extends ConsumerState<GroupFormScreen> {
     _locationController = TextEditingController(text: g?.type != 'online' ? g?.location : '');
     _onlineLinkController = TextEditingController(text: g?.type == 'online' ? g?.onlineLink : '');
     _notesController = TextEditingController(text: g?.notes ?? '');
+    
+    _quizGradeController = TextEditingController(
+      text: g?.quizGrade?.toStringAsFixed(1) ?? settings.defaultQuizGrade.toStringAsFixed(1)
+    );
+    _monthlyExamGradeController = TextEditingController(
+      text: g?.monthlyExamGrade?.toStringAsFixed(1) ?? settings.defaultMonthlyExamGrade.toStringAsFixed(1)
+    );
     
     _selectedType = g?.type ?? GroupType.center.value;
     _selectedAcademicYear = g?.academicYear ?? (academicYears.contains('year_1_sec') ? 'year_1_sec' : academicYears.first);
@@ -72,6 +86,8 @@ class _GroupFormScreenState extends ConsumerState<GroupFormScreen> {
     _locationController.dispose();
     _onlineLinkController.dispose();
     _notesController.dispose();
+    _quizGradeController.dispose();
+    _monthlyExamGradeController.dispose();
     super.dispose();
   }
 
@@ -95,6 +111,8 @@ class _GroupFormScreenState extends ConsumerState<GroupFormScreen> {
         'location': _selectedType != 'online' ? _locationController.text.trim() : '',
         'online_link': _selectedType == 'online' ? _onlineLinkController.text.trim() : '',
         'notes': _notesController.text.trim(),
+        'quiz_grade': double.tryParse(_quizGradeController.text),
+        'monthly_exam_grade': double.tryParse(_monthlyExamGradeController.text),
         'schedule': _schedule.map((s) => s.toMap()).toList(),
         'is_active': widget.groupToEdit?.isActive ?? true,
       };
@@ -163,6 +181,7 @@ class _GroupFormScreenState extends ConsumerState<GroupFormScreen> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final settings = ref.watch(settingsProvider);
     
     double defaultPrice = double.tryParse(_priceController.text) ?? 0.0;
     double discount = double.tryParse(_discountController.text) ?? 0.0;
@@ -253,6 +272,36 @@ class _GroupFormScreenState extends ConsumerState<GroupFormScreen> {
                                 )).toList(),
                                 onChanged: (v) => setState(() => _selectedAcademicYear = v!),
                               ), colorScheme),
+                              const SizedBox(height: 16),
+                              
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: _buildFieldWrapper('درجة امتحان الحصة', TextFormField(
+                                      controller: _quizGradeController,
+                                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                      decoration: _inputDec('10', colorScheme),
+                                      readOnly: settings.isQuizGradeFixed,
+                                      enabled: !settings.isQuizGradeFixed,
+                                    ), colorScheme),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: _buildFieldWrapper('درجة امتحان الشهر', TextFormField(
+                                      controller: _monthlyExamGradeController,
+                                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                      decoration: _inputDec('50', colorScheme),
+                                      readOnly: settings.isMonthlyExamGradeFixed,
+                                      enabled: !settings.isMonthlyExamGradeFixed,
+                                    ), colorScheme),
+                                  ),
+                                ],
+                              ),
+                              if (settings.isQuizGradeFixed || settings.isMonthlyExamGradeFixed)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: Text('بعض الدرجات ثابتة بناءً على الإعدادات العامة', style: TextStyle(fontSize: 11, color: Colors.amber.shade700)),
+                                ),
                               const SizedBox(height: 16),
 
                               _buildFieldWrapper(context.l10n.defaultPrice, TextFormField(

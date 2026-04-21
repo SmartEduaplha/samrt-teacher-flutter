@@ -51,6 +51,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noGroupsFound => 'لا توجد مجموعات';
 
   @override
+  String get noGroupsYet => 'لا توجد مجموعات حتى الآن';
+
+  @override
   String get addGroup => 'إضافة مجموعة';
 
   @override
@@ -2215,4 +2218,38 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noScansYetHint => 'ستظهر سجلات المسح هنا بعد استخدام ماسح QR.';
+
+  @override
+  String get quickActionAttendance => 'تسجيل حضور';
+
+  @override
+  String get quickActionPayment => 'إضافة دفعة';
+
+  @override
+  String get quickActionAddStudent => 'إضافة طالب';
+
+  @override
+  String get quickActionPortalCode => 'كود البوابة';
+
+  @override
+  String get customizeQuickActions => 'تخصيص الإجراءات السريعة';
+
+  @override
+  String get quickActionsHint =>
+      'فعّل الإجراءات التي تريدها واسحب لإعادة الترتيب';
+
+  @override
+  String get selectStudentForPortalCode => 'اختر طالباً لتوليد كود البوابة';
+
+  @override
+  String get searchStudents => 'بحث عن طالب...';
+
+  @override
+  String get copiedToClipboard => 'تم النسخ إلى الحافظة';
+
+  @override
+  String get copy => 'نسخ';
+
+  @override
+  String get done => 'تم';
 }

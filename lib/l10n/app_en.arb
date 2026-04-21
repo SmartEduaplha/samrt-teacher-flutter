@@ -16,6 +16,7 @@
   "newGroup": "New Group",
   "searchHint": "Search...",
   "noGroupsFound": "No groups found",
+  "noGroupsYet": "No groups yet",
   "addGroup": "Add Group",
   "all": "All",
   "center": "Center",
@@ -1016,6 +1017,18 @@
   "screenshotHint": "You can take a screenshot to keep the code",
   "noScansYet": "No scans yet",
   "noScansYetHint": "Scan records will appear here after using the QR scanner.",
-  "attendance": "Attendance"
+  "attendance": "Attendance",
+
+  "quickActionAttendance": "Record Attendance",
+  "quickActionPayment": "Add Payment",
+  "quickActionAddStudent": "Add Student",
+  "quickActionPortalCode": "Portal Code",
+  "customizeQuickActions": "Customize Quick Actions",
+  "quickActionsHint": "Enable actions and drag to reorder",
+  "selectStudentForPortalCode": "Select student to generate portal code",
+  "searchStudents": "Search for a student...",
+  "copiedToClipboard": "Copied to clipboard",
+  "copy": "Copy",
+  "done": "Done"
 }
 

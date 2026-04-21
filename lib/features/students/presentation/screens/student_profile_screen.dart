@@ -577,7 +577,6 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
   }
 
   Widget _buildAttendanceTab(List<AttendanceRecord> records, BuildContext context) {
-    final theme = Theme.of(context);
     final colorScheme = Theme.of(context).colorScheme;
     if (records.isEmpty) return Center(child: Text(context.l10n.noAttendanceRecords, style: const TextStyle(color: Colors.grey)));
     return ListView.builder(
@@ -603,7 +602,6 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
   }
 
   Widget _buildPaymentsTab(List<PaymentModel> payments, BuildContext context) {
-    final theme = Theme.of(context);
     final colorScheme = Theme.of(context).colorScheme;
     if (payments.isEmpty) return Center(child: Text(context.l10n.noPaymentRecords, style: const TextStyle(color: Colors.grey)));
     return ListView.builder(
@@ -624,7 +622,6 @@ class _StudentProfileScreenState extends ConsumerState<StudentProfileScreen> wit
   }
 
   Widget _buildGradesTab(List<GradeModel> grades, BuildContext context) {
-    final theme = Theme.of(context);
     final colorScheme = Theme.of(context).colorScheme;
     if (grades.isEmpty) return Center(child: Text(context.l10n.noGradesFound, style: const TextStyle(color: Colors.grey)));
     return ListView.builder(

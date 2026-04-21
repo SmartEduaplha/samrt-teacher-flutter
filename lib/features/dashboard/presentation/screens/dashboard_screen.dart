@@ -20,6 +20,8 @@ import '../../../tasks/data/models/task_model.dart';
 import '../../../tasks/presentation/screens/tasks_screen.dart';
 import '../../../announcements/presentation/screens/announcements_screen.dart';
 import '../../../auth/data/models/user_model.dart';
+import '../../../shared/presentation/widgets/quick_actions_bar.dart';
+import '../../../grades/presentation/screens/grades_dashboard_screen.dart';
 // Removed unused import
 
 const List<Color> sessionColors = [
@@ -173,16 +175,59 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               final totalOutstanding = outstandingList.fold(0.0, (sum, item) => sum + (item['outstanding'] as double));
               final visibleOutstanding = _showAllOutstanding ? outstandingList : outstandingList.take(5).toList();
 
-              final recentPayments = List<PaymentModel>.from(data.allPayments)
-                ..sort((a, b) => b.createdDate.compareTo(a.createdDate));
-              final topRecentPayments = recentPayments.take(4).toList();
+              final allActivitiesRaw = <ActivityModel>[];
+              
+              // Add payments
+              for (var p in data.allPayments) {
+                if (p.createdDate.isNotEmpty) {
+                  allActivitiesRaw.add(ActivityModel(
+                    id: p.id,
+                    action: 'payment',
+                    details: '${context.l10n.paymentOf} ${p.amount} ${context.l10n.currency} - ${p.studentName}',
+                    timestamp: DateTime.tryParse(p.createdDate) ?? DateTime.fromMillisecondsSinceEpoch(0),
+                  ));
+                }
+              }
+              
+              // Add students
+              for (var s in data.students) {
+                if (s.createdDate.isNotEmpty) {
+                  allActivitiesRaw.add(ActivityModel(
+                    id: s.id,
+                    action: 'create',
+                    details: 'تسجيل الطالب: ${s.fullName}',
+                    timestamp: DateTime.tryParse(s.createdDate) ?? DateTime.fromMillisecondsSinceEpoch(0),
+                  ));
+                }
+              }
 
-              final activities = topRecentPayments.map((p) => ActivityModel(
-                id: p.id,
-                action: 'payment',
-                details: '${context.l10n.paymentOf} ${p.amount} ${context.l10n.currency} - ${p.studentName}',
-                timestamp: DateTime.tryParse(p.createdDate) ?? DateTime.now(),
-              )).toList();
+              // Add attendance
+              for (var a in data.allAttendance) {
+                if (a.createdDate.isNotEmpty) {
+                  final statusText = a.status == 'present' ? 'حضور' : (a.status == 'absent' ? 'غياب' : 'غياب بعذر');
+                  allActivitiesRaw.add(ActivityModel(
+                    id: a.id,
+                    action: 'attendance',
+                    details: 'تسجيل $statusText للطالب: ${a.studentName}',
+                    timestamp: DateTime.tryParse(a.createdDate) ?? DateTime.fromMillisecondsSinceEpoch(0),
+                  ));
+                }
+              }
+
+              // Add groups
+              for (var g in data.groups) {
+                if (g.createdDate.isNotEmpty) {
+                  allActivitiesRaw.add(ActivityModel(
+                    id: g.id,
+                    action: 'create',
+                    details: 'تم إضافة مجموعة جديدة: ${g.name}',
+                    timestamp: DateTime.tryParse(g.createdDate) ?? DateTime.fromMillisecondsSinceEpoch(0),
+                  ));
+                }
+              }
+
+              allActivitiesRaw.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+              final activities = allActivitiesRaw.take(6).toList();
 
                return Column(
                  crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -190,10 +235,17 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                      _buildHeader(colorScheme, userAsync.value),
                    const SizedBox(height: 16),
                    _buildSmartSuggestions(context, data, dayName),
+                   // ── شريط الإجراءات السريعة المضمّن ───────────────────────────
+                   const SizedBox(height: 12),
+                   const QuickActionsBar(),
                    const SizedBox(height: 20),
                    _buildStatsGrid(data, activeGroups, activeStudents, todayTotal, todayPayments, totalOutstanding, outstandingList),
                    const SizedBox(height: 20),
+                   _buildOrganizerShortcutCard(context),
+                   const SizedBox(height: 20),
                    _buildCommunicationCard(context),
+                   const SizedBox(height: 20),
+                   _buildAcademicCard(context),
                    const SizedBox(height: 20),
                   _buildAttendanceChart(colorScheme, presentToday, absentToday),
                   const SizedBox(height: 20),
@@ -202,6 +254,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   _buildOutstandingAlerts(context, totalOutstanding, outstandingList, visibleOutstanding),
                   const SizedBox(height: 20),
                   _buildRecentActivity(context, activities),
+                  const SizedBox(height: 20),
                 ],
               );
             },
@@ -312,27 +365,179 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   }
 
   Widget _buildAttendanceChart(ColorScheme colorScheme, int present, int absent) {
+    final total = present + absent;
+    final presentPct = total == 0 ? 0.0 : (present / total) * 100;
+    
     return _buildGlassCard(
       title: context.l10n.todayAttendance,
-      icon: Icons.bar_chart_rounded,
-      iconColor: colorScheme.primary,
-      child: SizedBox(
-        height: 200,
-        child: BarChart(
-          BarChartData(
-            alignment: BarChartAlignment.spaceAround,
-            titlesData: FlTitlesData(
-              leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, getTitlesWidget: (value, meta) {
-                return Text(value == 0 ? context.l10n.present : context.l10n.absent, style: const TextStyle(fontSize: 12));
-              })),
+      icon: Icons.pie_chart_rounded,
+      iconColor: const Color(0xFF0EA5E9),
+      child: total == 0
+          ? _buildEmptyState(
+              Icons.event_available_rounded, context.l10n.noSessionsToday)
+          : Column(
+              children: [
+                Row(
+                  children: [
+                    // الرسم البياني الدائري (Donut Chart)
+                    SizedBox(
+                      height: 120,
+                      width: 120,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          PieChart(
+                            PieChartData(
+                              sectionsSpace: 4,
+                              centerSpaceRadius: 40,
+                              startDegreeOffset: 270,
+                              sections: [
+                                PieChartSectionData(
+                                  color: const Color(0xFF10B981), // اخضر للحضور
+                                  value: present.toDouble(),
+                                  title: '',
+                                  radius: 12,
+                                ),
+                                PieChartSectionData(
+                                  color: const Color(0xFFEF4444), // احمر للغياب
+                                  value: absent.toDouble(),
+                                  title: '',
+                                  radius: 12,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                '${presentPct.toInt()}%',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF10B981),
+                                ),
+                              ),
+                              Text(
+                                'معدل الحضور',
+                                style: TextStyle(
+                                  fontSize: 9,
+                                  color: colorScheme.onSurface.withAlpha(150),
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 24),
+                    // الإحصائيات الدقيقة (بطاقات الحضور والغياب)
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buildAttendanceStatRow(
+                            context.l10n.present,
+                            present,
+                            const Color(0xFF10B981),
+                            Icons.check_circle_rounded,
+                          ),
+                          const SizedBox(height: 12),
+                          _buildAttendanceStatRow(
+                            context.l10n.absent,
+                            absent,
+                            const Color(0xFFEF4444),
+                            Icons.cancel_rounded,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                // شريط إجمالي الطلاب
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        colorScheme.primary.withAlpha(20),
+                        colorScheme.secondary.withAlpha(20)
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: colorScheme.primary.withAlpha(30)),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.groups_rounded, color: colorScheme.primary, size: 20),
+                          const SizedBox(width: 8),
+                          Text('إجمالي المسجلين اليوم',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: colorScheme.onSurface.withAlpha(200),
+                              )),
+                        ],
+                      ),
+                      Text(
+                        '$total',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: colorScheme.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            barGroups: [
-              BarChartGroupData(x: 0, barRods: [BarChartRodData(toY: present.toDouble(), color: Colors.green, width: 30, borderRadius: BorderRadius.circular(4))]),
-              BarChartGroupData(x: 1, barRods: [BarChartRodData(toY: absent.toDouble(), color: Colors.red, width: 30, borderRadius: BorderRadius.circular(4))]),
-            ],
+    );
+  }
+
+  Widget _buildAttendanceStatRow(String label, int value, Color color, IconData icon) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: color.withAlpha(15),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: color.withAlpha(40)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: color.withAlpha(25),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: color, size: 16),
           ),
-        ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: color.withAlpha(220),
+              ),
+            ),
+          ),
+          Text(
+            '$value',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -486,8 +691,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 const Divider(height: 32),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(context.l10n.totalOutstandingThisMonth, style: Theme.of(context).textTheme.titleMedium),
+                    Expanded(
+                      child: Text(context.l10n.totalOutstandingThisMonth, style: Theme.of(context).textTheme.titleMedium),
+                    ),
+                    const SizedBox(width: 8),
                     Text('${totalOutstanding.toStringAsFixed(0)} ${context.l10n.currency}', 
                       style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w900, color: Colors.red)),
                   ],
@@ -550,6 +759,26 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     }
   }
 
+  Widget _buildOrganizerShortcutCard(BuildContext context) {
+    return _buildGlassCard(
+      title: 'المنظم',
+      icon: Icons.event_note_rounded,
+      iconColor: const Color(0xFFF16938), // Matches the orange theme in screenshots
+      child: Column(
+        children: [
+          _buildQuickActionTile(
+            context,
+            title: 'جدولك الأسبوعي وقائمة مهامك',
+            subtitle: 'نظم وقتك، حصصك، ومهامك في مكان واحد مجدول',
+            icon: Icons.calendar_month_rounded,
+            color: const Color(0xFFF16938),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const TasksScreen())),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildCommunicationCard(BuildContext context) {
     return _buildGlassCard(
       title: context.l10n.communicationManagement,
@@ -564,6 +793,26 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             icon: Icons.notifications_active_rounded,
             color: Colors.orange,
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AnnouncementsScreen())),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAcademicCard(BuildContext context) {
+    return _buildGlassCard(
+      title: 'الإدارة الأكاديمية والدرجات',
+      icon: Icons.school_rounded,
+      iconColor: Colors.amber,
+      child: Column(
+        children: [
+          _buildQuickActionTile(
+            context,
+            title: 'إدارة الدرجات',
+            subtitle: 'سجل واستعرض درجات امتحانات الحصة والشهر',
+            icon: Icons.grade_rounded,
+            color: Colors.amber,
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const GradesDashboardScreen())),
           ),
         ],
       ),
@@ -657,7 +906,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 Expanded(
                   child: Row(
                     children: [
-                      Text(title, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
+                      Flexible(
+                        child: Text(title, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
+                      ),
                       if (badge != null) ...[
                         const SizedBox(width: 10),
                         Container(

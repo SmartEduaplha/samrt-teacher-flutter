@@ -161,7 +161,7 @@ class _StudentFormScreenState extends ConsumerState<StudentFormScreen> {
     final groupsAsync = ref.watch(activeGroupsProvider);
 
     return Scaffold(
-      backgroundColor: colorScheme.surfaceTint.withValues(alpha: 0.05),
+      backgroundColor: colorScheme.surface,
       body: SafeArea(
         child: Column(
           children: [
@@ -282,64 +282,60 @@ class _StudentFormScreenState extends ConsumerState<StudentFormScreen> {
                         title: context.l10n.academicData,
                         icon: Icons.school_outlined,
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: _buildFieldWrapper(context.l10n.academicYearLabel, DropdownButtonFormField<String>(
-                                  initialValue: _selectedYear,
-                                  decoration: _inputDec(''),
-                                  items: academicYears.map((y) => DropdownMenuItem(value: y, child: Text(_getYearLabel(y)))).toList(),
-                                  onChanged: (v) {
-                                    setState(() {
-                                      _selectedYear = v!;
-                                      _selectedGroup = null; // reset group if year changes
-                                    });
-                                  },
-                                )),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: _buildFieldWrapper(context.l10n.targetGroup, groupsAsync.when(
-                                  data: (groups) {
-                                    final filtered = groups.where((g) => g.academicYear == _selectedYear).toList();
-                                    
-                                    // Ensure _selectedGroup is valid for the current filtered list
-                                    // if not, reset it to null (unless it's null already)
-                                    final bool isValid = filtered.any((g) => g.id == _selectedGroup);
-                                    final String? safeValue = isValid ? _selectedGroup : null;
-                                    
-                                    if (filtered.isEmpty) {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(top: 8),
-                                        child: Text(
-                                          context.l10n.noGroupsForYear,
-                                          style: TextStyle(color: colorScheme.error, fontSize: 12),
-                                        ),
-                                      );
-                                    }
+                          _buildFieldWrapper(context.l10n.academicYearLabel, DropdownButtonFormField<String>(
+                            initialValue: _selectedYear,
+                            decoration: _inputDec(''),
+                            items: academicYears.map((y) => DropdownMenuItem(value: y, child: Text(_getYearLabel(y)))).toList(),
+                            onChanged: (v) {
+                              setState(() {
+                                _selectedYear = v!;
+                                // Don't reset _selectedGroup, just let it be. If the user explicitly selects a year, 
+                                // it won't break the _selectedGroup unless they change it next.
+                              });
+                            },
+                          )),
+                          const SizedBox(height: 16),
+                          _buildFieldWrapper(context.l10n.targetGroup, groupsAsync.when(
+                            data: (groups) {
+                              if (groups.isEmpty) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: Text(
+                                    context.l10n.noGroupsYet,
+                                    style: TextStyle(color: colorScheme.error, fontSize: 13),
+                                  ),
+                                );
+                              }
 
-                                    return DropdownButtonFormField<String>(
-                                      initialValue: safeValue,
-                                      decoration: _inputDec(context.l10n.selectGroupHint),
-                                      items: filtered.map((g) => DropdownMenuItem(value: g.id, child: Text(g.name))).toList(),
-                                      onChanged: (v) => setState(() => _selectedGroup = v),
-                                      validator: (v) => v == null ? context.l10n.groupRequired : null,
-                                      isExpanded: true,
-                                    );
-                                  },
-                                  loading: () => const SizedBox(
-                                    height: 48,
-                                    child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
-                                  ),
-                                  error: (_, _) => Text(
-                                    context.l10n.errorLoadingGroups,
-                                    style: TextStyle(color: colorScheme.error, fontSize: 12),
-                                  ),
-                                )),
-                              ),
-                            ],
-                          ),
+                                return DropdownButtonFormField<String>(
+                                initialValue: groups.any((g) => g.id == _selectedGroup) ? _selectedGroup : null,
+                                decoration: _inputDec(context.l10n.selectGroupHint),
+                                items: groups.map((g) => DropdownMenuItem(value: g.id, child: Text('${g.name} - ${_getYearLabel(g.academicYear)}'))).toList(),
+                                onChanged: (v) {
+                                  setState(() {
+                                    _selectedGroup = v;
+                                    if (v != null) {
+                                      // Automatically select the correct academic year based on the chosen group
+                                      final selectedG = groups.firstWhere((g) => g.id == v);
+                                      if (academicYears.contains(selectedG.academicYear)) {
+                                        _selectedYear = selectedG.academicYear;
+                                      }
+                                    }
+                                  });
+                                },
+                                validator: (v) => v == null ? context.l10n.groupRequired : null,
+                                isExpanded: true,
+                              );
+                            },
+                            loading: () => const SizedBox(
+                              height: 48,
+                              child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                            ),
+                            error: (_, _) => Text(
+                              context.l10n.errorLoadingGroups,
+                              style: TextStyle(color: colorScheme.error, fontSize: 12),
+                            ),
+                          )),
                         ]
                       ),
                       const SizedBox(height: 16),
@@ -493,24 +489,25 @@ class _StudentFormScreenState extends ConsumerState<StudentFormScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.black87)),
-        const SizedBox(height: 6),
+        Text(label, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.onSurface)),
+        const SizedBox(height: 8),
         child,
       ],
     );
   }
 
   InputDecoration _inputDec(String hint) {
+    final colorScheme = Theme.of(context).colorScheme;
     return InputDecoration(
       hintText: hint,
-      hintStyle: const TextStyle(fontSize: 13, color: Colors.grey),
+      hintStyle: TextStyle(fontSize: 13, color: colorScheme.onSurfaceVariant.withAlpha(150)),
       filled: true,
-      fillColor: Colors.white,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.grey.shade300)),
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.grey.shade300)),
-      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Theme.of(context).colorScheme.primary)),
-      errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.red.shade300)),
+      fillColor: colorScheme.surfaceContainerHighest.withAlpha(50),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colorScheme.outline.withAlpha(50))),
+      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colorScheme.outline.withAlpha(50))),
+      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colorScheme.primary)),
+      errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: colorScheme.error.withAlpha(150))),
     );
   }
 }

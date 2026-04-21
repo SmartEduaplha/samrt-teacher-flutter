@@ -12,6 +12,8 @@ class GroupModel {
   final String onlineLink;
   final String notes;
   final bool isActive;
+  final double? quizGrade;
+  final double? monthlyExamGrade;
   final String createdDate;
   final String updatedDate;
 
@@ -28,6 +30,8 @@ class GroupModel {
     this.onlineLink = '',
     this.notes = '',
     this.isActive = true,
+    this.quizGrade,
+    this.monthlyExamGrade,
     required this.createdDate,
     required this.updatedDate,
   });
@@ -52,6 +56,8 @@ class GroupModel {
       onlineLink: map['online_link'] as String? ?? '',
       notes: map['notes'] as String? ?? '',
       isActive: map['is_active'] as bool? ?? true,
+      quizGrade: (map['quiz_grade'] as num?)?.toDouble(),
+      monthlyExamGrade: (map['monthly_exam_grade'] as num?)?.toDouble(),
       createdDate: map['created_date'] as String? ?? '',
       updatedDate: map['updated_date'] as String? ?? '',
     );
@@ -71,6 +77,8 @@ class GroupModel {
       'online_link': onlineLink,
       'notes': notes,
       'is_active': isActive,
+      'quiz_grade': quizGrade,
+      'monthly_exam_grade': monthlyExamGrade,
       'created_date': createdDate,
       'updated_date': updatedDate,
     };
@@ -89,6 +97,8 @@ class GroupModel {
     String? onlineLink,
     String? notes,
     bool? isActive,
+    double? quizGrade,
+    double? monthlyExamGrade,
     String? createdDate,
     String? updatedDate,
   }) {
@@ -105,6 +115,8 @@ class GroupModel {
       onlineLink: onlineLink ?? this.onlineLink,
       notes: notes ?? this.notes,
       isActive: isActive ?? this.isActive,
+      quizGrade: quizGrade ?? this.quizGrade,
+      monthlyExamGrade: monthlyExamGrade ?? this.monthlyExamGrade,
       createdDate: createdDate ?? this.createdDate,
       updatedDate: updatedDate ?? this.updatedDate,
     );

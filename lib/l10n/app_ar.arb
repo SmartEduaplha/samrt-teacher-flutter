@@ -16,6 +16,7 @@
   "newGroup": "مجموعة جديدة",
   "searchHint": "بحث...",
   "noGroupsFound": "لا توجد مجموعات",
+  "noGroupsYet": "لا توجد مجموعات حتى الآن",
   "addGroup": "إضافة مجموعة",
   "all": "الكل",
   "center": "سنتر",
@@ -1014,6 +1015,18 @@
   "screenshotHint": "يمكنك أخذ لقطة شاشة للاحتفاظ بالكود",
   "noScansYet": "لا يوجد سجلات مسح بعد",
   "noScansYetHint": "ستظهر سجلات المسح هنا بعد استخدام ماسح QR.",
-  "attendance": "حضور"
+  "attendance": "حضور",
+
+  "quickActionAttendance": "تسجيل حضور",
+  "quickActionPayment": "إضافة دفعة",
+  "quickActionAddStudent": "إضافة طالب",
+  "quickActionPortalCode": "كود البوابة",
+  "customizeQuickActions": "تخصيص الإجراءات السريعة",
+  "quickActionsHint": "فعّل الإجراءات التي تريدها واسحب لإعادة الترتيب",
+  "selectStudentForPortalCode": "اختر طالباً لتوليد كود البوابة",
+  "searchStudents": "بحث عن طالب...",
+  "copiedToClipboard": "تم النسخ إلى الحافظة",
+  "copy": "نسخ",
+  "done": "تم"
 }
 
