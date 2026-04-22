@@ -15,6 +15,7 @@ import '../../features/tasks/data/models/task_model.dart';
 import '../../features/store/data/models/store_item_model.dart';
 import '../../features/announcements/data/models/announcement_model.dart';
 import '../../features/qr_scanner/data/models/qr_scan_model.dart';
+import '../../features/honor_board/data/models/honor_point_model.dart';
 
 
 
@@ -251,6 +252,22 @@ final quizResultsByStudentProvider =
 final quizResultsByQuizProvider =
     StreamProvider.family<List<QuizResultModel>, String>((ref, quizId) {
   return ref.read(quizResultDbProvider).snapshotsFilter({'quiz_id': quizId});
+});
+
+// ─── Honor Points ─────────────────────────────────────────────────────────────
+
+/// قاعدة بيانات نقاط الشرف اليدوية
+final honorPointDbProvider = Provider<SyncDbService<HonorPointModel>>((ref) {
+  return SyncDbService<HonorPointModel>(
+    collectionName: 'honor_points',
+    fromMap: (map) => HonorPointModel.fromMap(map, map['id'] ?? ''),
+    toMap: (p) => p.toMap(),
+  );
+});
+
+/// قائمة كل نقاط الشرف
+final honorPointsProvider = StreamProvider<List<HonorPointModel>>((ref) {
+  return ref.read(honorPointDbProvider).snapshots();
 });
 
 // ─── Tasks ────────────────────────────────────────────────────────────────────

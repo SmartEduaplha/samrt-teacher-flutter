@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/providers/db_providers.dart';
-import '../../../expenses/data/models/expense_model.dart';
-import '../../../../core/extensions/l10n_extensions.dart';
 
 class ExpensesScreen extends ConsumerStatefulWidget {
   const ExpensesScreen({super.key});
@@ -14,7 +12,7 @@ class ExpensesScreen extends ConsumerStatefulWidget {
 
 class _ExpensesScreenState extends ConsumerState<ExpensesScreen> {
   final _titleController = TextEditingController();
-  final _amountController = TextEditingController();
+  final _amountController = TextEditingController(text: '0');
   final _notesController = TextEditingController();
 
   String _category = 'other';
@@ -23,14 +21,26 @@ class _ExpensesScreenState extends ConsumerState<ExpensesScreen> {
   late String _filterMonth;
   String _filterCategory = 'all';
   bool _isRecurring = false;
+  bool _showForm = false;
   bool _saving = false;
+
+  // Arabic category labels matching the images
+  static const Map<String, String> _categoryLabels = {
+    'rent': 'إيجار',
+    'salaries': 'رواتب',
+    'supplies': 'مستلزمات',
+    'utilities': 'مرافق',
+    'maintenance': 'صيانة',
+    'marketing': 'تسويق',
+    'other': 'أخرى',
+  };
 
   @override
   void initState() {
     super.initState();
     final now = DateTime.now();
-    _expenseDate = DateFormat('yyyy-MM-dd').format(now);
-    _forMonth = DateFormat('yyyy-MM').format(now);
+    _expenseDate = DateFormat('MM/dd/yyyy').format(now);
+    _forMonth = DateFormat('MMMM yyyy').format(now);
     _filterMonth = DateFormat('yyyy-MM').format(now);
   }
 
@@ -45,28 +55,56 @@ class _ExpensesScreenState extends ConsumerState<ExpensesScreen> {
   void _resetForm() {
     final now = DateTime.now();
     _titleController.clear();
-    _amountController.clear();
+    _amountController.text = '0';
     _notesController.clear();
     setState(() {
       _category = 'other';
-      _expenseDate = DateFormat('yyyy-MM-dd').format(now);
-      _forMonth = DateFormat('yyyy-MM').format(now);
+      _expenseDate = DateFormat('MM/dd/yyyy').format(now);
+      _forMonth = DateFormat('MMMM yyyy').format(now);
       _isRecurring = false;
       _saving = false;
+      _showForm = false;
     });
   }
 
   Future<void> _handleSave() async {
-    if (_titleController.text.isEmpty || _amountController.text.isEmpty) return;
+    if (_titleController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("يرجى إدخال العنوان"), backgroundColor: Colors.orange),
+      );
+      return;
+    }
+    final amount = double.tryParse(_amountController.text) ?? 0;
+    if (amount <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("يرجى إدخال مبلغ صحيح"), backgroundColor: Colors.orange),
+      );
+      return;
+    }
+
     setState(() => _saving = true);
+
+    // Parse dates back to storage format
+    DateTime? expDate;
+    try {
+      expDate = DateFormat('MM/dd/yyyy').parse(_expenseDate);
+    } catch (_) {
+      expDate = DateTime.now();
+    }
+    DateTime? forMonthDate;
+    try {
+      forMonthDate = DateFormat('MMMM yyyy').parse(_forMonth);
+    } catch (_) {
+      forMonthDate = DateTime.now();
+    }
 
     final expenseDb = ref.read(expenseDbProvider);
     await expenseDb.create({
       'title': _titleController.text,
       'category': _category,
-      'amount': double.parse(_amountController.text),
-      'expense_date': _expenseDate,
-      'for_month': _forMonth,
+      'amount': amount,
+      'expense_date': DateFormat('yyyy-MM-dd').format(expDate),
+      'for_month': DateFormat('yyyy-MM').format(forMonthDate),
       'notes': _notesController.text,
       'is_recurring': _isRecurring,
     });
@@ -74,7 +112,11 @@ class _ExpensesScreenState extends ConsumerState<ExpensesScreen> {
     _resetForm();
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.expenseRecordedSuccess)),
+        const SnackBar(
+          content: Text("تم حفظ المصروف بنجاح"),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+        ),
       );
     }
   }
@@ -83,19 +125,17 @@ class _ExpensesScreenState extends ConsumerState<ExpensesScreen> {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(context.l10n.deleteExpenseTitle),
-        content: Text(context.l10n.deleteExpenseConfirm),
+        title: const Text("حذف المصروف"),
+        content: const Text("هل أنت متأكد من حذف هذا المصروف؟"),
         actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text("إلغاء")),
           TextButton(
-              onPressed: () => Navigator.pop(ctx, false),
-              child: Text(context.l10n.cancel)),
-          FilledButton(
-              onPressed: () => Navigator.pop(ctx, true),
-              child: Text(context.l10n.delete)),
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text("حذف", style: TextStyle(color: Colors.red)),
+          ),
         ],
       ),
     );
-
     if (confirm == true) {
       await ref.read(expenseDbProvider).delete(id);
     }
@@ -103,428 +143,640 @@ class _ExpensesScreenState extends ConsumerState<ExpensesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
     final expensesAsync = ref.watch(expensesProvider);
 
     return Scaffold(
+      backgroundColor: const Color(0xFFF8F9FA),
       appBar: AppBar(
-        title: Text(context.l10n.manageExpensesTitle,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Text("المعلم الذكي",
+                style: TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF2D3436), fontSize: 20)),
+            Text("Smart Assistant", style: TextStyle(fontSize: 11, color: Colors.grey)),
+          ],
+        ),
+        actions: [
+          Container(
+            margin: const EdgeInsets.all(8),
+            decoration: BoxDecoration(color: const Color(0xFFE67E22), borderRadius: BorderRadius.circular(12)),
+            child: const IconButton(onPressed: null, icon: Icon(Icons.school, color: Colors.white, size: 20)),
+          ),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.menu, color: Colors.grey)),
+        ],
       ),
-      body: Column(
-        children: [
-          // ── Stats Header ───────────────────────────────────────────
-          expensesAsync.when(
-            data: (allExpenses) {
-              final filtered = allExpenses.where((e) {
-                final monthMatch = e.forMonth == _filterMonth;
-                final catMatch =
-                    _filterCategory == 'all' || e.category == _filterCategory;
-                return monthMatch && catMatch;
-              }).toList();
-              final total = filtered.fold(0.0, (sum, e) => sum + e.amount);
-
-              return Padding(
-                padding: const EdgeInsets.all(16),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // ── Header ─────────────────────────────────────────────────
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _StatBox(
-                      title: context.l10n.totalExpenses,
-                      value:
-                          '${total.toStringAsFixed(0)} ${context.l10n.currency_egp}',
-                      color: Colors.red,
-                      icon: Icons.trending_down_rounded,
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFE67E22).withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: const Icon(Icons.receipt_long, color: Color(0xFFE67E22)),
+                        ),
+                        const SizedBox(width: 12),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text("إدارة المصروفات",
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                            Text("تتبع مصاريف المركز التعليمي بدقة",
+                                style: TextStyle(color: Colors.grey, fontSize: 12)),
+                          ],
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 10),
-                    _StatBox(
-                      title: context.l10n.transactionsCount,
-                      value: filtered.length.toString(),
-                      color: Colors.blue,
-                      icon: Icons.receipt_long_rounded,
+                    // Add Button
+                    ElevatedButton.icon(
+                      onPressed: () => setState(() => _showForm = !_showForm),
+                      icon: const Icon(Icons.add, size: 18),
+                      label: const Text("إضافة مصروف", style: TextStyle(fontSize: 12)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFE67E22),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
                     ),
                   ],
                 ),
-              );
-            },
-            loading: () => const SizedBox(height: 100),
-            error: (_, _) => const SizedBox(),
-          ),
+              ),
 
-          // ── Filters ──────────────────────────────────────────────────
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-            child: Row(
-              children: [
-                Expanded(
-                  child: InkWell(
-                    onTap: () async {
-                      final picked = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.tryParse('$_filterMonth-01') ??
-                            DateTime.now(),
-                        firstDate: DateTime(2020),
-                        lastDate: DateTime(2030),
-                        locale: const Locale('ar'),
-                      );
-                      if (picked != null) {
-                        setState(() => _filterMonth =
-                            DateFormat('yyyy-MM').format(picked));
-                      }
-                    },
-                    child: InputDecorator(
-                      decoration: _filterDecoration(colorScheme),
-                      child: Text(_filterMonth,
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: DropdownButtonFormField<String>(
-                    initialValue: _filterCategory,
-                    isExpanded: true,
-                    decoration: _filterDecoration(colorScheme),
-                    items: [
-                      DropdownMenuItem(
-                          value: 'all', child: Text(context.l10n.allCategories)),
-                      ...ExpenseCategory.values.map((c) => DropdownMenuItem(
-                          value: c.value,
-                          child: Text(c.getLocalizedLabel(context.l10n)))),
-                    ],
-                    onChanged: (val) =>
-                        setState(() => _filterCategory = val ?? 'all'),
-                  ),
-                ),
-              ],
-            ),
-          ),
+              const SizedBox(height: 16),
 
-          const SizedBox(height: 12),
+              // ── Stats Cards ────────────────────────────────────────────
+              expensesAsync.when(
+                data: (allExpenses) {
+                  final filtered = allExpenses.where((e) {
+                    final monthMatch = e.forMonth == _filterMonth;
+                    final catMatch = _filterCategory == 'all' || e.category == _filterCategory;
+                    return monthMatch && catMatch;
+                  }).toList();
+                  final total = filtered.fold(0.0, (sum, e) => sum + e.amount);
 
-          // ── List ─────────────────────────────────────────────────────
-          Expanded(
-            child: expensesAsync.when(
-              data: (allExpenses) {
-                final filtered = allExpenses.where((e) {
-                  final monthMatch = e.forMonth == _filterMonth;
-                  final catMatch =
-                      _filterCategory == 'all' || e.category == _filterCategory;
-                  return monthMatch && catMatch;
-                }).toList();
-
-                if (filtered.isEmpty) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
                       children: [
-                        Icon(Icons.money_off_rounded,
-                            size: 64, color: colorScheme.outline.withAlpha(50)),
-                        const SizedBox(height: 16),
-                        Text(context.l10n.noExpensesRecorded,
-                            style: TextStyle(
-                                color: colorScheme.onSurface.withAlpha(150))),
+                        // Total Expenses Card
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "ج ${total.toStringAsFixed(0)}",
+                                  style: const TextStyle(
+                                    color: Colors.white, fontSize: 28, fontWeight: FontWeight.w900),
+                                ),
+                                const SizedBox(height: 4),
+                                const Text("إجمالي مصروفات الفترة",
+                                    style: TextStyle(color: Colors.white70, fontSize: 12)),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        // Count Card
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  filtered.length.toString(),
+                                  style: const TextStyle(
+                                    color: Colors.white, fontSize: 28, fontWeight: FontWeight.w900),
+                                ),
+                                const SizedBox(height: 4),
+                                const Text("إجمالي الحركات المحاسبية",
+                                    style: TextStyle(color: Colors.white70, fontSize: 12)),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   );
-                }
+                },
+                loading: () => const SizedBox(height: 90),
+                error: (_, e) => const SizedBox(),
+              ),
 
-                return ListView.builder(
-                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 100),
-                  itemCount: filtered.length,
-                  itemBuilder: (context, index) {
-                    final exp = filtered[index];
-                    final catObj = ExpenseCategory.fromValue(exp.category);
-                    return Card(
-                      margin: const EdgeInsets.only(bottom: 10),
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 14, vertical: 4),
-                        title: Row(
-                          children: [
-                            Expanded(
-                              child: Text(exp.title,
-                                  style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700)),
-                            ),
-                            Text(
-                                '${exp.amount.toStringAsFixed(0)} ${context.l10n.currency_egp}',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w900,
-                                    color: Colors.red)),
-                          ],
-                        ),
-                        subtitle: Padding(
-                          padding: const EdgeInsets.only(top: 4),
+              const SizedBox(height: 16),
+
+              // ── Filters ────────────────────────────────────────────────
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  children: [
+                    // Month filter
+                    Expanded(
+                      child: InkWell(
+                        onTap: () async {
+                          final picked = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.tryParse('$_filterMonth-01') ?? DateTime.now(),
+                            firstDate: DateTime(2020),
+                            lastDate: DateTime(2030),
+                          );
+                          if (picked != null) {
+                            setState(() {
+                              _filterMonth = DateFormat('yyyy-MM').format(picked);
+                            });
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: Colors.grey.shade200),
+                          ),
                           child: Row(
                             children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 6, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: colorScheme.secondaryContainer,
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: Text(
-                                    catObj.getLocalizedLabel(context.l10n),
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: colorScheme.onSecondaryContainer,
-                                        fontWeight: FontWeight.bold)),
-                              ),
+                              const Icon(Icons.calendar_today, size: 16, color: Colors.grey),
                               const SizedBox(width: 8),
-                              Text(exp.expenseDate,
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      color: colorScheme.onSurface
-                                          .withAlpha(120))),
-                              if (exp.isRecurring) ...[
-                                const SizedBox(width: 8),
-                                const Icon(Icons.refresh_rounded,
-                                    size: 12, color: Colors.blue),
-                              ],
+                              Text(
+                                DateFormat('MMMM yyyy').format(
+                                    DateTime.tryParse('$_filterMonth-01') ?? DateTime.now()),
+                                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                              ),
                             ],
                           ),
                         ),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete_outline_rounded,
-                              color: Colors.red, size: 20),
-                          onPressed: () => _handleDelete(exp.id),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    // Category filter
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 14),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.grey.shade200),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            value: _filterCategory,
+                            style: const TextStyle(fontSize: 13, color: Colors.black87, fontWeight: FontWeight.w600),
+                            items: [
+                              const DropdownMenuItem(value: 'all', child: Text('كل التصنيفات')),
+                              ..._categoryLabels.entries.map(
+                                (e) => DropdownMenuItem(value: e.key, child: Text(e.value)),
+                              ),
+                            ],
+                            onChanged: (val) => setState(() => _filterCategory = val ?? 'all'),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              // ── Add Form (Inline) ──────────────────────────────────────
+              if (_showForm)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Colors.grey.shade200),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Form header
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("سجل مصروف جديد",
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                            InkWell(
+                              onTap: () => setState(() => _showForm = false),
+                              child: Container(
+                                padding: const EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade100,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(Icons.close, size: 18, color: Colors.grey),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+
+                        // Title + Amount row
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  const Text("العنوان *",
+                                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 6),
+                                  TextField(
+                                    controller: _titleController,
+                                    textAlign: TextAlign.right,
+                                    decoration: _inputDecoration("مثال: فاتورة كهرباء"),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  const Text("مبلغ المصروف (ج) *",
+                                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 6),
+                                  TextField(
+                                    controller: _amountController,
+                                    keyboardType: TextInputType.number,
+                                    textAlign: TextAlign.right,
+                                    decoration: _inputDecoration("0"),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+
+                        // Category + Date row
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  const Text("التصنيف",
+                                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 6),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade100,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: DropdownButtonHideUnderline(
+                                      child: DropdownButton<String>(
+                                        isExpanded: true,
+                                        value: _category,
+                                        style: const TextStyle(fontSize: 13, color: Colors.black87),
+                                        items: _categoryLabels.entries
+                                            .map((e) => DropdownMenuItem(value: e.key, child: Text(e.value)))
+                                            .toList(),
+                                        onChanged: (val) => setState(() => _category = val!),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  const Text("تاريخ الدفع",
+                                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 6),
+                                  InkWell(
+                                    onTap: () async {
+                                      final picked = await showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2020),
+                                        lastDate: DateTime(2030),
+                                      );
+                                      if (picked != null) {
+                                        setState(() => _expenseDate =
+                                            DateFormat('MM/dd/yyyy').format(picked));
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.shade100,
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Icon(Icons.calendar_month, size: 16, color: Colors.grey),
+                                          Text(_expenseDate,
+                                              style: const TextStyle(fontSize: 13, color: Colors.black87)),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+
+                        // Notes + For Month row
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  const Text("ملاحظات إضافية",
+                                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 6),
+                                  TextField(
+                                    controller: _notesController,
+                                    textAlign: TextAlign.right,
+                                    decoration: _inputDecoration("أي ملاحظة تفصيل"),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  const Text("عن شهر",
+                                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 6),
+                                  InkWell(
+                                    onTap: () async {
+                                      final picked = await showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2020),
+                                        lastDate: DateTime(2030),
+                                      );
+                                      if (picked != null) {
+                                        setState(() => _forMonth =
+                                            DateFormat('MMMM yyyy').format(picked));
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.shade100,
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Icon(Icons.calendar_today, size: 16, color: Colors.grey),
+                                          Text(_forMonth,
+                                              style: const TextStyle(fontSize: 13, color: Colors.black87)),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+
+                        // Recurring checkbox
+                        InkWell(
+                          onTap: () => setState(() => _isRecurring = !_isRecurring),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              const Text("مصروف متكرر (يتكرر شهرياً)",
+                                  style: TextStyle(fontSize: 13)),
+                              const SizedBox(width: 10),
+                              Container(
+                                width: 22,
+                                height: 22,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: _isRecurring ? const Color(0xFFE67E22) : Colors.grey.shade400,
+                                    width: 2,
+                                  ),
+                                  color: _isRecurring ? const Color(0xFFE67E22) : Colors.transparent,
+                                ),
+                                child: _isRecurring
+                                    ? const Icon(Icons.check, size: 14, color: Colors.white)
+                                    : null,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Save button
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: _saving ? null : _handleSave,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFE67E22),
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 15),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                            ),
+                            child: Text(
+                              _saving ? "جارى الحفظ..." : "حفظ المصروف",
+                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+              const SizedBox(height: 16),
+
+              // ── Expense List ───────────────────────────────────────────
+              expensesAsync.when(
+                data: (allExpenses) {
+                  final filtered = allExpenses.where((e) {
+                    final monthMatch = e.forMonth == _filterMonth;
+                    final catMatch = _filterCategory == 'all' || e.category == _filterCategory;
+                    return monthMatch && catMatch;
+                  }).toList();
+
+                  if (filtered.isEmpty) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 40),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Icon(Icons.money_off_rounded, size: 64, color: Colors.grey.shade300),
+                            const SizedBox(height: 12),
+                            const Text("لا توجد مصروفات مسجلة",
+                                style: TextStyle(color: Colors.grey)),
+                          ],
                         ),
                       ),
                     );
-                  },
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, _) => Center(child: Text('Error: $err')),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _openAddForm(context, colorScheme, theme),
-        icon: const Icon(Icons.add),
-        label: Text(context.l10n.addExpense),
-        backgroundColor: colorScheme.primary,
-        foregroundColor: colorScheme.onPrimary,
-      ),
-    );
-  }
+                  }
 
-  void _openAddForm(
-      BuildContext context, ColorScheme colorScheme, ThemeData theme) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
-      builder: (ctx) => StatefulBuilder(
-        builder: (ctx, setModalState) => Padding(
-          padding: EdgeInsets.fromLTRB(
-              20, 20, 20, MediaQuery.of(ctx).viewInsets.bottom + 20),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                        width: 40,
-                        height: 4,
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 30),
+                    itemCount: filtered.length,
+                    itemBuilder: (context, index) {
+                      final exp = filtered[index];
+                      final catLabel = _categoryLabels[exp.category] ?? 'أخرى';
+                      final catColor = _categoryColor(exp.category);
+
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                            color: colorScheme.outline.withAlpha(50),
-                            borderRadius: BorderRadius.circular(2))),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Text(context.l10n.recordNewExpense,
-                    style:
-                        const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 20),
-                TextField(
-                  controller: _titleController,
-                  decoration: _formDecoration(
-                      '${context.l10n.titleLabel} *', colorScheme),
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: _amountController,
-                  keyboardType: TextInputType.number,
-                  decoration: _formDecoration(
-                      '${context.l10n.amountLabel} (${context.l10n.currency_egp}) *',
-                      colorScheme),
-                ),
-                const SizedBox(height: 12),
-                DropdownButtonFormField<String>(
-                  initialValue: _category,
-                  decoration:
-                      _formDecoration(context.l10n.categoryLabel, colorScheme),
-                  items: ExpenseCategory.values
-                      .map((c) => DropdownMenuItem(
-                          value: c.value,
-                          child: Text(c.getLocalizedLabel(context.l10n))))
-                      .toList(),
-                  onChanged: (val) => setModalState(() => _category = val!),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(
-                      child: InkWell(
-                        onTap: () async {
-                          final picked = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.tryParse(_expenseDate) ??
-                                DateTime.now(),
-                            firstDate: DateTime(2020),
-                            lastDate: DateTime.now().add(const Duration(days: 365)),
-                            locale: const Locale('ar'),
-                          );
-                          if (picked != null) {
-                            setModalState(() => _expenseDate =
-                                DateFormat('yyyy-MM-dd').format(picked));
-                          }
-                        },
-                        child: InputDecorator(
-                          decoration: _formDecoration(
-                              context.l10n.paymentDate, colorScheme),
-                          child: Text(_expenseDate),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.grey.shade100),
                         ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: InkWell(
-                        onTap: () async {
-                          final picked = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.tryParse('$_forMonth-01') ??
-                                DateTime.now(),
-                            firstDate: DateTime(2020),
-                            lastDate: DateTime(2030),
-                            locale: const Locale('ar'),
-                          );
-                          if (picked != null) {
-                            setModalState(() => _forMonth =
-                                DateFormat('yyyy-MM').format(picked));
-                          }
-                        },
-                        child: InputDecorator(
-                          decoration: _formDecoration(
-                              context.l10n.forMonth, colorScheme),
-                          child: Text(_forMonth),
+                        child: Row(
+                          children: [
+                            // Delete button
+                            IconButton(
+                              icon: const Icon(Icons.delete_outline, color: Colors.red, size: 20),
+                              onPressed: () => _handleDelete(exp.id),
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                            ),
+                            const SizedBox(width: 10),
+                            // Content
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "ج ${exp.amount.toStringAsFixed(0)}",
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w900,
+                                          color: Colors.red,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      Text(exp.title,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold, fontSize: 14)),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(exp.expenseDate,
+                                          style: TextStyle(color: Colors.grey.shade500, fontSize: 12)),
+                                      Row(
+                                        children: [
+                                          if (exp.isRecurring) ...[
+                                            const Icon(Icons.refresh_rounded,
+                                                size: 12, color: Colors.blue),
+                                            const SizedBox(width: 4),
+                                          ],
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 3),
+                                            decoration: BoxDecoration(
+                                              color: catColor.withValues(alpha: 0.12),
+                                              borderRadius: BorderRadius.circular(20),
+                                            ),
+                                            child: Text(catLabel,
+                                                style: TextStyle(
+                                                    color: catColor,
+                                                    fontSize: 11,
+                                                    fontWeight: FontWeight.bold)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  if (exp.notes.isNotEmpty) ...[
+                                    const SizedBox(height: 4),
+                                    Text(exp.notes,
+                                        style: TextStyle(color: Colors.grey.shade500, fontSize: 11),
+                                        textAlign: TextAlign.right),
+                                  ],
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: _notesController,
-                  decoration:
-                      _formDecoration(context.l10n.notesLabel, colorScheme),
-                ),
-                const SizedBox(height: 12),
-                SwitchListTile(
-                  title: Text(context.l10n.recurringExpenseLabel,
-                      style: const TextStyle(fontSize: 14)),
-                  value: _isRecurring,
-                  onChanged: (val) => setModalState(() => _isRecurring = val),
-                  contentPadding: EdgeInsets.zero,
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  height: 54,
-                  child: FilledButton(
-                    onPressed: _saving
-                        ? null
-                        : () async {
-                            await _handleSave();
-                            if (context.mounted) Navigator.pop(ctx);
-                          },
-                    child: Text(
-                        _saving
-                            ? '${context.l10n.saving}...'
-                            : context.l10n.saveExpense,
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
-                  ),
-                ),
-              ],
-            ),
+                      );
+                    },
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (err, _) => Center(child: Text('Error: $err')),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  InputDecoration _filterDecoration(ColorScheme colorScheme) {
-    return InputDecoration(
-      isDense: true,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      filled: true,
-      fillColor: colorScheme.surfaceContainerHighest.withAlpha(50),
-      border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
-    );
-  }
-
-  InputDecoration _formDecoration(String label, ColorScheme colorScheme) {
-    return InputDecoration(
-      labelText: label,
-      filled: true,
-      fillColor: colorScheme.surfaceContainerHighest.withAlpha(30),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
-      enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: colorScheme.outline.withAlpha(50))),
-    );
-  }
-}
-
-class _StatBox extends StatelessWidget {
-  final String title;
-  final String value;
-  final Color color;
-  final IconData icon;
-
-  const _StatBox({
-    required this.title,
-    required this.value,
-    required this.color,
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: color.withAlpha(20),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: color.withAlpha(40)),
+  InputDecoration _inputDecoration(String hint) => InputDecoration(
+        hintText: hint,
+        hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 13),
+        filled: true,
+        fillColor: Colors.grey.shade100,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
         ),
-        child: Column(
-          children: [
-            Icon(icon, color: color, size: 28),
-            const SizedBox(height: 8),
-            Text(value,
-                style: TextStyle(
-                    fontSize: 18, fontWeight: FontWeight.w900, color: color)),
-            Text(title,
-                style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                    color: color.withAlpha(180))),
-          ],
-        ),
-      ),
-    );
+      );
+
+  Color _categoryColor(String category) {
+    switch (category) {
+      case 'rent': return Colors.indigo;
+      case 'salaries': return Colors.teal;
+      case 'supplies': return Colors.purple;
+      case 'utilities': return Colors.blue;
+      case 'maintenance': return Colors.orange;
+      case 'marketing': return Colors.pink;
+      default: return Colors.grey;
+    }
   }
 }

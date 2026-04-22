@@ -4,6 +4,7 @@ import '../../../../core/providers/student_auth_provider.dart';
 import '../../../../core/providers/db_providers.dart';
 import '../../../announcements/data/models/announcement_model.dart';
 import '../../../../core/extensions/l10n_extensions.dart';
+import '../../../honor_board/presentation/screens/honor_board_screen.dart';
 
 
 class StudentDashboardScreen extends ConsumerWidget {
@@ -105,6 +106,11 @@ class StudentDashboardScreen extends ConsumerWidget {
               loading: () => const SizedBox(),
               error: (_, _) => const SizedBox(),
             ),
+
+            const SizedBox(height: 24),
+
+            // ── Honor Board Access ────────────────────────────────────────
+            _buildHonorBoardCard(context, colorScheme, theme),
 
             const SizedBox(height: 24),
 
@@ -228,6 +234,69 @@ class StudentDashboardScreen extends ConsumerWidget {
     if (score >= 75) return context.l10n.performanceFeedback(context.l10n.performanceDoingGreat);
     if (score >= 50) return context.l10n.performanceFeedback(context.l10n.performanceAcceptable);
     return context.l10n.performanceFeedback(context.l10n.performanceNeedsAttention);
+  }
+
+  Widget _buildHonorBoardCard(BuildContext context, ColorScheme colorScheme, ThemeData theme) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const HonorBoardScreen()),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.amber.shade400, Colors.orange.shade600],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.orange.withAlpha(50),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white.withAlpha(50),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.emoji_events_rounded, color: Colors.white, size: 32),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "لوحة الشرف",
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    "اكتشف ترتيبك بين زملائك",
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: Colors.white.withAlpha(200),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white, size: 20),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildNotificationsSection(BuildContext context, dynamic student, ColorScheme colorScheme, ThemeData theme, WidgetRef ref) {
